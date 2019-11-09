@@ -7,6 +7,6 @@ COPY . /app
 
 RUN npm install
 
-CMD HTTPS=true&&npm start
+CMD HTTPS=true&&PORT=443&&npm start
 
 EXPOSE 3000
