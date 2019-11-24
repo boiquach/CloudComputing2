@@ -6,21 +6,31 @@ import {Provider} from "react-redux";
 import {createStore, applyMiddleware, compose} from "redux";
 import thunk from "redux-thunk";
 import {combineReducers} from "redux";
-import data from "./reducers/dataReducer";
-import firebase from "./config";
-import {reduxFirestore, getFirestore, firestoreReducer} from "redux-firestore";
+import sites from "./reducers/reducer";
+import site from "./reducers/reducer"
+import image_error from "./reducers/reducer"
+import image from "./reducers/reducer"
+import image_showProgress from "./reducers/reducer"
+import image_percent from "./reducers/reducer"
+import {fb} from "./config/index";
+import {getFirebase, firebaseReducer} from "react-redux-firebase"
+import {reduxFirestore, getFirestore, firestoreReducer,} from "redux-firestore";
+import { reducer as formReducer } from 'redux-form'
 
 
 const rootReducer = combineReducers({
-    firestoreTodo:firestoreReducer,
-    data:data
+    firestore:firestoreReducer,
+    firebase:firebaseReducer,
+    form:formReducer,
+    sites:sites,
+    site:site,
+    image_error:image_error,
+    image_percent:image_percent,
+    image:image,
+    image_showProgress:image_showProgress
 })
 
-const initialState = {};
-
-const Store=createStore(rootReducer,compose(applyMiddleware(thunk.withExtraArgument({getFirestore})),reduxFirestore(firebase)))
-
-
+const Store = createStore(rootReducer,compose(applyMiddleware(thunk.withExtraArgument({getFirestore, getFirebase})),reduxFirestore(fb)))
 
 ReactDOM.render(<Provider store={Store}><App /></Provider>, document.getElementById('root'));
 

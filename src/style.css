@@ -1,0 +1,22 @@
+.map{
+    max-width: 500px;
+    max-height:500px;
+}
+
+
+.site_form{
+    
+    background-color: aquamarine;
+    border-radius: 10px;
+    display:flex;
+    justify-content: center;
+    min-width: 500px;
+    min-height: 500px;
+    
+
+}
+
+.align{
+    display:flex;
+    justify-content: center;
+}

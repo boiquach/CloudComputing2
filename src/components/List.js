@@ -1,20 +1,21 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchToDos} from "../actions/dataAction";
+import {fetchSites} from "../actions/siteAction";
 
 class List extends Component{
-    componentWillMount(){
-        this.props.fetchToDos();
-    }
-    componentWillReceiveProps(props) {
+    // componentWillMount(){
+    //     this.props.fetchSites();
+    // }
+    // componentWillReceiveProps(props) {
         
-    }
+    // }
 
 
     render(){
         return(
             <div>
-                {this.props.data!==null?
+                abc
+                {/* {this.props.data!==null?
                     this.props.data.map((student,key)=>
                     <div>
 
@@ -27,7 +28,7 @@ class List extends Component{
                 //     abc
                 // </div>:
         console.log("null")
-        }
+        } */}
             </div>
             
         )
@@ -42,7 +43,7 @@ const mapStateToProps= state =>({
 })
 
 const mapDispatchToProps = dispatch=>({
-    fetchToDos: () => dispatch(fetchToDos())
+    fetchSites: () => dispatch(fetchSites())
 })
 
 
