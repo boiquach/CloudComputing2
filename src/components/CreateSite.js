@@ -27,7 +27,11 @@ const mapStateToProps= state =>{
   const mapDispatchToProps
    = (dispatch)=>{
     return{
-      handleSubmit: (site) => dispatch(addSite(site))
+      handleSubmit: (site) => {
+        site.user="abc"
+        dispatch(addSite(site))
+        
+        }
   }
   }
 

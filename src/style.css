@@ -3,20 +3,120 @@
     max-height:500px;
 }
 
+.form_block{
+    padding: 40px;
+    border-radius: 10px;
+    margin: 20px;
+    border-width: 1px;
+    border-color: rgba(148, 148, 148, 0.473);
+    border-style: solid;
+    width: fit-content;
+    height: fit-content;
+    /* box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+     */
+}
 
 .site_form{
-    
-    background-color: aquamarine;
-    border-radius: 10px;
-    display:flex;
-    justify-content: center;
+    margin: 20px;
+    border-radius: 1px;
+    position: relative;
+    /* text-align: center; */
+    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.103),0 0 0 0 rgba(0,0,0,0.19);
+    padding:20px;
     min-width: 500px;
-    min-height: 500px;
+    min-height: 300px;
+    display: block;
+}
+
+.form_content{
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
+}
+
+/* .step div{
+    width: 0;
+    height:0;
+    border-left: 10px solid aqua;
+    border-top:10px solid transparent;
+    border-bottom: 10px solid transparent;
+    display: inline;
     
+} */
+
+.step{
+    text-align: center;
+    background-color: white;
+    margin:20px auto;
+    position: relative;
+    width: fit-content;
+    height:60px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    
+
+}
+
+.step::after{
+    content:"";
+    width: 0;
+    height: 0;
+    border-bottom:60px solid white;
+    border-right: 60px solid transparent;
+    left:100%;
+    top:0;
+    position: absolute;
 
 }
 
 .align{
-    display:flex;
+    display: flex;
     justify-content: center;
 }
+
+.banner{
+    background: -webkit-linear-gradient(top,rgb(0, 0, 0,0.5) 0%,rgba(0, 0, 0,0.5) 100%), url("https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80");
+    height: 500px;
+    z-index: 0;
+    position: relative;
+    text-align: center;
+    
+}
+
+.title_text{
+    /* display: flex;
+    justify-content: center; */
+
+    color: antiquewhite;
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
+}
+
+.home{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    border-radius: 1px;
+    border: 3px;
+    border-style: solid;
+    padding:10px;
+    margin:10px auto;
+    background: none;
+    color:rgba(255, 255, 255, 0.74);
+    max-width: 150px;
+    display: block;
+    font-size: 23px;
+
+}
+
+
+.home:hover{
+    border-radius: 1px;
+    border: 3px;
+    border-style: solid;
+    padding:10px;
+    background: rgba(0, 0, 0, 0.315);
+    color:rgba(255, 255, 255, 0.658);
+}
+
+
+
+

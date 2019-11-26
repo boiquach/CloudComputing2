@@ -5,11 +5,13 @@ import {storageRef} from "../config/index"
 export const FETCH_SITES="FETCH_SITES";
 export const FETCH_SITE="FETCH_SITE";
 export const ADD_SITE="ADD_SITE";
+export const EDIT_SITE="EDIT_SITE";
 export const UPLOADING_START="UPLOADING_START"
 export const UPLOADING_SUCCESS="UPLOADING_SUCCESS"
 export const UPLOADING_FAIL="UPLOADING_FAIL"
 export const UPLOADING = "UPLOADING"
 export const FETCH_IMAGE="FETCH_IMAGE"
+
 
 
 //POST
@@ -20,6 +22,22 @@ export const addSite = (site) => {
         .then((docRef)=>{
             dispatch(fetchSites())
             window.location.href = `site/${docRef.id}`
+        })
+        
+        .catch((err)=>{
+            console.log("errored")
+        })
+    }
+}
+
+export const editSite = (id,site) => {
+    return (dispatch, getState, {getFirestore})=>{
+        const firestore = getFirestore()
+        firestore.collection('sites').doc(id)
+        .set(site)
+        .then(()=>{
+            dispatch(fetchSite(id))
+            window.location.href = `${id}`
         })
         
         .catch((err)=>{

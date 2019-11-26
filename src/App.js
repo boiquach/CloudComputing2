@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import SiteMap from "./components/SiteMap"
 import SiteInfo from "./components/SiteInfo"
 import CreateSite from './components/CreateSite'
+import Home from './components/Home'
 import {fetchSites} from './actions/siteAction'
 import {connect} from 'react-redux';
 import {BrowserRouter, Route} from 'react-router-dom';
@@ -26,10 +27,38 @@ class App extends Component{
 
     return(
       <BrowserRouter>
-      <div className="container">
-        <Route exact path ={'/'} render={(props)=> <SiteMap sites = {this.props.sites} {...props} />} />
-        <Route exact path={'/create_site'} render={(props)=><CreateSite {...props} />} />
-        {id!=='' && <Route exact path={`/site/${id}`} render={(props)=><SiteInfo siteId = {id} {...props}/>} />}
+      
+      <div>
+        <div>
+          <nav className="navbar navbar-expand-lg bg-light navbar-light">
+            <a className="navbar-brand" href="/">Viet Nam Sach va Xanh</a>
+
+            
+            <ul className="navbar-nav text-right ml-auto">
+              <li className="nav-item">
+                <a className="nav-link" href="/about">About</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/create_site">Create a Site</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/join_site">Join a Site</a>
+              </li>
+              {/* <li className="nav-item">
+                <a className="nav link" href=""></a>
+              </li> */}
+
+            </ul>
+            
+          </nav>
+        </div>
+        <Route exact path ={'/'} render={(props)=> <Home {...props} />} />
+        <div className="container">
+        
+          <Route exact path ={'/join_site'} render={(props)=> <SiteMap sites = {this.props.sites} {...props} />} />
+          <Route exact path={'/create_site'} render={(props)=><CreateSite {...props} />} />
+          {id!=='' && <Route exact path={`/site/${id}`} render={(props)=><SiteInfo siteId = {id} {...props}/>} />}
+        </div>
       </div>
       </BrowserRouter>
     )

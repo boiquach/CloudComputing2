@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { compose, withProps, withStateHandlers } from 'recompose'
 import { withGoogleMap, GoogleMap } from 'react-google-maps'
 import MapDirection from './MapDirection'
+import SiteEditForm from './SiteEditForm'
 
 let geocoder;
 
@@ -21,6 +22,10 @@ class SiteInfo extends Component {
             this.getLatLng()
             
         }
+    }
+    
+    shouldComponentUpdate(nextProps,nextState){
+        return JSON.stringify(this.props)!==JSON.stringify(nextProps) || JSON.stringify(this.state) !== JSON.stringify(nextState)
     }
 
     constructor(props) {
@@ -132,14 +137,15 @@ class SiteInfo extends Component {
             <div>
 
                 <CleanUpMap currentLocation={this.state.currentLocation}  />
+                <SiteEditForm site={this.props.site} siteId={this.props.siteId} />
+                
             </div>
 
         )
     }
 
 }
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         site: state.site.site
 

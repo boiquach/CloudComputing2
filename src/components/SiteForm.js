@@ -25,18 +25,24 @@ class SiteForm extends Component{
         const {onSubmit} = this.props
         const {page} = this.state
         return(
-            <div>
-                <div className="align">
+            <div className="align">
+            <div className="form_block">
+            <div className="align">
                 <h4>Register a Clean Up Site</h4>
+                </div>
+                <div className="step">Step 1
+                    <div></div>
+                
                 </div>
                 <div className="align">
                 <div className="site_form">
+                    <div className= "form_content">
                 {page ===1 && <SiteFormFirstStep onSubmit = {this.nextPage} />}
                 {page ===2 && <SiteFormSecondStep previousPage = {this.previousPage} onSubmit = {this.nextPage} />}
                 {page ===3 && <SiteFormThirdStep previousPage={this.previousPage} onSubmit={onSubmit} />}
                 </div>
-                </div>
-            </div>
+                </div></div>
+            </div></div>
         )
     }
 }

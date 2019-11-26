@@ -7,6 +7,7 @@ const SiteFormFirstStep = props=>{
     const {handleSubmit} = props
     return(
         <form onSubmit = {handleSubmit}>
+          
             <div className = "form-group">
                 <Field className="form-control" name="name" type="text" label="Site's name" component={renderField} />
             </div>
@@ -16,11 +17,13 @@ const SiteFormFirstStep = props=>{
             <div>
                 <button type="submit" className="next">Next</button>
             </div>
+      
         </form>
 
     )
 
 }
+
 
 export default reduxForm({
     form:'site',
