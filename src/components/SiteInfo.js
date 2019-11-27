@@ -1,11 +1,12 @@
 /*global google*/
 import React, { Component } from 'react';
-import { fetchSite } from '../actions/siteAction'
+import { fetchSite, deleteSite, addVolunteerId, fetchVolunteerId, fetchVolunteerEmail } from '../actions/siteAction'
 import { connect } from 'react-redux';
 import { compose, withProps, withStateHandlers } from 'recompose'
 import { withGoogleMap, GoogleMap } from 'react-google-maps'
 import MapDirection from './MapDirection'
 import SiteEditForm from './SiteEditForm'
+import VolunteerForm from './VolunteerForm'
 
 let geocoder;
 
@@ -14,18 +15,31 @@ class SiteInfo extends Component {
     componentDidMount() {
         this.props.fetchSite(this.props.siteId);
         this.getInitialLocation();
-        this.getLatLng()
+        if (this.props.site !== undefined) {
+            this.getLatLng()
+            if (this.props.site.owner === this.props.userId) {
+                this.props.fetchVolunteerId(this.props.siteId)
+                this.props.fetchVolunteerEmail(this.props.siteId)
+            }
+        }
+
     }
     componentDidUpdate(prevProps) {
         if (prevProps.site !== this.props.site) {
-            
-            this.getLatLng()
-            
+            if (this.props.site !== undefined) {
+                this.getLatLng()
+
+                if (this.props.site.owner === this.props.userId) {
+                    this.props.fetchVolunteerId(this.props.siteId)
+                    this.props.fetchVolunteerEmail(this.props.siteId)
+                }
+            }
+
         }
     }
-    
-    shouldComponentUpdate(nextProps,nextState){
-        return JSON.stringify(this.props)!==JSON.stringify(nextProps) || JSON.stringify(this.state) !== JSON.stringify(nextState)
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return JSON.stringify(this.props) !== JSON.stringify(nextProps) || JSON.stringify(this.state) !== JSON.stringify(nextState)
     }
 
     constructor(props) {
@@ -33,14 +47,44 @@ class SiteInfo extends Component {
         this.state = {
             currentLocation: {},
             latlng: [],
+            editing: false,
+            joining: false
         }
+        this.openEdit.bind(this)
+        this.openJoin.bind(this)
+        this.delete.bind(this)
+        this.join.bind(this)
     }
 
+    join = () => {
+        const data = {
+            site: this.props.siteId,
+            volunteer: this.props.userId
+        }
+
+        this.props.addVolunteerId(data)
+    }
+
+    openJoin = () => {
+        this.setState({
+            joining: !this.state.joining
+        })
+    }
+
+    delete = () => {
+        this.props.deleteSite(this.props.siteId)
+    }
+
+    openEdit = () => {
+        this.setState({
+            editing: !this.state.editing
+        })
+    }
 
     getAddress = (geocoder) => {
         console.log('abc')
         let locationData = []
-        if(this.props.site.location!==undefined){
+        if (this.props.site.location !== undefined) {
             locationData.push(this.findLatLang(this.props.site.location, geocoder))
         }
 
@@ -113,12 +157,12 @@ class SiteInfo extends Component {
             withStateHandlers(() =>
                 ({
                     isOpen: false
-                    
+
                 }),
                 {
-                    onToggleOpen: ({ isOpen}) => () => ({
+                    onToggleOpen: ({ isOpen }) => () => ({
                         isOpen: !isOpen,
-                        
+
                     })
                 }),
             withGoogleMap
@@ -127,18 +171,51 @@ class SiteInfo extends Component {
                 defaultZoom={5}
                 defaultCenter={{ lat: this.state.currentLocation.lat, lng: this.state.currentLocation.lng }}
             >
-                
-                    {this.state.latlng[0] !== undefined && this.state.currentLocation!=={} && <MapDirection origin={this.state.currentLocation} destination={this.state.latlng[0]} />}
+
+                {this.state.latlng[0] !== undefined && this.state.currentLocation !== {} && <MapDirection origin={this.state.currentLocation} destination={this.state.latlng[0]} />}
             </GoogleMap>
 
         );
         return (
 
             <div>
+                {this.props.site !== undefined && this.props.site !== null && !(Object.keys(this.props.site).length === 0 && this.props.site.constructor === Object) ?
+                    <div>
+                        <CleanUpMap currentLocation={this.state.currentLocation} />
 
-                <CleanUpMap currentLocation={this.state.currentLocation}  />
-                <SiteEditForm site={this.props.site} siteId={this.props.siteId} />
-                
+                        {this.props.volunteerEmail !== undefined && <ul> {this.props.volunteerEmail.map((volunteer,index) => {
+                            console.log(volunteer)
+                            return (<li key={index}>
+                                {volunteer}
+                            </li>)
+                        })}</ul>}
+
+                        {this.props.volunteerObject !== undefined && <ul> {this.props.volunteerObject.map(volunteer => {
+                            console.log(volunteer)
+                            return (<li key={volunteer.id}>
+                                {volunteer.data.firstname}
+                                {volunteer.data.lastname}
+                                {volunteer.data.email}
+                            </li>)
+                        })}</ul>}
+
+                        {this.props.site.owner === this.props.userId ?
+                            <div>
+                                <button onClick={this.openEdit}>Edit</button>
+                                <button onClick={this.delete}>Delete</button>
+                            </div>
+                            : <div>
+                                {this.props.userId === null && <button onClick={this.openJoin}>Join</button>}
+                                {this.props.userId !== null && <button onClick={this.join}>Join</button>}
+
+                            </div>}
+                        {this.state.editing && <SiteEditForm site={this.props.site} siteId={this.props.siteId} />}
+                        {this.state.joining && <VolunteerForm siteId={this.props.siteId} />}
+                    </div>
+                    : <div>
+                        Site doesn't exist.
+                    </div>}
+
             </div>
 
         )
@@ -147,19 +224,27 @@ class SiteInfo extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        site: state.site.site
+        site: state.site.site,
+        userId: state.userId.userId,
+        volunteerObject: state.volunteerObject.volunteerObject,
+        volunteerEmail: state.volunteerEmail.volunteerEmail
 
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchSite: (siteId) => dispatch(fetchSite(siteId))
+        fetchSite: (siteId) => dispatch(fetchSite(siteId)),
+        deleteSite: (siteId) => dispatch(deleteSite(siteId)),
+        addVolunteerId: (data) => dispatch(addVolunteerId(data)),
+        fetchVolunteerEmail: (siteId) => dispatch(fetchVolunteerEmail(siteId)),
+        fetchVolunteerId: (siteId) => dispatch(fetchVolunteerId(siteId))
+
     }
 }
-SiteInfo.defaultProps={
+SiteInfo.defaultProps = {
 
-    centerAroundCurrentLocation:true
+    centerAroundCurrentLocation: true
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteInfo);

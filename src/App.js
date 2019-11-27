@@ -3,7 +3,9 @@ import SiteMap from "./components/SiteMap"
 import SiteInfo from "./components/SiteInfo"
 import CreateSite from './components/CreateSite'
 import Home from './components/Home'
-import {fetchSites} from './actions/siteAction'
+import Login from './components/Login'
+import SignUp from './components/SignUp'
+import {fetchSites,logout} from './actions/siteAction'
 import {connect} from 'react-redux';
 import {BrowserRouter, Route} from 'react-router-dom';
 import './style.css'
@@ -13,6 +15,9 @@ class App extends Component{
     this.props.fetchSites();
   }
   
+  handleLogout=()=>{
+    this.props.logout()
+  }
   
   render(){
     
@@ -24,7 +29,7 @@ class App extends Component{
       id = url[2]
       console.log(id)
     }
-
+    console.log(this.props.isLogin)
     return(
       <BrowserRouter>
       
@@ -44,8 +49,14 @@ class App extends Component{
               <li className="nav-item">
                 <a className="nav-link" href="/join_site">Join a Site</a>
               </li>
+              {(!this.props.isLogin || this.props.isLogin===null) && <li className="nav-item">
+                <a className="nav-link" href="/login">Login</a>
+              </li>}
+              {this.props.isLogin && <li className="nav-item">
+                <a className="nav-link" href="" onClick={this.handleLogout.bind(this)} >Logout</a>
+              </li>}
               {/* <li className="nav-item">
-                <a className="nav link" href=""></a>
+                <a className="nav-link" href=""></a>
               </li> */}
 
             </ul>
@@ -54,9 +65,10 @@ class App extends Component{
         </div>
         <Route exact path ={'/'} render={(props)=> <Home {...props} />} />
         <div className="container">
-        
+          <Route exact path={'/login'} render={(props)=><Login {...props} />} />
           <Route exact path ={'/join_site'} render={(props)=> <SiteMap sites = {this.props.sites} {...props} />} />
           <Route exact path={'/create_site'} render={(props)=><CreateSite {...props} />} />
+          <Route exact path={'/signup'} render={(props)=><SignUp {...props} />} />
           {id!=='' && <Route exact path={`/site/${id}`} render={(props)=><SiteInfo siteId = {id} {...props}/>} />}
         </div>
       </div>
@@ -66,13 +78,15 @@ class App extends Component{
 }
 const mapStateToProps= state =>{
   return{
-  sites:state.sites.sites}
+    sites:state.sites.sites,
+    isLogin:state.isLogin.isLogin
+  }
 };
 
-const mapDispatchToProps
- = (dispatch)=>{
+const mapDispatchToProps = (dispatch)=>{
   return{
-    fetchSites: () => dispatch(fetchSites())
+    fetchSites: () => dispatch(fetchSites()),
+    logout: () => dispatch(logout())
 }
 }
 

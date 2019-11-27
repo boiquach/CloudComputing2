@@ -45,11 +45,12 @@ class SiteMap extends Component{
         // console.log(address)
         return new Promise(function(resolve,reject){
             geocoder.geocode({'address':address}, function(results, status){
+                console.log(results)
                 if(status === 'OK'){
-                   //console.log(results)
+                    console.log(results)
                     resolve([results[0].geometry.location.lat(),results[0].geometry.location.lng()])
                 }else{
-                    reject(new Error('Cant find location ' + address));
+                    reject(console.log(`failed to fetch ${address}`))
                 }
             })
         })

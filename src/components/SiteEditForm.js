@@ -46,7 +46,8 @@ class SiteEditForm extends Component {
             location: this.state.location,
             image: this.state.image,
             kit: this.state.kit,
-            container: this.state.container
+            container: this.state.container,
+            owner:sessionStorage.getItem('user')
         }
         console.log(site)
         console.log(this.props.siteId)
@@ -72,6 +73,27 @@ class SiteEditForm extends Component {
             { "types": ["establishment"], componentRestrictions: { country: 'vn' } });
 
         this.autocomplete.addListener('place_changed', this.handlePlaceChanged);
+
+        Object.keys(this.props.site).forEach((key, index) => {
+
+            if (this.props.site[key] !== undefined) {
+                // console.log(key)
+                if (key === 'datetime') {
+                    console.log(this.props.site)
+                    console.log(this.props.site[key].seconds)
+                    console.log(new Date(this.props.site[key].seconds*1000))
+                    this.setState({
+                        [key]: new Date (this.props.site[key].seconds*1000)
+                    })
+                }
+                else {
+
+                    this.setState({
+                        [key]: this.props.site[key]
+                    })
+                }
+            }
+        })
     }
 
     handlePlaceChanged = () => {
@@ -85,38 +107,6 @@ class SiteEditForm extends Component {
             //this.props.input.onChange(place.formatted_address)
         }
     }
-
-
-    // componentWillReceiveProps(props) {
-    //     Object.keys(props.site).forEach((key, index) => {
-
-    //         if (props.site[key] !== undefined) {
-    //             console.log(key)
-    //             if (key === 'datetime') {
-    //                 this.setState({
-    //                     [key]: props.site[key].seconds
-    //                 })
-    //             }
-    //             else {
-
-    //                 this.setState({
-    //                     [key]: props.site[key]
-    //                 })
-    //             }
-    //         }
-    //     })
-        // if (props.site.datetime !== undefined) {
-        //     this.setState({
-        //         name: props.site.name,
-        //         description: props.site.description,
-        //         datetime: props.site.datetime.seconds,
-        //         location: props.site.location,
-        //         image: props.site.image,
-        //         kit:props.site.kit,
-        //         container:props.site.container
-        //     })
-        // }
-    // }
 
 
     onFormSubmit = e => {
@@ -203,10 +193,10 @@ class SiteEditForm extends Component {
                 if (this.props.site[key] !== undefined) {
                     // console.log(key)
                     if (key === 'datetime') {
-                        console.log(this.props.site[key].seconds)
-                        console.log(new Date(this.props.site[key].seconds*1000))
+                        // console.log(this.props.site[key].seconds)
+                        // console.log(new Date(this.props.site[key].seconds*1000))
                         this.setState({
-                            [key]: this.props.site[key].seconds*1000
+                            [key]: new Date (this.props.site[key].seconds*1000)
                         })
                     }
                     else {
@@ -269,7 +259,7 @@ class SiteEditForm extends Component {
                     onChange={this.handleChangeDate.bind(this)}
                     required
                     placeholderText="Choose date and time for the clean up"
-                    selected={this.state.datetime!== null ?  new Date(this.state.datetime) : minDate}
+                    selected={this.state.datetime!== null ?  this.state.datetime : minDate}
                 />
 
                 <div>
@@ -298,7 +288,7 @@ class SiteEditForm extends Component {
 
                 </div>
                 <div>
-                    How many Clean Up bags <br />
+                    Clean Up bags <br />
                     {bags.map((amount) => {
                         return (
                             <div className="form-group">
@@ -307,19 +297,11 @@ class SiteEditForm extends Component {
                             </div>
                         )
                     })}
-                    {/* <div>
-                        <label><input name="kit" type="radio" value="0" />{''}0</label>
-
-                        <label><input name="kit" type="radio" value="10" />{''}10</label>
-
-                        <label><input name="kit" type="radio" value="20" />{''}20</label>
-
-                    </div> */}
 
                 </div>
 
                 <div>
-                    Sharp container? <br />
+                    Sharp container <br />
                     {container.map((choice) => {
                         return (
                             <div className="form-group">
@@ -328,13 +310,6 @@ class SiteEditForm extends Component {
                             </div>
                         )
                     })}
-
-                    {/* <div>
-                        <label><input name="container" type="radio" value="Yes" />{''}Yes</label>
-
-                        <label><input name="container" type="radio" value="No" />{''}No</label>
-
-                    </div> */}
 
                 </div>
                 <button onClick={this.submit.bind(this)}>Update</button>

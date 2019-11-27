@@ -12,6 +12,12 @@ import image_error from "./reducers/reducer"
 import image from "./reducers/reducer"
 import image_showProgress from "./reducers/reducer"
 import image_percent from "./reducers/reducer"
+import user from "./reducers/reducer"
+import isLogin from "./reducers/reducer"
+import userId from "./reducers/reducer"
+import volunteerEmail from "./reducers/reducer"
+import volunteerObject from "./reducers/reducer"
+import {verifyAuth} from "./actions/siteAction"
 import {fb} from "./config/index";
 import {getFirebase, firebaseReducer} from "react-redux-firebase"
 import {reduxFirestore, getFirestore, firestoreReducer,} from "redux-firestore";
@@ -27,7 +33,12 @@ const rootReducer = combineReducers({
     image_error:image_error,
     image_percent:image_percent,
     image:image,
-    image_showProgress:image_showProgress
+    image_showProgress:image_showProgress,
+    user:user,
+    isLogin:isLogin,
+    userId:userId,
+    volunteerEmail:volunteerEmail,
+    volunteerObject:volunteerObject
 })
 
 const Store = createStore(rootReducer,compose(applyMiddleware(thunk.withExtraArgument({getFirestore, getFirebase})),reduxFirestore(fb)))

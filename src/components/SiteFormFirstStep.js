@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field,reduxForm} from 'redux-form';
-import renderField from './renderField';
+import renderField from './render/renderField';
 import validate from './validate';
 
 const SiteFormFirstStep = props=>{

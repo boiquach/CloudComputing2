@@ -1,4 +1,4 @@
-import {FETCH_SITES, FETCH_SITE, UPLOADING, UPLOADING_FAIL,UPLOADING_START,UPLOADING_SUCCESS, FETCH_IMAGE} from "../actions/siteAction";
+import {FETCH_VOLUNTEERS_ID,FETCH_VOLUNTEERS_EMAIL,DELETE_SITE,LOGOUT_SUCCESS,FETCH_SITES, FETCH_SITE, UPLOADING, UPLOADING_FAIL,UPLOADING_START,UPLOADING_SUCCESS, FETCH_IMAGE, LOGIN_SUCCESS} from "../actions/siteAction";
 
 const initialState={
     sites: [],
@@ -6,7 +6,12 @@ const initialState={
     image_error:null,
     image_percent:null,
     image_showProgress:false,
-    image:''
+    image:'',
+    user: {},
+    userId:sessionStorage.getItem('user'),
+    isLogin: sessionStorage.getItem('isLogin'),
+    volunteerEmail:[],
+    volunteerObject:[]
 }
 
 export default (state=initialState,action)=>{
@@ -56,6 +61,48 @@ export default (state=initialState,action)=>{
                 image:action.payload
             }
         }
+        case LOGIN_SUCCESS:{
+            console.log(action.payload)
+            return{
+                ...state,
+                user:action.payload,
+                userId:action.payload.user.uid,
+                isLogin:true
+
+                
+            }
+        }
+        case LOGOUT_SUCCESS:{
+            return{
+                ...state,
+                user:{},
+                userId:null,
+                isLogin:false
+            }
+        }
+
+        case DELETE_SITE:{
+            return{
+                ...state,
+                site:{}
+            }
+        }
+
+        case FETCH_VOLUNTEERS_EMAIL:{
+            console.log("emails: " + action.payload)
+            return{
+                ...state,
+                volunteerEmail:action.payload
+            }
+        }
+        case FETCH_VOLUNTEERS_ID:{
+            console.log("objects: " + action.payload)
+            return{
+                ...state,
+                volunteerObject:action.payload
+            }
+        }
+
         default:
             return state;
     }
