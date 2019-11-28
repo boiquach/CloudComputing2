@@ -8,6 +8,8 @@
     "@types/googlemaps": "^3.38.0",
     "@types/markerclustererplus": "^2.1.29",
     "@types/react": "^15.0.0",
+    "aws-amplify": "^1.2.4",
+    "aws-amplify-react": "^2.5.4",
     "change-emitter": "^0.1.6",
     "fbjs": "^1.0.0",
     "firebase": "^7.2.3",

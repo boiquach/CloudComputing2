@@ -1,80 +1,106 @@
-import React, {Component} from 'react';
-import SiteMap from "./components/SiteMap"
-import SiteInfo from "./components/SiteInfo"
-import CreateSite from './components/CreateSite'
-import Home from './components/Home'
-import {fetchSites} from './actions/siteAction'
-import {connect} from 'react-redux';
-import {BrowserRouter, Route} from 'react-router-dom';
-import './style.css'
+import React, { Component } from "react";
+import SiteMap from "./components/SiteMap";
+import SiteInfo from "./components/SiteInfo";
+import CreateSite from "./components/CreateSite";
+import Home from "./components/Home";
+import { fetchSites } from "./actions/siteAction";
+import { connect } from "react-redux";
+import { BrowserRouter, Route } from "react-router-dom";
+import "./style.css";
 
-class App extends Component{
-  componentWillMount=()=>{
+import { Hub } from "aws-amplify";
+
+class App extends Component {
+  componentWillMount = () => {
     this.props.fetchSites();
-  }
-  
-  
-  render(){
-    
-    let currentPath=window.location.pathname;
-    let url = currentPath.split('/')
-    var id = ''
+    Hub.listen("auth", data => {
+      const { payload } = data;
+      console.log("A new auth event has happened: ", data);
+      if (payload.event === "signIn") {
+        console.log("a user has signed in!");
+      }
+      if (payload.event === "signOut") {
+        console.log("a user has signed out!");
+      }
+    });
+  };
 
-    if(url[1]==="site" && url[2]!==""){
-      id = url[2]
-      console.log(id)
+  render() {
+    let currentPath = window.location.pathname;
+    let url = currentPath.split("/");
+    var id = "";
+
+    if (url[1] === "site" && url[2] !== "") {
+      id = url[2];
+      console.log(id);
     }
 
-    return(
+    return (
       <BrowserRouter>
-      
-      <div>
         <div>
-          <nav className="navbar navbar-expand-lg bg-light navbar-light">
-            <a className="navbar-brand" href="/">Viet Nam Sach va Xanh</a>
+          <div>
+            <nav className="navbar navbar-expand-lg bg-light navbar-light">
+              <a className="navbar-brand" href="/">
+                Viet Nam Sach va Xanh
+              </a>
 
-            
-            <ul className="navbar-nav text-right ml-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="/about">About</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/create_site">Create a Site</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/join_site">Join a Site</a>
-              </li>
-              {/* <li className="nav-item">
+              <ul className="navbar-nav text-right ml-auto">
+                <li className="nav-item">
+                  <a className="nav-link" href="/about">
+                    About
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/create_site">
+                    Create a Site
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/join_site">
+                    Join a Site
+                  </a>
+                </li>
+                {/* <li className="nav-item">
                 <a className="nav link" href=""></a>
               </li> */}
-
-            </ul>
-            
-          </nav>
+              </ul>
+            </nav>
+          </div>
+          <Route exact path={"/"} render={props => <Home {...props} />} />
+          <div className="container">
+            <Route
+              exact
+              path={"/join_site"}
+              render={props => <SiteMap sites={this.props.sites} {...props} />}
+            />
+            <Route
+              exact
+              path={"/create_site"}
+              render={props => <CreateSite {...props} />}
+            />
+            {id !== "" && (
+              <Route
+                exact
+                path={`/site/${id}`}
+                render={props => <SiteInfo siteId={id} {...props} />}
+              />
+            )}
+          </div>
         </div>
-        <Route exact path ={'/'} render={(props)=> <Home {...props} />} />
-        <div className="container">
-        
-          <Route exact path ={'/join_site'} render={(props)=> <SiteMap sites = {this.props.sites} {...props} />} />
-          <Route exact path={'/create_site'} render={(props)=><CreateSite {...props} />} />
-          {id!=='' && <Route exact path={`/site/${id}`} render={(props)=><SiteInfo siteId = {id} {...props}/>} />}
-        </div>
-      </div>
       </BrowserRouter>
-    )
+    );
   }
 }
-const mapStateToProps= state =>{
-  return{
-  sites:state.sites.sites}
+const mapStateToProps = state => {
+  return {
+    sites: state.sites.sites
+  };
 };
 
-const mapDispatchToProps
- = (dispatch)=>{
-  return{
+const mapDispatchToProps = dispatch => {
+  return {
     fetchSites: () => dispatch(fetchSites())
-}
-}
-
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
