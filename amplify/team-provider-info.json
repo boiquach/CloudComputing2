@@ -1,0 +1,29 @@
+{
+    "local": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-boifrontend-local-200202-authRole",
+            "UnauthRoleArn": "arn:aws:iam::664750619233:role/amplify-boifrontend-local-200202-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::664750619233:role/amplify-boifrontend-local-200202-authRole",
+            "Region": "ap-southeast-1",
+            "DeploymentBucketName": "amplify-boifrontend-local-200202-deployment",
+            "UnauthRoleName": "amplify-boifrontend-local-200202-unauthRole",
+            "StackName": "amplify-boifrontend-local-200202",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:664750619233:stack/amplify-boifrontend-local-200202/465b01d0-11df-11ea-a55c-02c6c7bea9ac",
+            "AmplifyAppId": "d1xjjkgts0a9cr"
+        },
+        "categories": {
+            "function": {
+                "boifrontend0272483dCustomMessage": {
+                    "REDIRECTURL": "http://localhost:3000/",
+                    "EMAILSUBJECT": "link",
+                    "EMAILMESSAGE": "your confirmation link from vn-sach-va-xanh "
+                }
+            },
+            "auth": {
+                "boifrontend0272483d": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"705715353246530\",\"client_secret\":\"ad96a264837d24a06aac3c9c1acf2dfd\"},{\"ProviderName\":\"Google\",\"client_id\":\"482643599073-mqaot8nbc6j9lvie1du48l6vu9qbadsa.apps.googleusercontent.com\",\"client_secret\":\"X2HydDQFKK1T9Li7bsXo8a5B\"}]"
+                }
+            }
+        }
+    }
+}

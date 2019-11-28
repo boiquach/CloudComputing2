@@ -1,0 +1,14 @@
+{
+    "trigger": true,
+    "modules": [
+        "verification-link"
+    ],
+    "parentResource": "boifrontend0272483d",
+    "functionName": "boifrontend0272483dCustomMessage",
+    "parentStack": "auth",
+    "triggerEnvs": "[{\"key\":\"RESOURCENAME\",\"value\":\"resourceName\"}]",
+    "triggerTemplate": "CustomMessage.json.ejs",
+    "roleName": "boifrontend0272483dCustomMessage",
+    "skipEdit": true,
+    "resourceName": "boifrontend0272483dCustomMessage"
+}
