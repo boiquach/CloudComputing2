@@ -21,11 +21,36 @@ import {
 } from "redux-firestore";
 import { reducer as formReducer } from "redux-form";
 
+/*        *************   aws and graphql   ******************   */
 //using amplify for user control
-import Amplify from "aws-amplify";
+import Amplify, { Auth } from "aws-amplify";
 import config from "./aws-exports";
+import gql from "graphql-tag";
+import AWSAppSyncClient, { AUTH_TYPE } from "aws-appsync";
+import * as queries from "./graphql/queries";
+//config amplify
 Amplify.configure(config);
+//config appsyncclient - to work with graphql on-off line, subscription
+const client = new AWSAppSyncClient({
+  url: config.aws_appsync_graphqlEndpoint,
+  region: config.aws_appsync_region,
+  auth: {
+    type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
+    jwtToken: async () =>
+      (await Auth.currentSession()).getIdToken().getJwtToken(),
+    disableOffline: true
+  }
+});
+client
+  .query({
+    query: gql(queries.listSites)
+  })
+  .then(({ data }) => {
+    console.log("client query result: ", data);
+    //todo: put to redux...
+  });
 
+/*        *************      ******************   */
 const rootReducer = combineReducers({
   firestore: firestoreReducer,
   firebase: firebaseReducer,
