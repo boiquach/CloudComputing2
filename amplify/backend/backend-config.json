@@ -22,5 +22,22 @@
 				}
 			]
 		}
+	},
+	"api": {
+		"vnsachxanh": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authboifrontend0272483d"
+						}
+					}
+				}
+			}
+		}
 	}
 }

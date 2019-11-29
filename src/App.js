@@ -8,7 +8,19 @@ import { connect } from "react-redux";
 import { BrowserRouter, Route } from "react-router-dom";
 import "./style.css";
 
+//Hub for check user changes
 import { Hub } from "aws-amplify";
+
+//for graphql...
+import API, { graphqlOperation } from "@aws-amplify/api";
+import PubSub from "@aws-amplify/pubsub";
+import * as mutations from "./graphql/mutations";
+// import * as queries from "./graphql/queries";
+// import * as subscriptions from "./graphql/subscriptions";
+//config api
+import cloudConfig from "./aws-exports";
+API.configure(cloudConfig);
+PubSub.configure(cloudConfig);
 
 class App extends Component {
   componentWillMount = () => {
@@ -104,3 +116,41 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+//todo: check how to intergrate these:
+// async function getData() {
+//   try {
+//     const sitesData = await API.graphql(
+//       graphqlOperation(queries.listSites, { limit: 100 })
+//     );
+//     console.log("getdata: ", sitesData.data.listSites.items);
+//     dispatch({ type: QUERY, sites: sitesData.data.listSites.items });
+//   } catch (err) {
+//     console.warn("Failed to get data ", err);
+//   }
+// }
+// getData();
+// async function getUserID() {
+//   return await Auth.currentAuthenticatedUser();
+//   // return UserID.username;
+// }
+// getUserID().then(user => {
+//   console.log("userid owner: ", user.username);
+//   try {
+//     const subscription = API.graphql(
+//       graphqlOperation(subscriptions.onCreateSite, {
+//         owner: user.username
+//       })
+//     ).subscribe({
+//       next: eventData => {
+//         // console.log("error subsciption: ", eventData);
+
+//         const site = eventData.value.data.onCreateSite;
+//         dispatch({ type: SUBSCRIPTION, site });
+//       }
+//     });
+//     return () => subscription.unsubscribe();
+//   } catch (err) {
+//     console.warn("Failed to get data ", err);
+//   }
+// })
