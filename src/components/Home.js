@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 // import {Link} from 'react-router-dom'
-//using amplify tool to control  authenticated user
-//using Hub to get notyfy on user from amplify
+
 import { Auth } from "aws-amplify";
+import * as graphqlActions from "../Redux/actions/graphqlActions";
 
 function checkUser() {
+  //require Amplify config in index.js
   Auth.currentAuthenticatedUser()
     .then(user => console.log({ user }))
     .catch(err => console.log(err));
@@ -36,6 +37,9 @@ class Home extends Component {
         <button onClick={() => Auth.federatedSignIn()}>Sign In</button>
         <button onClick={checkUser}>Check User</button>
         <button onClick={signOut}>Sign Out</button>
+        <button onClick={graphqlActions.fetchSites}>
+          fetch Sites from graphql
+        </button>
       </div>
     );
   }

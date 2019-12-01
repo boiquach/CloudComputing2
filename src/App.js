@@ -3,7 +3,7 @@ import SiteMap from "./components/SiteMap";
 import SiteInfo from "./components/SiteInfo";
 import CreateSite from "./components/CreateSite";
 import Home from "./components/Home";
-import { fetchSites } from "./actions/siteAction";
+import { fetchSites } from "./Redux/actions/siteAction";
 import { connect } from "react-redux";
 import { BrowserRouter, Route } from "react-router-dom";
 import "./style.css";
@@ -11,20 +11,10 @@ import "./style.css";
 //Hub for check user changes
 import { Hub } from "aws-amplify";
 
-//for graphql...
-import API, { graphqlOperation } from "@aws-amplify/api";
-import PubSub from "@aws-amplify/pubsub";
-import * as mutations from "./graphql/mutations";
-// import * as queries from "./graphql/queries";
-// import * as subscriptions from "./graphql/subscriptions";
-//config api
-import cloudConfig from "./aws-exports";
-API.configure(cloudConfig);
-PubSub.configure(cloudConfig);
-
 class App extends Component {
   componentWillMount = () => {
     this.props.fetchSites();
+    //this is to check auth status of user
     Hub.listen("auth", data => {
       const { payload } = data;
       console.log("A new auth event has happened: ", data);
@@ -46,7 +36,6 @@ class App extends Component {
       id = url[2];
       console.log(id);
     }
-
     return (
       <BrowserRouter>
         <div>
@@ -105,7 +94,7 @@ class App extends Component {
 }
 const mapStateToProps = state => {
   return {
-    sites: state.sites.sites
+    sites: state.sites
   };
 };
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import SiteForm from "./SiteForm";
 import { connect } from "react-redux";
-import { addSite } from "../actions/siteAction";
+import { addSite } from "../Redux/actions/siteAction";
 
 class CreateSite extends Component {
   render() {

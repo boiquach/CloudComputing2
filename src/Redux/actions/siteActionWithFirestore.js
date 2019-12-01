@@ -1,6 +1,6 @@
-import { storageRef } from "../config/index";
-import API, { graphqlOperation } from "@aws-amplify/api";
-import * as mutations from "../graphql/mutations";
+import { storageRef } from "../../config/index";
+// import API, { graphqlOperation } from "@aws-amplify/api";
+// import * as mutations from "../graphql/mutations";
 
 export const FETCH_SITES = "FETCH_SITES";
 export const FETCH_SITE = "FETCH_SITE";
@@ -12,8 +12,8 @@ export const UPLOADING_FAIL = "UPLOADING_FAIL";
 export const UPLOADING = "UPLOADING";
 export const FETCH_IMAGE = "FETCH_IMAGE";
 
-export const QUERY = "QUERY";
-export const SUBSCRIPTION = "SUBSCRIPTION";
+// export const QUERY = "QUERY";
+// export const SUBSCRIPTION = "SUBSCRIPTION";
 
 //POST
 export const addSite = site => {
@@ -31,7 +31,7 @@ export const addSite = site => {
         console.log("errored");
       });
 
-    createNewSite(site);
+    // createNewSite(site);
   };
 };
 
@@ -130,7 +130,7 @@ export const uploadImage = imageFile => {
   };
 };
 
-async function createNewSite(site) {
-  // const site = { name: "new created site" };
-  await API.graphql(graphqlOperation(mutations.createSite, { input: site }));
-}
+// async function createNewSite(site) {
+//   // const site = { name: "new created site" };
+//   await API.graphql(graphqlOperation(mutations.createSite, { input: site }));
+// }
