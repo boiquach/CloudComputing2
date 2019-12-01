@@ -179,41 +179,51 @@ class SiteInfo extends Component {
         return (
 
             <div>
-                {this.props.site !== undefined && this.props.site !== null && !(Object.keys(this.props.site).length === 0 && this.props.site.constructor === Object) ?
+                {!this.props.fetching ?
                     <div>
-                        <CleanUpMap currentLocation={this.state.currentLocation} />
-
-                        {this.props.volunteerEmail !== undefined && <ul> {this.props.volunteerEmail.map((volunteer,index) => {
-                            console.log(volunteer)
-                            return (<li key={index}>
-                                {volunteer}
-                            </li>)
-                        })}</ul>}
-
-                        {this.props.volunteerObject !== undefined && <ul> {this.props.volunteerObject.map(volunteer => {
-                            console.log(volunteer)
-                            return (<li key={volunteer.id}>
-                                {volunteer.data.firstname}
-                                {volunteer.data.lastname}
-                                {volunteer.data.email}
-                            </li>)
-                        })}</ul>}
-
-                        {this.props.site.owner === this.props.userId ?
+                        {!this.props.fetchingFail ?
                             <div>
-                                <button onClick={this.openEdit}>Edit</button>
-                                <button onClick={this.delete}>Delete</button>
-                            </div>
-                            : <div>
-                                {this.props.userId === null && <button onClick={this.openJoin}>Join</button>}
-                                {this.props.userId !== null && <button onClick={this.join}>Join</button>}
+                                <CleanUpMap currentLocation={this.state.currentLocation} />
 
-                            </div>}
-                        {this.state.editing && <SiteEditForm site={this.props.site} siteId={this.props.siteId} />}
-                        {this.state.joining && <VolunteerForm siteId={this.props.siteId} />}
+                                {/*volunteers with no account*/}
+                                {this.props.volunteerEmail !== undefined && <ul> {this.props.volunteerEmail.map((volunteer, index) => {
+                                    console.log(volunteer)
+                                    return (<li key={index}>
+                                        {volunteer}
+                                    </li>)
+                                })}</ul>}
+
+                                {/*volunteers with accounts*/}
+                                {this.props.volunteerObject !== undefined && <ul> {this.props.volunteerObject.map(volunteer => {
+                                    console.log(volunteer)
+                                    return (<li key={volunteer.id}>
+                                        {volunteer.data.firstname}
+                                        {volunteer.data.lastname}
+                                        {volunteer.data.email}
+                                    </li>)
+                                })}</ul>}
+
+                                {this.props.site.owner === this.props.userId ?
+                                    <div>
+                                        <button onClick={this.openEdit}>Edit</button>
+                                        <button onClick={this.delete}>Delete</button>
+                                    </div>
+                                    : <div>
+                                        {this.props.userId === null && <button onClick={this.openJoin}>Join</button>}
+                                        {this.props.userId !== null && <button onClick={this.join}>Join</button>}
+
+                                    </div>}
+                                {this.state.editing && <SiteEditForm site={this.props.site} siteId={this.props.siteId} />}
+                                {this.state.joining && <VolunteerForm siteId={this.props.siteId} />}
+
+                                {/*Output Repor*/}
+                            </div>
+                            :
+                            <div>Site does not exist.</div>
+                        }
                     </div>
                     : <div>
-                        Site doesn't exist.
+                        Loading...
                     </div>}
 
             </div>
@@ -227,7 +237,9 @@ const mapStateToProps = (state) => {
         site: state.site.site,
         userId: state.userId.userId,
         volunteerObject: state.volunteerObject.volunteerObject,
-        volunteerEmail: state.volunteerEmail.volunteerEmail
+        volunteerEmail: state.volunteerEmail.volunteerEmail,
+        fetching: state.fetching.fetching,
+        fetchingFail: state.fetchingFail.fetchingFail
 
     }
 };

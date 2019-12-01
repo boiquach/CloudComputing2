@@ -1,4 +1,4 @@
-import {FETCH_VOLUNTEERS_ID,FETCH_VOLUNTEERS_EMAIL,DELETE_SITE,LOGOUT_SUCCESS,FETCH_SITES, FETCH_SITE, UPLOADING, UPLOADING_FAIL,UPLOADING_START,UPLOADING_SUCCESS, FETCH_IMAGE, LOGIN_SUCCESS} from "../actions/siteAction";
+import {REPORT_LOADING,REPORT_FAIL,FETCH_REPORT,FETCHING_FAIL,FETCH_REPORTS,FETCH_USER,FETCH_VOLUNTEERS_ID,FETCH_VOLUNTEERS_EMAIL,DELETE_SITE,LOGOUT_SUCCESS,FETCH_SITES, FETCH_SITE, UPLOADING, UPLOADING_FAIL,UPLOADING_START,UPLOADING_SUCCESS, FETCH_IMAGE, LOGIN_SUCCESS} from "../actions/siteAction";
 
 const initialState={
     sites: [],
@@ -11,11 +11,24 @@ const initialState={
     userId:sessionStorage.getItem('user'),
     isLogin: sessionStorage.getItem('isLogin'),
     volunteerEmail:[],
-    volunteerObject:[]
+    volunteerObject:[],
+    reports:[],
+    fetching:true,
+    fetchingFail:false,
+    report:{},
+    fetchingReport:true,
+    reportFail:false
 }
 
 export default (state=initialState,action)=>{
     switch(action.type){
+        case FETCHING_FAIL:
+            return {
+                ...state,
+                fetchingFail:true,
+                fetching:false
+                
+            }
         case FETCH_SITES:
             return {
                 ...state,
@@ -25,7 +38,8 @@ export default (state=initialState,action)=>{
         case FETCH_SITE:{
             return {
                 ...state,
-                site:action.payload
+                site:action.payload,
+                fetching:false
             }
         }
         case UPLOADING:{
@@ -66,7 +80,6 @@ export default (state=initialState,action)=>{
             return{
                 ...state,
                 user:action.payload,
-                userId:action.payload.user.uid,
                 isLogin:true
 
                 
@@ -100,6 +113,40 @@ export default (state=initialState,action)=>{
             return{
                 ...state,
                 volunteerObject:action.payload
+            }
+        }
+        case FETCH_USER:{
+            //console.log(action.payload)
+            return{
+                ...state,
+                user:action.payload
+            }
+        }
+        case FETCH_REPORTS:{
+            return{
+                ...state,
+                reports:action.payload
+            }
+        }
+        case FETCH_REPORT:{
+            return{
+                ...state,
+                report:action.payload,
+                fetchingReport:false,
+            }
+        }
+        case REPORT_FAIL:{
+            return{
+                ...state,
+                reportFail:true,
+                fetchingReport:false
+            }
+        }
+        case REPORT_LOADING:{
+            return{
+                ...state,
+                fetchingReport:true,
+                reportFail:false
             }
         }
 

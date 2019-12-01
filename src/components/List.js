@@ -1,49 +1,55 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {fetchSites} from "../actions/siteAction";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchSitesByUser } from "../actions/siteAction";
+import { Route, Redirect } from "react-router-dom"
 
-class List extends Component{
-    // componentWillMount(){
-    //     this.props.fetchSites();
-    // }
-    // componentWillReceiveProps(props) {
-        
-    // }
+class List extends Component {
+    componentDidMount() {
+        this.props.fetchSitesByUser(this.props.userId)
+    }
 
+    render() {
+        return (
 
-    render(){
-        return(
-            <div>
-                abc
-                {/* {this.props.data!==null?
-                    this.props.data.map((student,key)=>
+            <Route>
+                {this.props.isLogin ?
+
                     <div>
+                        {(this.props.sites !== null && this.props.sites !== undefined) ?
+                            <ul>
+                                {this.props.sites.map(site => {
+                                    return (
+                                        <li key={site.id}>
+                                            <a href={`site/${site.id}`}>{site.info.name}</a>
+                                        </li>
+                                    )
+                                })}
+                            </ul> : <div>Loading...</div>
 
-                        <li>{student.name}</li>
+                        }
 
                     </div>
-                    ):
-                // <div>
+                    :
+                    <Redirect to={{ pathname: "/login" }} />
+                }
 
-                //     abc
-                // </div>:
-        console.log("null")
-        } */}
-            </div>
-            
+            </Route>
+
         )
-        
+
     }
 
 
 }
 
-const mapStateToProps= state =>({
-    data:state.data.data
+const mapStateToProps = state => ({
+    sites: state.sites.sites,
+    userId: state.userId.userId,
+    isLogin: state.isLogin.isLogin
 })
 
-const mapDispatchToProps = dispatch=>({
-    fetchSites: () => dispatch(fetchSites())
+const mapDispatchToProps = dispatch => ({
+    fetchSitesByUser: id => dispatch(fetchSitesByUser(id))
 })
 
 

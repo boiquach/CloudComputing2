@@ -17,6 +17,12 @@ import isLogin from "./reducers/reducer"
 import userId from "./reducers/reducer"
 import volunteerEmail from "./reducers/reducer"
 import volunteerObject from "./reducers/reducer"
+import reports from "./reducers/reducer"
+import report from './reducers/reducer'
+import fetching from "./reducers/reducer"
+import fetchingFail from "./reducers/reducer"
+import fetchingReport from './reducers/reducer'
+import reportFail from './reducers/reducer'
 import {verifyAuth} from "./actions/siteAction"
 import {fb} from "./config/index";
 import {getFirebase, firebaseReducer} from "react-redux-firebase"
@@ -38,7 +44,13 @@ const rootReducer = combineReducers({
     isLogin:isLogin,
     userId:userId,
     volunteerEmail:volunteerEmail,
-    volunteerObject:volunteerObject
+    volunteerObject:volunteerObject,
+    reports:reports,
+    fetching:fetching,
+    fetchingFail:fetchingFail,
+    reportFail:reportFail,
+    fetchingReport:fetchingReport,
+    report:report
 })
 
 const Store = createStore(rootReducer,compose(applyMiddleware(thunk.withExtraArgument({getFirestore, getFirebase})),reduxFirestore(fb)))

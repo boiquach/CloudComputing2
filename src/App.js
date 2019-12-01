@@ -5,6 +5,10 @@ import CreateSite from './components/CreateSite'
 import Home from './components/Home'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
+import UserProfile from './components/UserProfile'
+import List from './components/List'
+import ReportsList from "./components/ReportsList"
+import Report from "./components/Report"
 import {fetchSites,logout} from './actions/siteAction'
 import {connect} from 'react-redux';
 import {BrowserRouter, Route} from 'react-router-dom';
@@ -26,6 +30,10 @@ class App extends Component{
     var id = ''
 
     if(url[1]==="site" && url[2]!==""){
+      id = url[2]
+      console.log(id)
+    }
+    else if(url[1]==="report" && url[2]!==""){
       id = url[2]
       console.log(id)
     }
@@ -53,8 +61,15 @@ class App extends Component{
                 <a className="nav-link" href="/login">Login</a>
               </li>}
               {this.props.isLogin && <li className="nav-item">
+                <a className="nav-link" href="/profile">Profile</a>
+              </li>}
+              {this.props.isLogin && <li className="nav-item">
+                <a className="nav-link" href="/list">Sites List</a>
+              </li>}
+              {this.props.isLogin && <li className="nav-item">
                 <a className="nav-link" href="" onClick={this.handleLogout.bind(this)} >Logout</a>
               </li>}
+              
               {/* <li className="nav-item">
                 <a className="nav-link" href=""></a>
               </li> */}
@@ -69,7 +84,11 @@ class App extends Component{
           <Route exact path ={'/join_site'} render={(props)=> <SiteMap sites = {this.props.sites} {...props} />} />
           <Route exact path={'/create_site'} render={(props)=><CreateSite {...props} />} />
           <Route exact path={'/signup'} render={(props)=><SignUp {...props} />} />
+          <Route exact path={'/profile'} render={(props)=><UserProfile {...props} />} />
+          <Route exact path={'/report'} render={(props)=><ReportsList {...props} />} />
+          <Route exact path={'/list'} render={(props)=><List {...props} />} />
           {id!=='' && <Route exact path={`/site/${id}`} render={(props)=><SiteInfo siteId = {id} {...props}/>} />}
+          {id!=='' && <Route exact path={`/report/${id}`} render={(props)=><Report siteId = {id} {...props}/>} />}
         </div>
       </div>
       </BrowserRouter>

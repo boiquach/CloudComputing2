@@ -25,7 +25,6 @@ class CreateSite extends Component {
 const mapStateToProps = state => {
   return {
     sites: state.sites.sites,
-    user: state.user.user,
     isLogin: state.isLogin.isLogin,
     userId:state.userId.userId
 
