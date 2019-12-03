@@ -1,23 +1,33 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateMember = `subscription OnCreateMember($owner: String!) {
-  onCreateMember(owner: $owner) {
+export const onCreateMember = `subscription OnCreateMember {
+  onCreateMember {
     id
-    iconURL
     email
+    firstName
+    lastName
+    phone
+    iconURL
+    image {
+      bucket
+      region
+      key
+    }
     ownedsites {
       items {
         id
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       nextToken
     }
@@ -26,7 +36,6 @@ export const onCreateMember = `subscription OnCreateMember($owner: String!) {
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
@@ -43,7 +52,6 @@ export const onCreateMember = `subscription OnCreateMember($owner: String!) {
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -55,31 +63,39 @@ export const onCreateMember = `subscription OnCreateMember($owner: String!) {
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
-export const onUpdateMember = `subscription OnUpdateMember($owner: String!) {
-  onUpdateMember(owner: $owner) {
+export const onUpdateMember = `subscription OnUpdateMember {
+  onUpdateMember {
     id
-    iconURL
     email
+    firstName
+    lastName
+    phone
+    iconURL
+    image {
+      bucket
+      region
+      key
+    }
     ownedsites {
       items {
         id
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       nextToken
     }
@@ -88,7 +104,6 @@ export const onUpdateMember = `subscription OnUpdateMember($owner: String!) {
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
@@ -105,7 +120,6 @@ export const onUpdateMember = `subscription OnUpdateMember($owner: String!) {
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -117,31 +131,39 @@ export const onUpdateMember = `subscription OnUpdateMember($owner: String!) {
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
-export const onDeleteMember = `subscription OnDeleteMember($owner: String!) {
-  onDeleteMember(owner: $owner) {
+export const onDeleteMember = `subscription OnDeleteMember {
+  onDeleteMember {
     id
-    iconURL
     email
+    firstName
+    lastName
+    phone
+    iconURL
+    image {
+      bucket
+      region
+      key
+    }
     ownedsites {
       items {
         id
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       nextToken
     }
@@ -150,7 +172,6 @@ export const onDeleteMember = `subscription OnDeleteMember($owner: String!) {
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
@@ -167,7 +188,6 @@ export const onDeleteMember = `subscription OnDeleteMember($owner: String!) {
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -179,29 +199,43 @@ export const onDeleteMember = `subscription OnDeleteMember($owner: String!) {
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
-export const onCreateSite = `subscription OnCreateSite($owner: String!) {
-  onCreateSite(owner: $owner) {
+export const onCreateSite = `subscription OnCreateSite {
+  onCreateSite {
     id
     name
     long
     lat
+    date
     createdAt
-    address
+    location
     description
     imageURLs
+    images {
+      bucket
+      region
+      key
+    }
     plans
+    kit
+    container
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -217,7 +251,6 @@ export const onCreateSite = `subscription OnCreateSite($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
     members {
       items {
@@ -232,7 +265,6 @@ export const onCreateSite = `subscription OnCreateSite($owner: String!) {
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -244,29 +276,43 @@ export const onCreateSite = `subscription OnCreateSite($owner: String!) {
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
-export const onUpdateSite = `subscription OnUpdateSite($owner: String!) {
-  onUpdateSite(owner: $owner) {
+export const onUpdateSite = `subscription OnUpdateSite {
+  onUpdateSite {
     id
     name
     long
     lat
+    date
     createdAt
-    address
+    location
     description
     imageURLs
+    images {
+      bucket
+      region
+      key
+    }
     plans
+    kit
+    container
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -282,7 +328,6 @@ export const onUpdateSite = `subscription OnUpdateSite($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
     members {
       items {
@@ -297,7 +342,6 @@ export const onUpdateSite = `subscription OnUpdateSite($owner: String!) {
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -309,29 +353,43 @@ export const onUpdateSite = `subscription OnUpdateSite($owner: String!) {
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
-export const onDeleteSite = `subscription OnDeleteSite($owner: String!) {
-  onDeleteSite(owner: $owner) {
+export const onDeleteSite = `subscription OnDeleteSite {
+  onDeleteSite {
     id
     name
     long
     lat
+    date
     createdAt
-    address
+    location
     description
     imageURLs
+    images {
+      bucket
+      region
+      key
+    }
     plans
+    kit
+    container
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -347,7 +405,6 @@ export const onDeleteSite = `subscription OnDeleteSite($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
     members {
       items {
@@ -362,7 +419,6 @@ export const onDeleteSite = `subscription OnDeleteSite($owner: String!) {
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -374,11 +430,9 @@ export const onDeleteSite = `subscription OnDeleteSite($owner: String!) {
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -390,16 +444,26 @@ export const onCreateMembersSites = `subscription OnCreateMembersSites {
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -410,12 +474,19 @@ export const onCreateMembersSites = `subscription OnCreateMembersSites {
       reports {
         nextToken
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -431,7 +502,6 @@ export const onCreateMembersSites = `subscription OnCreateMembersSites {
       reports {
         nextToken
       }
-      owner
     }
     createdAt
   }
@@ -445,16 +515,26 @@ export const onUpdateMembersSites = `subscription OnUpdateMembersSites {
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -465,12 +545,19 @@ export const onUpdateMembersSites = `subscription OnUpdateMembersSites {
       reports {
         nextToken
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -486,7 +573,6 @@ export const onUpdateMembersSites = `subscription OnUpdateMembersSites {
       reports {
         nextToken
       }
-      owner
     }
     createdAt
   }
@@ -500,16 +586,26 @@ export const onDeleteMembersSites = `subscription OnDeleteMembersSites {
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -520,12 +616,19 @@ export const onDeleteMembersSites = `subscription OnDeleteMembersSites {
       reports {
         nextToken
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -541,14 +644,13 @@ export const onDeleteMembersSites = `subscription OnDeleteMembersSites {
       reports {
         nextToken
       }
-      owner
     }
     createdAt
   }
 }
 `;
-export const onCreatePost = `subscription OnCreatePost($owner: String!) {
-  onCreatePost(owner: $owner) {
+export const onCreatePost = `subscription OnCreatePost {
+  onCreatePost {
     id
     title
     description
@@ -558,16 +660,26 @@ export const onCreatePost = `subscription OnCreatePost($owner: String!) {
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -578,21 +690,27 @@ export const onCreatePost = `subscription OnCreatePost($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
     comments {
       items {
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -608,14 +726,12 @@ export const onCreatePost = `subscription OnCreatePost($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
-export const onUpdatePost = `subscription OnUpdatePost($owner: String!) {
-  onUpdatePost(owner: $owner) {
+export const onUpdatePost = `subscription OnUpdatePost {
+  onUpdatePost {
     id
     title
     description
@@ -625,16 +741,26 @@ export const onUpdatePost = `subscription OnUpdatePost($owner: String!) {
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -645,21 +771,27 @@ export const onUpdatePost = `subscription OnUpdatePost($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
     comments {
       items {
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -675,14 +807,12 @@ export const onUpdatePost = `subscription OnUpdatePost($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
-export const onDeletePost = `subscription OnDeletePost($owner: String!) {
-  onDeletePost(owner: $owner) {
+export const onDeletePost = `subscription OnDeletePost {
+  onDeletePost {
     id
     title
     description
@@ -692,16 +822,26 @@ export const onDeletePost = `subscription OnDeletePost($owner: String!) {
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -712,21 +852,27 @@ export const onDeletePost = `subscription OnDeletePost($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
     comments {
       items {
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -742,14 +888,12 @@ export const onDeletePost = `subscription OnDeletePost($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
-export const onCreateComment = `subscription OnCreateComment($owner: String!) {
-  onCreateComment(owner: $owner) {
+export const onCreateComment = `subscription OnCreateComment {
+  onCreateComment {
     id
     content
     createdAt
@@ -763,28 +907,39 @@ export const onCreateComment = `subscription OnCreateComment($owner: String!) {
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       comments {
         nextToken
       }
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -800,14 +955,12 @@ export const onCreateComment = `subscription OnCreateComment($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
-export const onUpdateComment = `subscription OnUpdateComment($owner: String!) {
-  onUpdateComment(owner: $owner) {
+export const onUpdateComment = `subscription OnUpdateComment {
+  onUpdateComment {
     id
     content
     createdAt
@@ -821,28 +974,39 @@ export const onUpdateComment = `subscription OnUpdateComment($owner: String!) {
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       comments {
         nextToken
       }
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -858,14 +1022,12 @@ export const onUpdateComment = `subscription OnUpdateComment($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
-export const onDeleteComment = `subscription OnDeleteComment($owner: String!) {
-  onDeleteComment(owner: $owner) {
+export const onDeleteComment = `subscription OnDeleteComment {
+  onDeleteComment {
     id
     content
     createdAt
@@ -879,28 +1041,39 @@ export const onDeleteComment = `subscription OnDeleteComment($owner: String!) {
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       comments {
         nextToken
       }
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -916,17 +1089,20 @@ export const onDeleteComment = `subscription OnDeleteComment($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
-export const onCreateReport = `subscription OnCreateReport($owner: String!) {
-  onCreateReport(owner: $owner) {
+export const onCreateReport = `subscription OnCreateReport {
+  onCreateReport {
     id
     date
     imageURLs
+    image {
+      bucket
+      region
+      key
+    }
     description
     amount
     createdAt
@@ -935,16 +1111,26 @@ export const onCreateReport = `subscription OnCreateReport($owner: String!) {
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -955,12 +1141,19 @@ export const onCreateReport = `subscription OnCreateReport($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
     creator {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -976,17 +1169,20 @@ export const onCreateReport = `subscription OnCreateReport($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
-export const onUpdateReport = `subscription OnUpdateReport($owner: String!) {
-  onUpdateReport(owner: $owner) {
+export const onUpdateReport = `subscription OnUpdateReport {
+  onUpdateReport {
     id
     date
     imageURLs
+    image {
+      bucket
+      region
+      key
+    }
     description
     amount
     createdAt
@@ -995,16 +1191,26 @@ export const onUpdateReport = `subscription OnUpdateReport($owner: String!) {
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -1015,12 +1221,19 @@ export const onUpdateReport = `subscription OnUpdateReport($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
     creator {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -1036,17 +1249,20 @@ export const onUpdateReport = `subscription OnUpdateReport($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
-export const onDeleteReport = `subscription OnDeleteReport($owner: String!) {
-  onDeleteReport(owner: $owner) {
+export const onDeleteReport = `subscription OnDeleteReport {
+  onDeleteReport {
     id
     date
     imageURLs
+    image {
+      bucket
+      region
+      key
+    }
     description
     amount
     createdAt
@@ -1055,16 +1271,26 @@ export const onDeleteReport = `subscription OnDeleteReport($owner: String!) {
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -1075,12 +1301,19 @@ export const onDeleteReport = `subscription OnDeleteReport($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
     creator {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -1096,36 +1329,7 @@ export const onDeleteReport = `subscription OnDeleteReport($owner: String!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
-  }
-}
-`;
-export const onCreateEvent = `subscription OnCreateEvent {
-  onCreateEvent {
-    id
-    name
-    createdAt
-    queryName
-  }
-}
-`;
-export const onUpdateEvent = `subscription OnUpdateEvent {
-  onUpdateEvent {
-    id
-    name
-    createdAt
-    queryName
-  }
-}
-`;
-export const onDeleteEvent = `subscription OnDeleteEvent {
-  onDeleteEvent {
-    id
-    name
-    createdAt
-    queryName
   }
 }
 `;

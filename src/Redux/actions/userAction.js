@@ -1,91 +1,212 @@
 import * as userActionTypes from "./actionTypes";
+import { Auth } from "aws-amplify";
+import * as graphqlMutations from "../../graphql/mutations";
+import * as graphqlQueries from "../../graphql/queries";
+import API, { graphqlOperation } from "@aws-amplify/api";
+export const login = () => {
+  console.log("begin login....");
+  Auth.federatedSignIn()
+    .then(result => {
+      console.log("sign in result: ", result);
+      // get user info will not work because rerender callback
+    })
+    .catch(err => console.log("check user error: ", err));
+};
+const getUserInfo = () => {
+  //check user then create member
+  Auth.currentAuthenticatedUser()
+    .then(user => {
+      console.log("result checkuser: ", { user });
+      // todo: check member? (if not create member)... and load ownersites also..., jointed sites...
+      getMember(user.attributes.email).then(member => {
+        console.log("result get member data: ", member);
+        // dispatch({
+        //   type: userActionTypes.CHECK_USER,
+        //   payload: member
+        // });
+      });
+    })
+    .catch(err => console.log("check user error: ", err));
+};
 
-export const login = () => {};
-export const logout = () => {};
+export const logout = () => {
+  return dispatch => {
+    Auth.signOut()
+      .then(data => {
+        console.log("result signout: ", data);
+        dispatch({
+          type: userActionTypes.LOG_OUT,
+          payload: data
+        });
+      })
+      .catch(err => console.log(err));
+  };
+};
+export const checkUser = () => {
+  //check user then create member
+  return dispatch => {
+    Auth.currentAuthenticatedUser()
+      .then(user => {
+        console.log("result checkuser: ", { user });
+        //get or create user account
+        getMember(user.attributes.email).then(member => {
+          console.log("result get member: ", member);
+          dispatch({
+            type: userActionTypes.CHECK_USER,
+            payload: member
+          });
+        });
+      })
+      .catch(err => console.log("check user error: ", err));
+  };
+};
+export const jointSite = (userId, siteID) => {
+  console.log("begin mutation joinsite: site", siteID, " user: ", userId);
+  API.graphql(
+    graphqlOperation(graphqlMutations.createMembersSites, {
+      input: {
+        membersSitesSiteId: siteID,
+        membersSitesMemberId: userId
+      }
+    })
+  )
+    .then(result => {
+      console.log("mutation result: site", result.data);
+    })
+    .catch(error => console.log("mutation error: ", error));
+};
+export const undoJointSite = (userID, siteID) => {
+  console.log("begin mutation undo jointsite: site", siteID, " user: ", userID);
+  console.log(
+    "undo jointsite warning: due to deep level of n-n relationship, this can not be done easily"
+  );
+  // this does not work because the deep level for n-n relationship must be large 10
+};
+
+export const updateProfile = newUser => {
+  return dispatch => {
+    console.log("begin mutation update user profile: ", newUser);
+    API.graphql(
+      graphqlOperation(graphqlMutations.updateMember, {
+        input: newUser
+      })
+    )
+      .then(result => {
+        console.log("mutation result: user updated: ", result.data);
+        //todo: dispatch to current user
+        dispatch({
+          type: userActionTypes.UPDATE_USER_PROFILE,
+          payload: result.data
+        });
+      })
+      .catch(error => console.log("mutation error: ", error));
+  };
+};
 export const fetchAvatar = () => {};
 
-//POST
-// export const addSite = site => {
-//   return (dispatch, getState, { getFirestore }) => {
-//     const firestore = getFirestore();
-//     firestore
-//       .collection("sites")
-//       .add({ ...site })
-//       .then(docRef => {
-//         dispatch(fetchSites());
-//         window.location.href = `site/${docRef.id}`;
-//       })
+export const createPost = (newPost, siteID, userID) => {
+  //todo: replace this later
+  newPost = {
+    title: "post title",
+    description: "post description",
+    postSiteId: "c8132792-4325-4ca6-9852-2eae4be39e6d",
+    postSiteOwnerId: "64af0137-868b-42f3-b411-f708f670c828"
+  };
+  console.log("begin mutation put post: ", newPost);
+  //warning: later on will only succeed if user is owner of the site
 
-//       .catch(err => {
-//         console.log("errored");
-//       });
+  // newPost.postSiteId = siteID;
+  // newPost.postSiteOwnerId = userID;
+  return dispatch => {
+    API.graphql(
+      graphqlOperation(graphqlMutations.createPost, {
+        input: newPost
+      })
+    )
+      .then(result => {
+        console.log("mutation result:  Post: ", result.data);
+        //todo: dispatch to current user
+        dispatch({
+          type: userActionTypes.ADD_POST,
+          payload: result.data
+        });
+      })
+      .catch(error => console.log("mutation error: ", error));
+  };
+};
+export const memberPutCommentOnPost = (comment, postID, memberID) => {
+  return dispatch => {
+    //todo: replace this later
+    const Comment = {
+      content: "comment content... ",
 
-//     // createNewSite(site);
-//   };
-// };
+      commentPostId: "a2929440-46d9-43db-b871-89641df9ce81",
+      commentMemberId: "64af0137-868b-42f3-b411-f708f670c828"
+    };
+    console.log("begin mutation put comment: ", Comment);
+    // newPost.postSiteId = siteID;
+    // newPost.postSiteOwnerId = userID;
+    API.graphql(
+      graphqlOperation(graphqlMutations.createComment, {
+        input: Comment
+      })
+    )
+      .then(result => {
+        console.log("mutation result:  Post: ", result.data);
+        //todo: dispatch to current user
+        dispatch({
+          type: userActionTypes.ADD_COMMENT,
+          payload: result.data
+        });
+      })
+      .catch(error => console.log("mutation error: ", error));
+  };
+};
 
-// export const editSite = (id, site) => {
-//   return (dispatch, getState, { getFirestore }) => {
-//     const firestore = getFirestore();
-//     firestore
-//       .collection("sites")
-//       .doc(id)
-//       .set(site)
-//       .then(() => {
-//         dispatch(fetchSite(id));
-//         window.location.href = `${id}`;
-//       })
-
-//       .catch(err => {
-//         console.log("errored");
-//       });
-//   };
-// };
-
-//DELETE
-// export const deleteTodo = (id) =>{
-//     return (dispatch,getState,{getFirestore})=>{
-//         const firestore = getFirestore()
-//         firestore.collection('students').doc(id).delete();
-//     }
-// }
-
-//GET
-// export const fetchSites = () => {
-//   const list = [];
-//   //console.log('abc');
-//   return (dispatch, getState, { getFirestore }) => {
-//     const firestore = getFirestore();
-
-//     firestore
-//       .collection("sites")
-//       .get()
-//       .then(collection => {
-//         collection.docs.forEach(doc => {
-//           list.push({
-//             id: doc.id,
-//             info: doc.data()
-//           });
-//         });
-//         //console.log(list);
-//         dispatch({ type: siteActionTypes.FETCH_SITES, payload: list });
-//       });
-//   };
-// };
-
-// export const fetchSite = siteId => {
-//   return (dispatch, getState, { getFirestore }) => {
-//     const firestore = getFirestore();
-//     firestore
-//       .collection("sites")
-//       .doc(siteId)
-//       .get()
-//       .then(doc => {
-//         const info = doc.data();
-//         dispatch({ type: siteActionTypes.FETCH_SITE, payload: info });
-//       });
-//   };
-// };
+async function getMember(email) {
+  console.log("begin fetch member....");
+  console.log("query member with email (my email)....", email);
+  const filter = {
+    email: { eq: email }
+  };
+  const result = await API.graphql(
+    graphqlOperation(graphqlQueries.listMembers, { filter: filter })
+  )
+    .then(result => {
+      console.log("query result: ", result.data.listMembers.items);
+      //create new user record in system
+      if (result.data.listMembers.items.length < 1) {
+        const user = {
+          firstName: email.split("@")[0],
+          email: email
+        };
+        console.log("creating member.... ");
+        return createMember(user);
+      } else {
+        return result.data.listMembers.items[0];
+      }
+    })
+    .then(member => {
+      console.log("then ... ", member);
+      return member;
+    })
+    .catch(error => console.log("query error: ", error));
+  return result;
+}
+async function createMember(newMember) {
+  API.graphql(
+    graphqlOperation(graphqlMutations.createMember, { input: newMember })
+  )
+    .then(result => {
+      console.log("mutation result: site", result.data.createMember);
+      return result.data.createMember;
+    })
+    .catch(error => {
+      console.log("mutation error: ", error);
+      return null;
+    });
+}
+// function updateMember() {}
 
 // export const uploadImage = imageFile => {
 //   return (dispatch, getState, { getFirestore }) => {
@@ -124,8 +245,3 @@ export const fetchAvatar = () => {};
 //     }
 //   };
 // };
-
-// // async function createNewSite(site) {
-// //   // const site = { name: "new created site" };
-// //   await API.graphql(graphqlOperation(mutations.createSite, { input: site }));
-// // }

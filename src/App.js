@@ -8,24 +8,18 @@ import { connect } from "react-redux";
 import { BrowserRouter, Route } from "react-router-dom";
 import "./style.css";
 
-//Hub for check user changes
-import { Hub } from "aws-amplify";
+// import * as siteActionTypes from "./Redux/actions/actionTypes";
+import * as supscriptionListeners from "./Redux/actions/supscriptionListeners";
 
 class App extends Component {
-  componentWillMount = () => {
-    this.props.fetchSites();
-    //this is to check auth status of user
-    Hub.listen("auth", data => {
-      const { payload } = data;
-      console.log("A new auth event has happened: ", data);
-      if (payload.event === "signIn") {
-        console.log("a user has signed in!");
-      }
-      if (payload.event === "signOut") {
-        console.log("a user has signed out!");
-      }
-    });
-  };
+  componentDidMount() {
+    supscriptionListeners.userAuthenticationListenner();
+    supscriptionListeners.newMemberListenner();
+    supscriptionListeners.newPostListenner();
+    supscriptionListeners.newSiteListenner();
+    supscriptionListeners.newCommentListenner();
+    supscriptionListeners.newReportListenner();
+  }
 
   render() {
     let currentPath = window.location.pathname;
@@ -36,6 +30,7 @@ class App extends Component {
       id = url[2];
       console.log(id);
     }
+    // console.log("App props: ", this.props);
     return (
       <BrowserRouter>
         <div>
@@ -101,45 +96,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchSites: () => dispatch(fetchSites())
+    // ,newSiteCreated: newSite =>
+    //   dispatch({ type: siteActionTypes.ADD_SITE, payload: newSite })
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-//todo: check how to intergrate these:
-// async function getData() {
-//   try {
-//     const sitesData = await API.graphql(
-//       graphqlOperation(queries.listSites, { limit: 100 })
-//     );
-//     console.log("getdata: ", sitesData.data.listSites.items);
-//     dispatch({ type: QUERY, sites: sitesData.data.listSites.items });
-//   } catch (err) {
-//     console.warn("Failed to get data ", err);
-//   }
-// }
-// getData();
-// async function getUserID() {
-//   return await Auth.currentAuthenticatedUser();
-//   // return UserID.username;
-// }
-// getUserID().then(user => {
-//   console.log("userid owner: ", user.username);
-//   try {
-//     const subscription = API.graphql(
-//       graphqlOperation(subscriptions.onCreateSite, {
-//         owner: user.username
-//       })
-//     ).subscribe({
-//       next: eventData => {
-//         // console.log("error subsciption: ", eventData);
-
-//         const site = eventData.value.data.onCreateSite;
-//         dispatch({ type: SUBSCRIPTION, site });
-//       }
-//     });
-//     return () => subscription.unsubscribe();
-//   } catch (err) {
-//     console.warn("Failed to get data ", err);
-//   }
-// })

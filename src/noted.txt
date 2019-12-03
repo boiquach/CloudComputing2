@@ -3,3 +3,35 @@ Test Your Hosted UI Endpoint: https://vn-sach-xanh-local.auth.ap-southeast-1.ama
 
 
 GraphQL endpoint: https://raxfzambbjcd5l33mkewkvtf3i.appsync-api.ap-southeast-1.amazonaws.com/graphql
+
+thumnnal s3: http://testingthumbnail.s3-website-ap-southeast-1.amazonaws.com
+Referer: mysecurerefererfjafasdfadfa
+
+code: github.com/joebui/thumbnail-generator-webapp
+
+
+
+
+
+ var subscription = API.graphql(
+      graphqlOperation(onCreateRestaurant)
+    ) as Observable<object>;
+    
+    subscription.subscribe({
+      next: (sourceData) => {
+        const newRestaurant = (sourceData as any).value.data.onCreateRestaurant
+        this.restaurants = [newRestaurant, ...this.restaurants];
+
+
+
+
+Required	Attribute	Required	Attribute
+address		nickname
+birthdate		phone number
+email		picture
+family name		preferred username
+gender		profile
+given name		zoneinfo
+locale		updated at
+middle name		website
+name

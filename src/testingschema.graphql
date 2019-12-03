@@ -1,0 +1,180 @@
+type Member
+  @model(subscriptions: null)
+  @key(fields: ["email"])
+  @auth(
+    rules: [
+      { allow: owner, operations: [update, delete] }
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, provider: iam, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  iconURL: String
+    @auth(
+      rules: [
+        {
+          allow: owner
+          ownerField: "username"
+          operations: [read, update, delete]
+        }
+        { allow: groups, groups: ["Admin"], operations: [create, update, read] }
+      ]
+    )
+  image: S3Object
+
+  email: String!
+  ownedsites: [Site] @connection(name: "OwnerSites", sortField: "createdAt")
+  comments: [Comment]
+    @connection(name: "MemberComments", sortField: "createdAt")
+    @auth(
+      rules: [{ allow: owner, operations: [update, delete], queries: null }]
+    )
+  jointedSites: [MembersSites]
+    @connection(name: "MemberSites2", sortField: "createdAt")
+  posts: [Post] @connection(name: "PostsOwner", sortField: "createdAt")
+  reports: [Report] @connection(name: "OwnerReports", sortField: "createdAt")
+}
+
+type Site
+  @model(subscriptions: { level: public })
+  @auth(
+    rules: [
+      { allow: owner, operations: [update, delete], queries: null }
+      {
+        allow: groups
+        groups: ["Admin"]
+        queries: null
+        operations: [create, update, delete]
+      }
+      {
+        allow: owner
+        ownerField: "posts"
+        operations: [update, delete]
+        queries: null
+      }
+      {
+        allow: owner
+        ownerField: "reports"
+        operations: [update, delete]
+        queries: null
+      }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  long: String
+  lat: String
+  createdAt: String
+  address: String
+  description: String
+  imageURLs: [String]
+  image: S3Object
+  plans: [String]
+  siteOwner: Member @connection(name: "OwnerSites", sortField: "createdAt")
+  members: [MembersSites]
+    @connection(name: "MemberSites1", sortField: "createdAt")
+
+  posts: [Post] @connection(name: "SitePosts", sortField: "createdAt")
+  reports: [Report] @connection(name: "SiteReports", sortField: "createdAt")
+}
+type MembersSites @model(queries: null) {
+  id: ID!
+  site: Site @connection(name: "MemberSites1", sortField: "createdAt")
+  member: Member @connection(name: "MemberSites2", sortField: "createdAt")
+  createdAt: String
+}
+
+type Post @model @auth(rules: [{ allow: owner, queries: null }]) {
+  id: ID!
+  title: String!
+  description: String @auth(rules: [{ allow: owner, operations: [update] }])
+  createdAt: String
+
+  site: Site @connection(name: "SitePosts", sortField: "createdAt")
+  comments: [Comment] @connection(name: "PostComments", sortField: "createdAt")
+  siteOwner: Member @connection(name: "PostsOwner", sortField: "createdAt")
+}
+
+type Comment @model @auth(rules: [{ allow: owner, queries: null }]) {
+  id: ID!
+  content: String
+  createdAt: String
+  post: Post @connection(name: "PostComments", sortField: "createdAt")
+  member: Member @connection(name: "MemberComments", sortField: "createdAt")
+}
+
+type Report @model @auth(rules: [{ allow: owner, queries: null }]) {
+  id: ID!
+  date: String
+  imageURLs: [String]
+  image: S3Object
+  description: String
+  amount: String
+  createdAt: String
+  site: Site @connection(name: "SiteReports", sortField: "createdAt")
+  creator: Member @connection(name: "OwnerReports", sortField: "createdAt")
+}
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type Event
+  @model
+  @key(
+    name: "queryName"
+    fields: ["queryName", "createdAt"]
+    queryField: "itemsByDate"
+  ) {
+  id: ID!
+  name: String!
+  createdAt: String!
+  queryName: String!
+}
+
+
+# When applied to a type, augments the application with
+# owner and group-based authorization rules.
+directive @auth(rules: [AuthRule!]!) on OBJECT, FIELD_DEFINITION
+input AuthRule {
+  allow: AuthStrategy!
+  provider: AuthProvider
+  ownerField: String # defaults to "owner" when using owner auth
+  identityClaim: String # defaults to "username" when using owner auth
+  groupClaim: String # defaults to "cognito:groups" when using Group auth
+  groups: [String]  # Required when using Static Group auth
+  groupsField: String # defaults to "groups" when using Dynamic Group auth
+  operations: [ModelOperation] # Required for finer control
+
+  # The following arguments are deprecated. It is encouraged to use the 'operations' argument.
+  queries: [ModelQuery]
+  mutations: [ModelMutation]
+}
+enum AuthStrategy { owner groups private public }
+enum AuthProvider { apiKey iam oidc userPools }
+enum ModelOperation { create update delete read }
+
+# The following objects are deprecated. It is encouraged to use ModelOperations.
+enum ModelQuery { get list }
+enum ModelMutation { create update delete }
+
+
+
+
+
+
+directive @model(
+  queries: ModelQueryMap,
+  mutations: ModelMutationMap,
+  subscriptions: ModelSubscriptionMap
+) on OBJECT
+input ModelMutationMap { create: String, update: String, delete: String }
+input ModelQueryMap { get: String, list: String }
+input ModelSubscriptionMap {
+  onCreate: [String]
+  onUpdate: [String]
+  onDelete: [String]
+  level: ModelSubscriptionLevel
+}
+enum ModelSubscriptionLevel { off public on }

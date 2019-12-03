@@ -11,15 +11,14 @@ export const initialState = {
 };
 
 export const reducer = (state = initialState, action) => {
+  // console.log("userReducer: ", action.type, " payload: ", action.payload);
   switch (action.type) {
     case userActionTypes.LOG_IN:
+      //this will not be call because the browser being redirected by aws login ui
       return {
         ...state,
         loggedIn: true,
         user: action.payload
-        // ,ownedSites: action.payload.ownedSites,
-        // jointedSites: action.payload.jointedSites,
-        // avartar: action.payload.avartar,
       };
     case userActionTypes.LOG_OUT: {
       return {
@@ -30,9 +29,31 @@ export const reducer = (state = initialState, action) => {
         jointedSites: [],
         avartar: DEFAULT_AVATAR,
         avartarImage: null
-        // site: action.payload
       };
     }
+    case userActionTypes.UPDATE_USER_PROFILE:
+      console.log(
+        "userReducer: action type: ",
+        action.type,
+        " payload: ",
+        action.payload
+      );
+      return {
+        ...state,
+        user: action.payload
+      };
+    case userActionTypes.CHECK_USER:
+      console.log(
+        "userReducer: action type: ",
+        action.type,
+        " payload: ",
+        action.payload
+      );
+      return {
+        ...state,
+        loggedIn: true,
+        user: action.payload
+      };
     //warning: check if it is working or not
     case userActionTypes.FETCH_AVATAR: {
       return {
@@ -60,7 +81,29 @@ export const reducer = (state = initialState, action) => {
         image_error: action.payload
       };
     }
-
+    case userActionTypes.ADD_COMMENT:
+      console.log(
+        "userReducer: action type: ",
+        action.type,
+        " payload: ",
+        action.payload
+      );
+      return {
+        ...state,
+        loggedIn: true,
+        newComment: action.payload
+      };
+    case userActionTypes.ADD_POST:
+      console.log(
+        "userReducer: action type: ",
+        action.type,
+        " payload: ",
+        action.payload
+      );
+      return {
+        ...state,
+        newPost: action.payload
+      };
     default:
       return state;
   }

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import SiteForm from "./SiteForm";
 import { connect } from "react-redux";
-import { addSite } from "../Redux/actions/siteAction";
+import { createSite } from "../Redux/actions/siteAction";
+// import { withAuthenticator } from "aws-amplify-react";
 
 class CreateSite extends Component {
   render() {
@@ -24,9 +25,10 @@ const mapDispatchToProps = dispatch => {
       //todo: check required info of site to create query in graphql
       site.user = "abc";
 
-      dispatch(addSite(site));
+      dispatch(createSite(site));
     }
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateSite);
+// export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticator(CreateSite) );

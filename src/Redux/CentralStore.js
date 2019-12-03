@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 
 //import reducers
-import { initialState, rootReducer } from "./reducers/rootReducer";
+import { rootReducer } from "./reducers/rootReducer";
 //import personal middlewares
 import loggingMiddleware from "./Middlewares/loggingMiddleware";
 
@@ -14,7 +14,6 @@ import { fb } from "../config/index";
 
 export const Store = createStore(
   rootReducer,
-  initialState,
   compose(
     applyMiddleware(
       thunk.withExtraArgument({ getFirestore, getFirebase }),

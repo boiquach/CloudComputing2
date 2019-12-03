@@ -1,40 +1,28 @@
 type Member @model {
   id: ID!
-  email: String!
-  firstName: String
-  lastName: String
-  phone: String
   iconURL: String
-  image: S3Object
-  status: String
 
+  email: String
   ownedsites: [Site] @connection(name: "OwnerSites", sortField: "createdAt")
   comments: [Comment]
     @connection(name: "MemberComments", sortField: "createdAt")
-
   jointedSites: [MembersSites]
     @connection(name: "MemberSites2", sortField: "createdAt")
-
   posts: [Post] @connection(name: "PostsOwner", sortField: "createdAt")
-
   reports: [Report] @connection(name: "OwnerReports", sortField: "createdAt")
 }
 
-type Site @model(subscriptions: { level: public }) {
+type Site @model {
   id: ID!
   name: String!
   long: String
   lat: String
-  date: String
   createdAt: String
-  location: String
+  address: String
   description: String
   imageURLs: [String]
-  images: [S3Object]
+  image: S3Object
   plans: [String]
-  kit: String
-  container: String
-
   siteOwner: Member @connection(name: "OwnerSites", sortField: "createdAt")
   members: [MembersSites]
     @connection(name: "MemberSites1", sortField: "createdAt")
@@ -49,11 +37,10 @@ type MembersSites @model(queries: null) {
   createdAt: String
 }
 
-type Post @model(subscriptions: { level: public }) {
+type Post @model {
   id: ID!
   title: String!
   description: String
-
   createdAt: String
 
   site: Site @connection(name: "SitePosts", sortField: "createdAt")
@@ -61,7 +48,7 @@ type Post @model(subscriptions: { level: public }) {
   siteOwner: Member @connection(name: "PostsOwner", sortField: "createdAt")
 }
 
-type Comment @model(subscriptions: { level: public }) {
+type Comment @model {
   id: ID!
   content: String
   createdAt: String
@@ -69,7 +56,7 @@ type Comment @model(subscriptions: { level: public }) {
   member: Member @connection(name: "MemberComments", sortField: "createdAt")
 }
 
-type Report @model(subscriptions: { level: public }) {
+type Report @model {
   id: ID!
   date: String
   imageURLs: [String]

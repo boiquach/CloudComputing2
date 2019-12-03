@@ -1,42 +1,50 @@
 import { storageRef } from "../../config/index";
 import * as siteActionTypes from "./actionTypes";
+import * as graphqlActions from "./graphqlActions";
+//GET
+export const fetchSites = graphqlActions.fetchSites;
+//note: when we create site, we don't dispatch using reducer, we us subscription insteads
+export const createSite = graphqlActions.createSite;
+export const editSite = graphqlActions.editSite;
 
-export const addSite = site => {
-  return (dispatch, getState, { getFirestore }) => {
-    const firestore = getFirestore();
-    firestore
-      .collection("sites")
-      .add({ ...site })
-      .then(docRef => {
-        dispatch(fetchSites());
-        window.location.href = `site/${docRef.id}`;
-      })
+// export const addSite = site => {
+//   return (dispatch, getState, { getFirestore }) => {
+//     const firestore = getFirestore();
+//     firestore
+//       .collection("sites")
+//       .add({ ...site })
+//       .then(docRef => {
+//         dispatch(fetchSites());
+//         window.location.href = `site/${docRef.id}`;
+//       })
 
-      .catch(err => {
-        console.log("errored");
-      });
+//       .catch(err => {
+//         console.log("errored");
+//       });
 
-    // createNewSite(site);
-  };
-};
+//     // createNewSite(site);
+//   };
+// };
 
-export const editSite = (id, site) => {
-  return (dispatch, getState, { getFirestore }) => {
-    const firestore = getFirestore();
-    firestore
-      .collection("sites")
-      .doc(id)
-      .set(site)
-      .then(() => {
-        dispatch(fetchSite(id));
-        window.location.href = `${id}`;
-      })
+// export const editSite = (id, site) => {
+//   return (dispatch, getState, { getFirestore }) => {
+//     const firestore = getFirestore();
+//     firestore
+//       .collection("sites")
+//       .doc(id)
+//       .set(site)
+//       .then(() => {
+//         dispatch(fetchSite(id));
+//         window.location.href = `${id}`;
+//       })
 
-      .catch(err => {
-        console.log("errored");
-      });
-  };
-};
+//       .catch(err => {
+//         console.log("errored");
+//       });
+//   };
+// };
+
+export const deleteSie = () => {};
 
 //DELETE
 // export const deleteTodo = (id) =>{
@@ -46,42 +54,7 @@ export const editSite = (id, site) => {
 //     }
 // }
 
-//GET
-export const fetchSites = () => {
-  const list = [];
-  //console.log('abc');
-  return (dispatch, getState, { getFirestore }) => {
-    const firestore = getFirestore();
-
-    firestore
-      .collection("sites")
-      .get()
-      .then(collection => {
-        collection.docs.forEach(doc => {
-          list.push({
-            id: doc.id,
-            info: doc.data()
-          });
-        });
-        //console.log(list);
-        dispatch({ type: siteActionTypes.FETCH_SITES, payload: list });
-      });
-  };
-};
-
-export const fetchSite = siteId => {
-  return (dispatch, getState, { getFirestore }) => {
-    const firestore = getFirestore();
-    firestore
-      .collection("sites")
-      .doc(siteId)
-      .get()
-      .then(doc => {
-        const info = doc.data();
-        dispatch({ type: siteActionTypes.FETCH_SITE, payload: info });
-      });
-  };
-};
+export const fetchSite = siteId => {};
 
 export const uploadImage = imageFile => {
   return (dispatch, getState, { getFirestore }) => {
@@ -120,8 +93,3 @@ export const uploadImage = imageFile => {
     }
   };
 };
-
-// async function createNewSite(site) {
-//   // const site = { name: "new created site" };
-//   await API.graphql(graphqlOperation(mutations.createSite, { input: site }));
-// }

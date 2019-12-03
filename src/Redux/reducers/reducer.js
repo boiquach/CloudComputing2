@@ -1,4 +1,4 @@
-import * as siteActionTypes from "../actions/actionTypes";
+import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
   sites: [],
@@ -10,35 +10,71 @@ export const initialState = {
 };
 
 export const reducer = (state = initialState, action) => {
+  // console.log("siteReducer: ", action.type, " payload: ", action.payload);
   switch (action.type) {
     // case QUERY:
     //   return { ...state, sites: action.sites };
     // case SUBSCRIPTION:
     //   return { ...state, sites: [...state.sites, action.site] };
-    case siteActionTypes.FETCH_SITES:
+    case actionTypes.ADD_SITE:
+      console.log(
+        "siteReducer case: ",
+        action.type,
+        " payload: ",
+        action.payload
+      );
       return {
         ...state,
-        sites: action.payload
+        sites: [...state.sites, action.payload]
       };
-    case siteActionTypes.FETCH_SITE: {
+    case actionTypes.EDIT_SITE:
+      console.log(
+        "siteReducer case: ",
+        action.type,
+        " payload: ",
+        action.payload
+      );
+      return {
+        ...state,
+        sites: state.sites.map(site => {
+          if (site.id !== action.payload.id) {
+            return site;
+          } else {
+            return action.payload;
+          }
+        })
+      };
+    case actionTypes.FETCH_SITES:
+      console.log(
+        "siteReducer case: ",
+        action.type,
+        " payload: ",
+        action.payload
+      );
+      return {
+        ...state,
+        sites: [...action.payload]
+      };
+
+    case actionTypes.FETCH_SITE: {
       return {
         ...state,
         site: action.payload
       };
     }
-    case siteActionTypes.UPLOADING: {
+    case actionTypes.UPLOADING: {
       return {
         ...state,
         image_percent: action.payload
       };
     }
-    case siteActionTypes.UPLOADING_START: {
+    case actionTypes.UPLOADING_START: {
       return {
         ...state,
         image_percent: 0
       };
     }
-    case siteActionTypes.UPLOADING_SUCCESS: {
+    case actionTypes.UPLOADING_SUCCESS: {
       return {
         ...state,
         image_error: false,
@@ -46,13 +82,13 @@ export const reducer = (state = initialState, action) => {
         image: action.payload
       };
     }
-    case siteActionTypes.UPLOADING_FAIL: {
+    case actionTypes.UPLOADING_FAIL: {
       return {
         ...state,
         image_error: action.payload
       };
     }
-    case siteActionTypes.FETCH_IMAGE: {
+    case actionTypes.FETCH_IMAGE: {
       return {
         ...state,
         image: action.payload

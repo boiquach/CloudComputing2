@@ -4,20 +4,30 @@
 export const getMember = `query GetMember($id: ID!) {
   getMember(id: $id) {
     id
-    iconURL
     email
+    firstName
+    lastName
+    phone
+    iconURL
+    image {
+      bucket
+      region
+      key
+    }
     ownedsites {
       items {
         id
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       nextToken
     }
@@ -26,7 +36,6 @@ export const getMember = `query GetMember($id: ID!) {
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
@@ -43,7 +52,6 @@ export const getMember = `query GetMember($id: ID!) {
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -55,11 +63,9 @@ export const getMember = `query GetMember($id: ID!) {
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -71,8 +77,16 @@ export const listMembers = `query ListMembers(
   listMembers(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -88,7 +102,6 @@ export const listMembers = `query ListMembers(
       reports {
         nextToken
       }
-      owner
     }
     nextToken
   }
@@ -100,15 +113,31 @@ export const getSite = `query GetSite($id: ID!) {
     name
     long
     lat
+    date
     createdAt
-    address
+    location
     description
     imageURLs
+    images {
+      bucket
+      region
+      key
+    }
     plans
+    kit
+    container
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -124,7 +153,6 @@ export const getSite = `query GetSite($id: ID!) {
       reports {
         nextToken
       }
-      owner
     }
     members {
       items {
@@ -139,7 +167,6 @@ export const getSite = `query GetSite($id: ID!) {
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -151,11 +178,9 @@ export const getSite = `query GetSite($id: ID!) {
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -170,16 +195,26 @@ export const listSites = `query ListSites(
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -190,94 +225,6 @@ export const listSites = `query ListSites(
       reports {
         nextToken
       }
-      owner
-    }
-    nextToken
-  }
-}
-`;
-export const getMembersSites = `query GetMembersSites($id: ID!) {
-  getMembersSites(id: $id) {
-    id
-    site {
-      id
-      name
-      long
-      lat
-      createdAt
-      address
-      description
-      imageURLs
-      plans
-      siteOwner {
-        id
-        iconURL
-        email
-        owner
-      }
-      members {
-        nextToken
-      }
-      posts {
-        nextToken
-      }
-      reports {
-        nextToken
-      }
-      owner
-    }
-    member {
-      id
-      iconURL
-      email
-      ownedsites {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-      jointedSites {
-        nextToken
-      }
-      posts {
-        nextToken
-      }
-      reports {
-        nextToken
-      }
-      owner
-    }
-    createdAt
-  }
-}
-`;
-export const listMembersSitess = `query ListMembersSitess(
-  $filter: ModelMembersSitesFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listMembersSitess(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      site {
-        id
-        name
-        long
-        lat
-        createdAt
-        address
-        description
-        imageURLs
-        plans
-        owner
-      }
-      member {
-        id
-        iconURL
-        email
-        owner
-      }
-      createdAt
     }
     nextToken
   }
@@ -294,16 +241,26 @@ export const getPost = `query GetPost($id: ID!) {
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -314,21 +271,27 @@ export const getPost = `query GetPost($id: ID!) {
       reports {
         nextToken
       }
-      owner
     }
     comments {
       items {
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -344,9 +307,7 @@ export const getPost = `query GetPost($id: ID!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
@@ -366,23 +327,26 @@ export const listPosts = `query ListPosts(
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       comments {
         nextToken
       }
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
-      owner
     }
     nextToken
   }
@@ -403,28 +367,39 @@ export const getComment = `query GetComment($id: ID!) {
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       comments {
         nextToken
       }
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -440,9 +415,7 @@ export const getComment = `query GetComment($id: ID!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
@@ -461,15 +434,15 @@ export const listComments = `query ListComments(
         title
         description
         createdAt
-        owner
       }
       member {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
-      owner
     }
     nextToken
   }
@@ -480,6 +453,11 @@ export const getReport = `query GetReport($id: ID!) {
     id
     date
     imageURLs
+    image {
+      bucket
+      region
+      key
+    }
     description
     amount
     createdAt
@@ -488,16 +466,26 @@ export const getReport = `query GetReport($id: ID!) {
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -508,12 +496,19 @@ export const getReport = `query GetReport($id: ID!) {
       reports {
         nextToken
       }
-      owner
     }
     creator {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -529,9 +524,7 @@ export const getReport = `query GetReport($id: ID!) {
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
@@ -545,6 +538,11 @@ export const listReports = `query ListReports(
       id
       date
       imageURLs
+      image {
+        bucket
+        region
+        key
+      }
       description
       amount
       createdAt
@@ -553,71 +551,23 @@ export const listReports = `query ListReports(
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       creator {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
-      owner
-    }
-    nextToken
-  }
-}
-`;
-export const getEvent = `query GetEvent($id: ID!) {
-  getEvent(id: $id) {
-    id
-    name
-    createdAt
-    queryName
-  }
-}
-`;
-export const listEvents = `query ListEvents(
-  $filter: ModelEventFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listEvents(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      name
-      createdAt
-      queryName
-    }
-    nextToken
-  }
-}
-`;
-export const itemsByDate = `query ItemsByDate(
-  $queryName: String
-  $createdAt: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelEventFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  itemsByDate(
-    queryName: $queryName
-    createdAt: $createdAt
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      name
-      createdAt
-      queryName
     }
     nextToken
   }

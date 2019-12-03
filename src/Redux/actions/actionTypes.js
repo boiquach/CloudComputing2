@@ -2,6 +2,8 @@ export const FETCH_SITES = "FETCH_SITES";
 export const FETCH_SITE = "FETCH_SITE";
 export const ADD_SITE = "ADD_SITE";
 export const EDIT_SITE = "EDIT_SITE";
+export const ADD_POST = "ADD_POST";
+export const ADD_COMMENT = "ADD_COMMENT";
 
 export const UPLOADING_START = "UPLOADING_START";
 export const UPLOADING_SUCCESS = "UPLOADING_SUCCESS";
@@ -11,6 +13,8 @@ export const FETCH_IMAGE = "FETCH_IMAGE";
 //user related actions:
 export const LOG_IN = "LOG_IN";
 export const LOG_OUT = "LOG_OUT";
+export const CHECK_USER = "CHECK_USER";
+export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
 export const FETCH_AVATAR = "FETCH_AVATAR";
 export const AVATAR_UPLOADING_START = "AVATAR_UPLOADING_START";
 export const AVATAR_UPLOADING_SUCCESS = "AVATAR_UPLOADING_SUCCESS";

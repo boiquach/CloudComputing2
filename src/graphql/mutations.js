@@ -7,20 +7,30 @@ export const createMember = `mutation CreateMember(
 ) {
   createMember(input: $input, condition: $condition) {
     id
-    iconURL
     email
+    firstName
+    lastName
+    phone
+    iconURL
+    image {
+      bucket
+      region
+      key
+    }
     ownedsites {
       items {
         id
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       nextToken
     }
@@ -29,7 +39,6 @@ export const createMember = `mutation CreateMember(
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
@@ -46,7 +55,6 @@ export const createMember = `mutation CreateMember(
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -58,11 +66,9 @@ export const createMember = `mutation CreateMember(
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -72,20 +78,30 @@ export const updateMember = `mutation UpdateMember(
 ) {
   updateMember(input: $input, condition: $condition) {
     id
-    iconURL
     email
+    firstName
+    lastName
+    phone
+    iconURL
+    image {
+      bucket
+      region
+      key
+    }
     ownedsites {
       items {
         id
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       nextToken
     }
@@ -94,7 +110,6 @@ export const updateMember = `mutation UpdateMember(
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
@@ -111,7 +126,6 @@ export const updateMember = `mutation UpdateMember(
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -123,11 +137,9 @@ export const updateMember = `mutation UpdateMember(
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -137,20 +149,30 @@ export const deleteMember = `mutation DeleteMember(
 ) {
   deleteMember(input: $input, condition: $condition) {
     id
-    iconURL
     email
+    firstName
+    lastName
+    phone
+    iconURL
+    image {
+      bucket
+      region
+      key
+    }
     ownedsites {
       items {
         id
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       nextToken
     }
@@ -159,7 +181,6 @@ export const deleteMember = `mutation DeleteMember(
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
@@ -176,7 +197,6 @@ export const deleteMember = `mutation DeleteMember(
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -188,11 +208,9 @@ export const deleteMember = `mutation DeleteMember(
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -205,15 +223,31 @@ export const createSite = `mutation CreateSite(
     name
     long
     lat
+    date
     createdAt
-    address
+    location
     description
     imageURLs
+    images {
+      bucket
+      region
+      key
+    }
     plans
+    kit
+    container
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -229,7 +263,6 @@ export const createSite = `mutation CreateSite(
       reports {
         nextToken
       }
-      owner
     }
     members {
       items {
@@ -244,7 +277,6 @@ export const createSite = `mutation CreateSite(
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -256,11 +288,9 @@ export const createSite = `mutation CreateSite(
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -273,15 +303,31 @@ export const updateSite = `mutation UpdateSite(
     name
     long
     lat
+    date
     createdAt
-    address
+    location
     description
     imageURLs
+    images {
+      bucket
+      region
+      key
+    }
     plans
+    kit
+    container
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -297,7 +343,6 @@ export const updateSite = `mutation UpdateSite(
       reports {
         nextToken
       }
-      owner
     }
     members {
       items {
@@ -312,7 +357,6 @@ export const updateSite = `mutation UpdateSite(
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -324,11 +368,9 @@ export const updateSite = `mutation UpdateSite(
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -341,15 +383,31 @@ export const deleteSite = `mutation DeleteSite(
     name
     long
     lat
+    date
     createdAt
-    address
+    location
     description
     imageURLs
+    images {
+      bucket
+      region
+      key
+    }
     plans
+    kit
+    container
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -365,7 +423,6 @@ export const deleteSite = `mutation DeleteSite(
       reports {
         nextToken
       }
-      owner
     }
     members {
       items {
@@ -380,7 +437,6 @@ export const deleteSite = `mutation DeleteSite(
         title
         description
         createdAt
-        owner
       }
       nextToken
     }
@@ -392,11 +448,9 @@ export const deleteSite = `mutation DeleteSite(
         description
         amount
         createdAt
-        owner
       }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -411,16 +465,26 @@ export const createMembersSites = `mutation CreateMembersSites(
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -431,12 +495,19 @@ export const createMembersSites = `mutation CreateMembersSites(
       reports {
         nextToken
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -452,7 +523,6 @@ export const createMembersSites = `mutation CreateMembersSites(
       reports {
         nextToken
       }
-      owner
     }
     createdAt
   }
@@ -469,16 +539,26 @@ export const updateMembersSites = `mutation UpdateMembersSites(
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -489,12 +569,19 @@ export const updateMembersSites = `mutation UpdateMembersSites(
       reports {
         nextToken
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -510,7 +597,6 @@ export const updateMembersSites = `mutation UpdateMembersSites(
       reports {
         nextToken
       }
-      owner
     }
     createdAt
   }
@@ -527,16 +613,26 @@ export const deleteMembersSites = `mutation DeleteMembersSites(
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -547,12 +643,19 @@ export const deleteMembersSites = `mutation DeleteMembersSites(
       reports {
         nextToken
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -568,7 +671,6 @@ export const deleteMembersSites = `mutation DeleteMembersSites(
       reports {
         nextToken
       }
-      owner
     }
     createdAt
   }
@@ -588,16 +690,26 @@ export const createPost = `mutation CreatePost(
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -608,21 +720,27 @@ export const createPost = `mutation CreatePost(
       reports {
         nextToken
       }
-      owner
     }
     comments {
       items {
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -638,9 +756,7 @@ export const createPost = `mutation CreatePost(
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
@@ -658,16 +774,26 @@ export const updatePost = `mutation UpdatePost(
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -678,21 +804,27 @@ export const updatePost = `mutation UpdatePost(
       reports {
         nextToken
       }
-      owner
     }
     comments {
       items {
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -708,9 +840,7 @@ export const updatePost = `mutation UpdatePost(
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
@@ -728,16 +858,26 @@ export const deletePost = `mutation DeletePost(
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -748,21 +888,27 @@ export const deletePost = `mutation DeletePost(
       reports {
         nextToken
       }
-      owner
     }
     comments {
       items {
         id
         content
         createdAt
-        owner
       }
       nextToken
     }
     siteOwner {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -778,9 +924,7 @@ export const deletePost = `mutation DeletePost(
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
@@ -802,28 +946,39 @@ export const createComment = `mutation CreateComment(
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       comments {
         nextToken
       }
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -839,9 +994,7 @@ export const createComment = `mutation CreateComment(
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
@@ -863,28 +1016,39 @@ export const updateComment = `mutation UpdateComment(
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       comments {
         nextToken
       }
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -900,9 +1064,7 @@ export const updateComment = `mutation UpdateComment(
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
@@ -924,28 +1086,39 @@ export const deleteComment = `mutation DeleteComment(
         name
         long
         lat
+        date
         createdAt
-        address
+        location
         description
         imageURLs
         plans
-        owner
+        kit
+        container
       }
       comments {
         nextToken
       }
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
-      owner
     }
     member {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -961,9 +1134,7 @@ export const deleteComment = `mutation DeleteComment(
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
@@ -975,6 +1146,11 @@ export const createReport = `mutation CreateReport(
     id
     date
     imageURLs
+    image {
+      bucket
+      region
+      key
+    }
     description
     amount
     createdAt
@@ -983,16 +1159,26 @@ export const createReport = `mutation CreateReport(
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -1003,12 +1189,19 @@ export const createReport = `mutation CreateReport(
       reports {
         nextToken
       }
-      owner
     }
     creator {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -1024,9 +1217,7 @@ export const createReport = `mutation CreateReport(
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
@@ -1038,6 +1229,11 @@ export const updateReport = `mutation UpdateReport(
     id
     date
     imageURLs
+    image {
+      bucket
+      region
+      key
+    }
     description
     amount
     createdAt
@@ -1046,16 +1242,26 @@ export const updateReport = `mutation UpdateReport(
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -1066,12 +1272,19 @@ export const updateReport = `mutation UpdateReport(
       reports {
         nextToken
       }
-      owner
     }
     creator {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -1087,9 +1300,7 @@ export const updateReport = `mutation UpdateReport(
       reports {
         nextToken
       }
-      owner
     }
-    owner
   }
 }
 `;
@@ -1101,6 +1312,11 @@ export const deleteReport = `mutation DeleteReport(
     id
     date
     imageURLs
+    image {
+      bucket
+      region
+      key
+    }
     description
     amount
     createdAt
@@ -1109,16 +1325,26 @@ export const deleteReport = `mutation DeleteReport(
       name
       long
       lat
+      date
       createdAt
-      address
+      location
       description
       imageURLs
+      images {
+        bucket
+        region
+        key
+      }
       plans
+      kit
+      container
       siteOwner {
         id
-        iconURL
         email
-        owner
+        firstName
+        lastName
+        phone
+        iconURL
       }
       members {
         nextToken
@@ -1129,12 +1355,19 @@ export const deleteReport = `mutation DeleteReport(
       reports {
         nextToken
       }
-      owner
     }
     creator {
       id
-      iconURL
       email
+      firstName
+      lastName
+      phone
+      iconURL
+      image {
+        bucket
+        region
+        key
+      }
       ownedsites {
         nextToken
       }
@@ -1150,45 +1383,7 @@ export const deleteReport = `mutation DeleteReport(
       reports {
         nextToken
       }
-      owner
     }
-    owner
-  }
-}
-`;
-export const createEvent = `mutation CreateEvent(
-  $input: CreateEventInput!
-  $condition: ModelEventConditionInput
-) {
-  createEvent(input: $input, condition: $condition) {
-    id
-    name
-    createdAt
-    queryName
-  }
-}
-`;
-export const updateEvent = `mutation UpdateEvent(
-  $input: UpdateEventInput!
-  $condition: ModelEventConditionInput
-) {
-  updateEvent(input: $input, condition: $condition) {
-    id
-    name
-    createdAt
-    queryName
-  }
-}
-`;
-export const deleteEvent = `mutation DeleteEvent(
-  $input: DeleteEventInput!
-  $condition: ModelEventConditionInput
-) {
-  deleteEvent(input: $input, condition: $condition) {
-    id
-    name
-    createdAt
-    queryName
   }
 }
 `;
