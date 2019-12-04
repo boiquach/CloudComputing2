@@ -49,13 +49,12 @@ class SiteEditForm extends Component {
             container: this.state.container,
             owner: sessionStorage.getItem('user')
         }
-        console.log(site)
-        console.log(this.props.siteId)
+
         this.props.editSite(this.props.siteId, site)
     }
 
     handleChange = (e) => {
-        console.log(e)
+
         this.setState({
             [e.target.name]: e.target.value
         })
@@ -77,11 +76,7 @@ class SiteEditForm extends Component {
         Object.keys(this.props.site).forEach((key, index) => {
 
             if (this.props.site[key] !== undefined) {
-                // console.log(key)
                 if (key === 'datetime') {
-                    console.log(this.props.site)
-                    console.log(this.props.site[key].seconds)
-                    console.log(new Date(this.props.site[key].seconds * 1000))
                     this.setState({
                         [key]: new Date(this.props.site[key].seconds * 1000)
                     })
@@ -99,12 +94,10 @@ class SiteEditForm extends Component {
     handlePlaceChanged = () => {
 
         const place = this.autocomplete.getPlace();
-        console.log(place)
         if (place !== undefined) {
             this.setState({
                 location: place.formatted_address
             })
-            //this.props.input.onChange(place.formatted_address)
         }
     }
 
@@ -117,7 +110,6 @@ class SiteEditForm extends Component {
             for (let i = 0; i < errors.length; i++) {
                 if (errors[i].name === 'no file') {
                     errors[i].state = !this.state.errors[i].state
-                    console.log(errors[i])
                     this.setState({
                         errors: errors
                     })
@@ -151,7 +143,7 @@ class SiteEditForm extends Component {
             for (let i = 0; i < errors.length; i++) {
                 if (errors[i].name === 'wrong type') {
                     errors[i].state = !this.state.errors[i].state
-                    console.log(errors[i])
+                    
                     this.setState({
                         errors: errors
                     })
@@ -191,10 +183,7 @@ class SiteEditForm extends Component {
             Object.keys(this.props.site).forEach((key, index) => {
 
                 if (this.props.site[key] !== undefined) {
-                    // console.log(key)
                     if (key === 'datetime') {
-                        // console.log(this.props.site[key].seconds)
-                        // console.log(new Date(this.props.site[key].seconds*1000))
                         this.setState({
                             [key]: new Date(this.props.site[key].seconds * 1000)
                         })
@@ -212,9 +201,6 @@ class SiteEditForm extends Component {
     }
 
     render() {
-        // if (this.props.site.datetime !== undefined) {
-        //     console.log(this.props.site.datetime.seconds)
-        // }
 
         const { image } = this.state
 
@@ -223,8 +209,10 @@ class SiteEditForm extends Component {
 
         return (
             <div className="align">
-                <div className="site_form edit">
-                <h4>Edit Site's information</h4>
+                <div className="form_block">
+                    <div className="align"><h4>Edit Site's information</h4></div>
+                    <div className="site_form edit">
+                
                 <div>
                     {image === '' ?
                         <div>
@@ -253,12 +241,12 @@ class SiteEditForm extends Component {
                 <form>
 
                     <div className="form-group">
-                        <label>Site's Name</label>
+                        <span><b>Site's Name:</b></span>
                         <input className="form-control" type="text" name="name" value={this.state.name} onChange={this.handleChange.bind(this)} />
                     </div>
 
                     <div className="form-group">
-                        <label>Description</label>
+                        <span><b>Description:</b></span>
                         <input className="form-control" name="description" type="text" value={this.state.description} onChange={this.handleChange.bind(this)} />
                     </div>
 
@@ -267,10 +255,13 @@ class SiteEditForm extends Component {
                 </form>
 
                 <div className="form-group">
+                    <span><b>Location:</b></span>
                     <input className="form-control" ref={this.autocompleteInput} id="autocomplete" name="location" placeholder="Enter your address"
                         onChange={this.handleChange.bind(this)} type="text" value={this.state.location} ></input>
                 </div>
-
+                
+                <div>
+                    <span><b>Date and Time:</b></span>
                 <DatePicker
                     showTimeSelect
                     inline
@@ -285,10 +276,10 @@ class SiteEditForm extends Component {
                     placeholderText="Choose date and time for the clean up"
                     selected={this.state.datetime !== null ? this.state.datetime : minDate}
                 />
-
+                </div>
 
                 <div>
-                    Clean Up bags <br />
+                    <span><b>Clean Up Bags:</b></span>
                     {bags.map((amount) => {
                         return (
                             <div className="form-group form-check">
@@ -300,7 +291,7 @@ class SiteEditForm extends Component {
                 </div>
 
                 <div>
-                    Sharp container <br />
+                    <span><b>Sharp Containers:</b></span>
                     {container.map((choice) => {
                         return (
                             <div className="form-group form-check">
@@ -315,6 +306,8 @@ class SiteEditForm extends Component {
                     <button className="next" onClick={this.props.closeEdit}>Close</button>
                     </div>
                 </div>
+                </div>
+                
             </div>
         )
     }

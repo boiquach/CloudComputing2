@@ -9,7 +9,7 @@ const SiteFormFirstStep = props=>{
         <form onSubmit = {handleSubmit}>
           
             <div className = "form-group">
-                <Field className="form-control" name="name" type="text" label="Site's name" component={renderField} />
+                <Field className="form-control" name="name" type="text" label="Site's Name*" component={renderField} />
             </div>
             <div className="form-group">
                 <Field className="form-control" name="description" type="text" label="Description" component={renderField} />

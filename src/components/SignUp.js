@@ -41,33 +41,40 @@ class SignUp extends Component {
                 {this.props.isLogin ?
                     <Redirect to={{ pathname: "/" }} />
                     :
-                    <div>
-                        <div>
+                    <div className="align">
+                        <div className="form_block">
+                            <div className="align"><h4>Register an Account</h4></div>
+                        <div className="site_form edit">
 
                             <div className='form-group'>
-
-                                <input type="email" className='form-control' value={this.state.email} name='email' onChange={this.handleChange} />
+                                <span><b>Email*:</b></span>
+                                <input type="email" required={true} className='form-control' value={this.state.email} name='email' onChange={this.handleChange} />
                             </div>
                             <div className='form-group'>
+                                <span><b>Password*:</b></span>
                                 <input type="password" className='form-control' value={this.state.password} name='password' onChange={this.handleChange} />
 
                             </div>
                             <div className='form-group'>
-
-                                <input type="text" className='form-control' value={this.state.firstname} name="firstname" onChange={this.handleChange} />
+                                <span><b>First Name*:</b></span>
+                                <input type="text" required className='form-control' value={this.state.firstname} name="firstname" onChange={this.handleChange} />
                             </div>
 
                             <div className='form-group'>
-
-                                <input type="text" className='form-control' value={this.state.lastname} name="lastname" onChange={this.handleChange} />
+                                <span><b>Last Name*:</b></span>
+                                <input type="text" required className='form-control' value={this.state.lastname} name="lastname" onChange={this.handleChange} />
                             </div>
                             <div className='form-group'>
-
-                                <input type="text" className='form-control' value={this.state.phone} name="phone" onChange={this.handleChange} />
+                                <span><b>Phone:</b></span>
+                                <input type="text" required className='form-control' value={this.state.phone} name="phone" onChange={this.handleChange} />
                             </div>
+                            <div className="align">
+                                <button className="next fill" onClick={this.signup}>Register</button>
 
-                            <button onClick={this.signup}>Register</button>
+                            </div>
+                            
 
+                        </div>
                         </div>
                     </div>
                 }

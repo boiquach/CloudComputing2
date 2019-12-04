@@ -12,11 +12,11 @@ const SiteFormThirdStep = props=>{
     return(
         <form onSubmit = {handleSubmit}>
             <div>
-                <label>Choose image.</label>
+                <span><b>Image*:</b></span>
                 <Field name="image" label = "Image" component={ImageUpload} />
             </div>
             <div>
-                <label>How many Clean Up bags do you require? </label>
+                <span><b>How Many Clean Up Bags Do You Require?*</b></span>
                 <div className="form-group form-check">
                     <label className="form-check-label"><Field className="form-check-input" name="kit" type="radio" component="input" value="0" />{''}0</label>
                 </div>
@@ -33,7 +33,7 @@ const SiteFormThirdStep = props=>{
             </div>
 
             <div>
-                <label>Do you require a sharp container? </label>
+                <span><b>Do You Need Sharp Container?*</b></span>
                 <div className="form-group form-check">
                     <label className="form-check-label"><Field className="form-check-input" name="container" type="radio" component="input" value="Yes" />{''}Yes</label>
                     </div>

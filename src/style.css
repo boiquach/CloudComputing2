@@ -107,7 +107,6 @@
 
 .next.fill{
     float:center;
-    /* box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19); */
     border-radius: 3px;
     border: 1px;
     border-style: solid;
@@ -117,9 +116,24 @@
     background: rgb(2, 82, 2);
     min-width: 100px;
     font-size: 14px;
-    border-color: rgba(75, 74, 74, 0.658);
+    border-color: transparent;
     color:white;
 
+}
+
+.next.fill:hover{
+    float:center;
+    border-radius: 3px;
+    border: 1px;
+    border-style: solid;
+    padding:10px;
+    margin-bottom: 20px;
+    margin:10px auto;
+    background: rgb(3, 114, 3);
+    min-width: 100px;
+    font-size: 14px;
+    border-color: transparent;
+    color:white;
 }
 
 .next:hover{
@@ -277,6 +291,12 @@
     top:50%;
     transform: translateY(-50%);
     font-family: 'Bitter', serif;
+}
+
+.profile_text{
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
 }
 
 .home_text{

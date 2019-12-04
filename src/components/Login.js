@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { login,loginFacebook,loginGoogle } from '../actions/siteAction'
-import {Route,Redirect} from "react-router-dom"
+import { login, loginFacebook, loginGoogle } from '../actions/siteAction'
+import { Route, Redirect } from "react-router-dom"
 
 class Login extends Component {
 
@@ -29,11 +29,11 @@ class Login extends Component {
         this.props.login(this.state.email, this.state.password)
     }
 
-    fb = ()=>{
+    fb = () => {
         this.props.loginFacebook()
     }
 
-    google = ()=>{
+    google = () => {
         this.props.loginGoogle()
     }
 
@@ -46,20 +46,49 @@ class Login extends Component {
                 {this.props.isLogin ?
                     <Redirect to={{ pathname: "/" }} />
                     :
-                    <div>
-                        <div className="form-group">
+                    <div className="align">
+                        <div className="form_block">
+                            <div className="align"><h4>Login</h4></div>
+                            <div className="site_form edit">
+                                <div className="form-group">
+                                    <span><b>Email:</b></span>
+                                    <input type="email" name="email" className="form-control" value={this.state.email} onChange={this.handleChange} />
+                                </div>
+                                <div className="form-group">
+                                    <span><b>Password:</b></span>
+                                    <input type="password" name="password" className="form-control" value={this.state.password} onChange={this.handleChange} />
+                                </div>
+                                <div className="align">
+                                    <a href="/signup">Register an account.</a>
+                                </div>
+                                <div className="align">
+                                    <div>
+                                    <button className="next fill" onClick={this.submit}>Login</button>
+                                    </div>
+                                    <div>
+                                    
+                                    </div>
 
-                            <input type="email" name="email" className="form-control" value={this.state.email} onChange={this.handleChange} />
+                                    
+                                </div>
+                                
+                                <div className="align">
+                                <button className="next"  onClick={this.fb}>Login with Facebook</button>
+                                    <button  className="next" onClick={this.google}>Login with Google</button>
+                                </div>
+                                <div className="align">
+                                    
+                                </div>
+                                
+                                
+                                
+                                
+
+                            </div>
                         </div>
-                        <div className="form-group">
 
-                            <input type="password" name="password" className="form-control" value={this.state.password} onChange={this.handleChange} />
-                        </div>
-                        <button onClick={this.submit}>Login</button>
-                        <button onClick={this.fb}>Login with Facebook</button>
-                        <button onClick={this.google}>Login with Google</button>
 
-                        <a href="/signup">Register an account</a>
+
                     </div>
                 }
 
@@ -80,8 +109,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         login: (email, password) => dispatch(login(email, password)),
-        loginFacebook: ()=> dispatch(loginFacebook()),
-        loginGoogle: ()=>dispatch(loginGoogle())
+        loginFacebook: () => dispatch(loginFacebook()),
+        loginGoogle: () => dispatch(loginGoogle())
     }
 }
 

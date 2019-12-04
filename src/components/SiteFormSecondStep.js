@@ -8,9 +8,9 @@ const SiteFormSecondStep = props=>{
     const {handleSubmit, previousPage} = props
     return(
         <form onSubmit = {handleSubmit}>
-            <label>Location: </label>
+            <span><b>Location*:</b></span>
             <Field name="location" label="Location" component={PlaceSearch} />
-            <label>Date and Time: </label>
+            <span><b>Date and Time*:</b></span>
             <Field name="datetime" label="Date and Time" component={DatePickerInput} required />
             
             <div className="align">

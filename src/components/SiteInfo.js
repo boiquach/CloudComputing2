@@ -279,9 +279,6 @@ class SiteInfo extends Component {
                                         <Modal.Header closeButton>
                                             <Modal.Title>Volunteer</Modal.Title>
                                             <Modal.Body><VolunteerForm list={this.props.volunteerEmail} openJoin={this.openJoin} siteId={this.props.siteId} /></Modal.Body>
-                                            {/* <Modal.Footer>
-                                                <button className="info_button" onClick={this.openJoin}>Close</button>
-                                            </Modal.Footer> */}
                                         </Modal.Header>
                                     </Modal>
 
@@ -289,9 +286,6 @@ class SiteInfo extends Component {
                                         <Modal.Header closeButton>
                                             <Modal.Title>Direction</Modal.Title>
                                             <Modal.Body><CleanUpMap currentLocation={this.state.currentLocation} /></Modal.Body>
-                                            {/* <Modal.Footer>
-                                                <button className="info_button" onClick={this.openJoin}>Close</button>
-                                            </Modal.Footer> */}
                                         </Modal.Header>
                                     </Modal>
 
@@ -301,7 +295,7 @@ class SiteInfo extends Component {
                                             <Modal.Body>
                                                 {/*volunteers with no account*/}
                                                 {this.props.volunteerEmail !== undefined && <ul> {this.props.volunteerEmail.map((volunteer, index) => {
-                                                    // console.log(volunteer)
+                                                    
                                                     return (<li key={index}>
                                                         {volunteer}
                                                     </li>)
@@ -309,11 +303,11 @@ class SiteInfo extends Component {
 
                                                 {/*volunteers with accounts*/}
                                                 {this.props.volunteerObject !== undefined && <ul> {this.props.volunteerObject.map(volunteer => {
-                                                    // console.log(volunteer)
+                                                    
                                                     return (<li key={volunteer.id}>
-                                                        {volunteer.data.firstname}
-                                                        {volunteer.data.lastname}
-                                                        {volunteer.data.email}
+                                                        {`${volunteer.data.firstname} ${volunteer.data.lastname} ${volunteer.data.email}`}
+                                                        
+                                                        
                                                     </li>)
                                                 })}</ul>}
                                             </Modal.Body>

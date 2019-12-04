@@ -31,14 +31,23 @@ class UserProfile extends Component {
 
 
                             <div className="align">
+                                
                                 <div className="align map profile">
-                                    {!this.state.editing ? <div className="invite">
-                                        <div className="invite_text">
+                                
+                                
+                                    {!this.state.editing ?
+                                    
+                                    <div className="invite">
+                                        
+                                        <div className="profile_text">
+                                        <h5>Profile</h5>
+                                        <p>
                                         <span><b>Email:</b> </span> {this.props.user.email} <br />
                                         
                                         <span><b>First Name:</b> </span> {this.props.user.firstname} <br />
                                         <span><b>Last Name:</b> </span> {this.props.user.lastname} <br />
                                         <span><b>Phone:</b> </span> {this.props.user.phone} <br/>
+                                        </p>
                                         <button className="info_button" onClick={this.openEdit}>Edit</button>
                                         </div>
 
@@ -52,7 +61,9 @@ class UserProfile extends Component {
                                     <div>
 
                                         <img style={{ width: `300px` }} src="https://cdn1.iconfinder.com/data/icons/gardening-81/512/Bud-512.png" />
-                                    </div></div>
+                                    </div>
+                                    
+                                </div>
                             </div>
 
 
