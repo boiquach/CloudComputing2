@@ -158,10 +158,11 @@ class SiteMap extends Component{
                         
                         <Marker key={site.id} position = {coord} onClick={()=>props.showInfo(index,coord)}>
                             {props.isOpen && props.infoIndex ===index && <InfoWindow onCloseClick={props.hideInfo}>
+                                <div className="align">
+                                <div><h5>{site.info.name}</h5>
+                                <p><a style={{fontSize:`18px`}} href={`site/${site.id}`}>View</a></p>
                                 
-                                <div>{site.info.name}
-                                <a href={`site/${site.id}`}>View</a>
-                                </div>
+                                </div></div>
                                 </InfoWindow>}
 
 

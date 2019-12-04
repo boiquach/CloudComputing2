@@ -118,7 +118,7 @@ class ReportEditForm extends Component {
     render() {
         // const typesOf= ["abc","def","ghhi"]
         return (
-
+            <div className="align">
             <div className="site_form edit">
                 <div className="form-group">
                     <span><b>Total amount (kg):</b></span><br/>
@@ -153,12 +153,14 @@ class ReportEditForm extends Component {
                     )
                 })}
 
-
                 <div className="align">
-                <button className="info_button" onClick={this.submit}>Submit</button>
-                {this.props.report !==undefined && <button className="info_button" onClick={this.props.closeEdit}>Close</button>}
-                </div>
-            </div>
+                <div>
+
+                <button className="next fill" onClick={this.submit}>Submit</button>
+                
+                {this.props.report !==undefined && <button className="next" onClick={this.props.closeEdit}>Close</button>}
+                </div></div>
+            </div></div>
         )
     }
 }

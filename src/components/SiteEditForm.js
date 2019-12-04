@@ -226,10 +226,11 @@ class SiteEditForm extends Component {
                     {this.state.errors.map(error => {
                         return (
                             <div key={error.name}>
-                                {error.state && <span>{error.warn}</span>}
+                                {error.state && <span className="error_text">{error.warn}</span>}
                             </div>
                         )
                     })}
+                    {this.props.showProgress && <div>Uploading in progress...</div>}
                     <div>
                         <button className="next" type="button" onClick={() => this.inputRef.current.click()}>Pick image</button>
                         <button className="next" type="button" onClick={this.onFormSubmit}>Upload</button>

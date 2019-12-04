@@ -390,9 +390,9 @@ export const loginFacebook = () => {
                 const facebook = new fb.auth.FacebookAuthProvider()
                 //facebook.addScope('public_profile, email')
                 fb.auth().signInWithPopup(facebook).then((result) => {
-                    console.log(result)
-                    console.log(result.credential.accessToken)
-                    console.log(result.user)
+                    // console.log(result)
+                    // console.log(result.credential.accessToken)
+                    // console.log(result.user)
 
                     fb.firestore().collection('users').doc(result.user.uid).get()
                     .then(doc=>{
@@ -434,9 +434,9 @@ export const loginGoogle = () => {
                 const google = new fb.auth.GoogleAuthProvider()
                 // google.addScope('public_profile, email')
                 fb.auth().signInWithPopup(google).then((result) => {
-                    console.log(result)
-                    console.log(result.credential.accessToken)
-                    console.log(result.user)
+                    // console.log(result)
+                    // console.log(result.credential.accessToken)
+                    // console.log(result.user)
 
                     fb.firestore().collection('users').doc(result.user.uid).get()
                     .then(doc=>{

@@ -237,8 +237,11 @@ class SiteInfo extends Component {
 
                                                     <img src={this.props.site.image} className="site_image" alt="site" />}
                                                 <div className="invite info_text">
-                                                    <h5>Location:</h5> {`\n${this.props.site.location}`}
-                                                    <h5>Date: </h5> {`\n${new Date(this.props.site.datetime.seconds * 1000)}`}
+                                                    <div className="invite">
+                                                        <div className="invite text">
+                                                    
+                                                    <h5>Location:</h5> {`${this.props.site.location}`}
+                                                    <h5>Date: </h5> {`${new Date(this.props.site.datetime.seconds * 1000)}`}
 
                                                     {this.props.site.owner === this.props.userId ?
                                                         <div>
@@ -265,7 +268,8 @@ class SiteInfo extends Component {
                                                             <div></div>}
 
                                                         </div>}
-
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 

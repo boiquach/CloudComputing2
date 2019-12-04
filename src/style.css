@@ -409,43 +409,47 @@
     border-radius: 10px;
     border-color: transparent;
     color:white;
-    min-width: 100px;
+    min-width: 120px;
     min-height:50px;
     margin:20px;
     float:center;
+    font-size: 18px;
 }
 
 .edit_button{
     min-width: 60px;
     min-height:60px;
-    background-image: url("pencil.png");
+    background-image: url("write.svg");
     background-size:cover;
     background-position: center;
     background-color: transparent;
     float:center;
+    background-repeat: no-repeat;
     border-color: transparent;
     margin:20px;
 }
 .volunteer_button{
     min-width: 60px;
     min-height:60px;
-    background-image: url("people.png");
+    background-image: url("people.svg");
     background-size:cover;
     background-position: center;
     background-color: transparent;
+    border-color:transparent;
+    background-repeat: no-repeat;
     float:center;
-    border-color: transparent;
     margin:20px;
 }
 .delete_button{
     min-width: 60px;
     min-height:60px;
-    background-image: url("trash.png");
+    background-image: url("trash.svg");
     background-size:cover;
     background-position: center;
     background-color: transparent;
     float:center;
     border-color: transparent;
+    background-repeat: no-repeat;
     margin:20px;
 }
 

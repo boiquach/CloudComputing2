@@ -123,13 +123,16 @@ class ImageUpload extends Component {
                         </div>
                     )
                 })}
+                {this.props.showProgress && <div>Uploading in progress...</div>}
+                {touched && error && <span className="error_text">{error}</span>}
                 <div>
                     <button type="button" className="next" onClick={()=>this.inputRef.current.click()}>Pick image</button>
                     <button type="button" className="next" onClick={this.onFormSubmit}>Upload</button>
                     <input type="file" ref={this.inputRef} onChange={e =>this.fileChange(e)} hidden />
                     
                 </div>
-                {touched && error && <span className="error_text">{error}</span>}
+                
+                
                 
             </div>
             

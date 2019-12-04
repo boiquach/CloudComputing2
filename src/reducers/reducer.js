@@ -52,7 +52,8 @@ export default (state=initialState,action)=>{
         case UPLOADING_START:{
             return{
                 ...state,
-                image_percent:0
+                image_percent:0,
+                image_showProgress:true
             }
         }
         case UPLOADING_SUCCESS:{
@@ -60,7 +61,8 @@ export default (state=initialState,action)=>{
                 ...state,
                 image_error:false,
                 image_percent:null,
-                image:action.payload
+                image:action.payload,
+                image_showProgress:false
             }
         }
         case UPLOADING_FAIL:{
