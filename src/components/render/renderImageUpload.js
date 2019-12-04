@@ -104,16 +104,16 @@ class ImageUpload extends Component {
     }
 
     render(){
-        const {image,input, className} = this.props
+        const {image,input, className, meta: { touched, error }} = this.props
         return(
             <div className={classnames('form-group')}>
                 {image==='' ?
                 <div>
-                    <img src="https://react.semantic-ui.com/images/wireframe/image.png" alt="none" style={{width:250,height:250}} />
+                    <img src="https://react.semantic-ui.com/images/wireframe/image.png" alt="none" style={{width:320,height:180}} />
 
                 </div> :
                 <div>
-                    <img src={image} style={{width:250,height:250}} alt="site" className={classnames(className)} />
+                    <img src={image} style={{width:320,height:180}} alt="site" className={classnames(className)} />
                 </div>}
                 <br/>
                 {this.state.errors.map(error=>{
@@ -124,11 +124,12 @@ class ImageUpload extends Component {
                     )
                 })}
                 <div>
-                    <button type="button" onClick={()=>this.inputRef.current.click()}>Pick image</button>
-                    <button type="button" onClick={this.onFormSubmit}>Upload</button>
+                    <button type="button" className="next" onClick={()=>this.inputRef.current.click()}>Pick image</button>
+                    <button type="button" className="next" onClick={this.onFormSubmit}>Upload</button>
                     <input type="file" ref={this.inputRef} onChange={e =>this.fileChange(e)} hidden />
                     
                 </div>
+                {touched && error && <span className="error_text">{error}</span>}
                 
             </div>
             

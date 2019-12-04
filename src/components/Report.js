@@ -36,17 +36,58 @@ class Report extends Component {
                             {!this.props.fetchingReport ?
                             <div>
                                 {!this.props.reportFail ?
-                                <div>
-                                    <span>{this.props.report.total}</span>
-                                    <button onClick={this.openEdit}>Update</button>
-                                    {this.state.editing && <ReportEditForm site={this.props.site} userId={this.props.userId} siteId={this.props.siteId} report={this.props.report} />}
+                                <div className="align">
+                                    <div className="form_block">
+                                        <div className="align"><h4>Outcome Report</h4></div>
+                                    
+                                    {this.state.editing ?
+                                    <div> <ReportEditForm closeEdit={this.openEdit} site={this.props.site} userId={this.props.userId} siteId={this.props.siteId} report={this.props.report} />
+                                    
+                                    </div>
+                                    :
+                                    <div className="site_form edit">
+                                            <div>
+                                                <div><b>Total amount of garbage: </b>{this.props.report.total} kg</div>
+                                                <div></div>
+                                                {/* <b>Total amount of garbage: </b>{this.props.report.total} kg */}
+                                            </div>
+                                            <b>Types of garbage: </b>
+                                                <ul>
+                                                {this.props.report.types.map(type=>{
+                                                    return(
+                                                    <li>{type}</li>
+                                                    )
+                                                })}
+                                                </ul>
+                                            <b>Brands: </b>
+                                                <ul>
+                                                {this.props.report.brands.map(brand=>{
+                                                    return(
+                                                    <li>{brand}</li>
+                                                    )
+                                                })}
+                                                </ul>
+                                            
+                                        
+                                        <div className="align">
+                                        <button className="info_button" onClick={this.openEdit}>Update</button>
+                                        </div>
+                                    </div>
+                                    
+                                    }
+
+                                    </div>
+                                    
                                 </div>
                                 :
-                                <div>
-
-                                    Report does not exist yet. Create one?
+                                <div className="align">
+                                    <div className="form_block">
+                                        <div className="align">
+                                    Report does not exist yet. Please fill in the form below.
+                                    </div>
+                                    
                                     <ReportEditForm site={this.props.site} userId={this.props.userId} siteId={this.props.siteId} />
-
+                                    </div>
                                 </div>
                                 
                                 }

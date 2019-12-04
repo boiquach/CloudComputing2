@@ -14,7 +14,7 @@ const SiteFormFirstStep = props=>{
             <div className="form-group">
                 <Field className="form-control" name="description" type="text" label="Description" component={renderField} />
             </div>
-            <div>
+            <div className="align">
                 <button type="submit" className="next">Next</button>
             </div>
       

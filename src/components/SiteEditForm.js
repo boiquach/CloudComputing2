@@ -47,11 +47,11 @@ class SiteEditForm extends Component {
             image: this.state.image,
             kit: this.state.kit,
             container: this.state.container,
-            owner:sessionStorage.getItem('user')
+            owner: sessionStorage.getItem('user')
         }
         console.log(site)
         console.log(this.props.siteId)
-        this.props.editSite(this.props.siteId,site)
+        this.props.editSite(this.props.siteId, site)
     }
 
     handleChange = (e) => {
@@ -81,9 +81,9 @@ class SiteEditForm extends Component {
                 if (key === 'datetime') {
                     console.log(this.props.site)
                     console.log(this.props.site[key].seconds)
-                    console.log(new Date(this.props.site[key].seconds*1000))
+                    console.log(new Date(this.props.site[key].seconds * 1000))
                     this.setState({
-                        [key]: new Date (this.props.site[key].seconds*1000)
+                        [key]: new Date(this.props.site[key].seconds * 1000)
                     })
                 }
                 else {
@@ -187,7 +187,7 @@ class SiteEditForm extends Component {
             })
 
         }
-        if(prevProps.site!==this.props.site){
+        if (prevProps.site !== this.props.site) {
             Object.keys(this.props.site).forEach((key, index) => {
 
                 if (this.props.site[key] !== undefined) {
@@ -196,11 +196,11 @@ class SiteEditForm extends Component {
                         // console.log(this.props.site[key].seconds)
                         // console.log(new Date(this.props.site[key].seconds*1000))
                         this.setState({
-                            [key]: new Date (this.props.site[key].seconds*1000)
+                            [key]: new Date(this.props.site[key].seconds * 1000)
                         })
                     }
                     else {
-    
+
                         this.setState({
                             [key]: this.props.site[key]
                         })
@@ -208,7 +208,7 @@ class SiteEditForm extends Component {
                 }
             })
         }
-        
+
     }
 
     render() {
@@ -222,10 +222,34 @@ class SiteEditForm extends Component {
         const container = ["Yes", "No"]
 
         return (
-            <div>
-
+            <div className="align">
+                <div className="site_form edit">
                 <h4>Edit Site's information</h4>
+                <div>
+                    {image === '' ?
+                        <div>
+                            <img src="https://react.semantic-ui.com/images/wireframe/image.png" alt="none" style={{ width: 320, height: 180 }} />
 
+                        </div> :
+                        <div>
+                            <img src={image} style={{ width: 320, height: 180 }} alt="site" />
+                        </div>}
+                    <br />
+                    {this.state.errors.map(error => {
+                        return (
+                            <div key={error.name}>
+                                {error.state && <span>{error.warn}</span>}
+                            </div>
+                        )
+                    })}
+                    <div>
+                        <button className="next" type="button" onClick={() => this.inputRef.current.click()}>Pick image</button>
+                        <button className="next" type="button" onClick={this.onFormSubmit}>Upload</button>
+                        <input type="file" ref={this.inputRef} onChange={e => this.fileChange(e)} hidden />
+
+                    </div>
+
+                </div>
                 <form>
 
                     <div className="form-group">
@@ -259,41 +283,16 @@ class SiteEditForm extends Component {
                     onChange={this.handleChangeDate.bind(this)}
                     required
                     placeholderText="Choose date and time for the clean up"
-                    selected={this.state.datetime!== null ?  this.state.datetime : minDate}
+                    selected={this.state.datetime !== null ? this.state.datetime : minDate}
                 />
 
-                <div>
-                    {image === '' ?
-                        <div>
-                            <img src="https://react.semantic-ui.com/images/wireframe/image.png" alt="none" style={{ width: 250, height: 250 }} />
 
-                        </div> :
-                        <div>
-                            <img src={image} style={{ width: 250, height: 250 }} alt="site" />
-                        </div>}
-                    <br />
-                    {this.state.errors.map(error => {
-                        return (
-                            <div key={error.name}>
-                                {error.state && <span>{error.warn}</span>}
-                            </div>
-                        )
-                    })}
-                    <div>
-                        <button type="button" onClick={() => this.inputRef.current.click()}>Pick image</button>
-                        <button type="button" onClick={this.onFormSubmit}>Upload</button>
-                        <input type="file" ref={this.inputRef} onChange={e => this.fileChange(e)} hidden />
-
-                    </div>
-
-                </div>
                 <div>
                     Clean Up bags <br />
                     {bags.map((amount) => {
                         return (
-                            <div className="form-group">
-                                <label>{amount}</label>
-                                <input className="form-control" onChange={this.handleChange.bind(this)} name="kit" type="radio" value={amount} checked={this.state.kit === amount} />
+                            <div className="form-group form-check">
+                                <label className="form-check-label"><input className="form-check-input" onChange={this.handleChange.bind(this)} name="kit" type="radio" value={amount} checked={this.state.kit === amount} />{amount}</label>
                             </div>
                         )
                     })}
@@ -304,15 +303,18 @@ class SiteEditForm extends Component {
                     Sharp container <br />
                     {container.map((choice) => {
                         return (
-                            <div className="form-group">
-                                <label>{choice}</label>
-                                <input className="form-control" onChange={this.handleChange.bind(this)} name="container" type="radio" value={choice} checked={this.state.container === choice} />
+                            <div className="form-group form-check">
+                                <label className="form-check-label"><input className="form-check-input" onChange={this.handleChange.bind(this)} name="container" type="radio" value={choice} checked={this.state.container === choice} />{choice}</label>
                             </div>
                         )
                     })}
 
                 </div>
-                <button onClick={this.submit.bind(this)}>Update</button>
+                <div>
+                    <button className="next fill" onClick={this.submit.bind(this)}>Update</button>
+                    <button className="next" onClick={this.props.closeEdit}>Close</button>
+                    </div>
+                </div>
             </div>
         )
     }

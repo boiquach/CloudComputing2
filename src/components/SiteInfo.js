@@ -7,6 +7,7 @@ import { withGoogleMap, GoogleMap } from 'react-google-maps'
 import MapDirection from './MapDirection'
 import SiteEditForm from './SiteEditForm'
 import VolunteerForm from './VolunteerForm'
+import Modal from 'react-bootstrap/Modal'
 
 let geocoder;
 
@@ -48,12 +49,44 @@ class SiteInfo extends Component {
             currentLocation: {},
             latlng: [],
             editing: false,
-            joining: false
+            joining: false,
+            showMap: false,
+            showVolunteers: false,
+            showDelete: false,
+            showJoin:false
         }
         this.openEdit.bind(this)
         this.openJoin.bind(this)
         this.delete.bind(this)
         this.join.bind(this)
+        this.openMap.bind(this)
+        this.openVolunteersList.bind(this)
+        this.confirmDelete.bind(this)
+        this.confirmJoin.bind(this)
+    }
+
+    confirmJoin = ()=>{
+        this.setState({
+            showJoin:!this.state.showJoin
+        })
+    }
+
+    confirmDelete = () => {
+        this.setState({
+            showDelete: !this.state.showDelete
+        })
+    }
+
+    openMap = () => {
+        this.setState({
+            showMap: !this.state.showMap
+        })
+    }
+
+    openVolunteersList = () => {
+        this.setState({
+            showVolunteers: !this.state.showVolunteers
+        })
     }
 
     join = () => {
@@ -63,6 +96,7 @@ class SiteInfo extends Component {
         }
 
         this.props.addVolunteerId(data)
+        this.openJoin()
     }
 
     openJoin = () => {
@@ -150,7 +184,7 @@ class SiteInfo extends Component {
         const CleanUpMap = compose(
             withProps({
                 loadingElement: <div style={{ height: `100%` }} />,
-                containerElement: <div style={{ height: `400px`, width: `400px` }} />,
+                containerElement: <div style={{ width: '600px', height: '400px', display: `inline-block` }} />,
                 mapElement: <div style={{ height: `100%` }} />
             })
             ,
@@ -183,40 +217,138 @@ class SiteInfo extends Component {
                     <div>
                         {!this.props.fetchingFail ?
                             <div>
-                                <CleanUpMap currentLocation={this.state.currentLocation} />
 
-                                {/*volunteers with no account*/}
-                                {this.props.volunteerEmail !== undefined && <ul> {this.props.volunteerEmail.map((volunteer, index) => {
-                                    console.log(volunteer)
-                                    return (<li key={index}>
-                                        {volunteer}
-                                    </li>)
-                                })}</ul>}
+                                {!this.state.editing ?
+                                <div className="bg">
 
-                                {/*volunteers with accounts*/}
-                                {this.props.volunteerObject !== undefined && <ul> {this.props.volunteerObject.map(volunteer => {
-                                    console.log(volunteer)
-                                    return (<li key={volunteer.id}>
-                                        {volunteer.data.firstname}
-                                        {volunteer.data.lastname}
-                                        {volunteer.data.email}
-                                    </li>)
-                                })}</ul>}
 
-                                {this.props.site.owner === this.props.userId ?
-                                    <div>
-                                        <button onClick={this.openEdit}>Edit</button>
-                                        <button onClick={this.delete}>Delete</button>
+
+                                    <div className="surround">
+                                        <div >
+                                            <h5 className="align info_title">{this.props.site.name}</h5></div>
+                                        <div className="info_background">
+                                            <div className="float_center">
+
+                                                {this.props.site.image === '' ? <div>no image</div> :
+
+                                                    <img src={this.props.site.image} className="site_image" alt="site" />}
+                                                <div className="invite info_text">
+                                                    <h5>Location:</h5> {`\n${this.props.site.location}`}
+                                                    <h5>Date: </h5> {`\n${new Date(this.props.site.datetime.seconds * 1000)}`}
+
+                                                    {this.props.site.owner === this.props.userId ?
+                                                        <div>
+                                                            <button className="edit_button" onClick={this.openEdit}></button>
+                                                            <button className="delete_button" onClick={this.confirmDelete}></button>
+                                                            <button className="volunteer_button" onClick={this.openVolunteersList}></button>
+                                                            {/* <button className="info_button" onClick={this.openMap}>View Map</button> */}
+                                                        </div>
+                                                        : <div>
+                                                            {this.props.userId === null && <div> <button className="info_button" onClick={this.openJoin}>Join</button>
+                                                                <button className="info_button" onClick={this.openMap}>View Map</button>
+                                                            </div>}
+                                                            {this.props.userId !== null ? 
+                                                            <div>
+                                                                
+                                                                {(this.props.volunteerObject === undefined || (this.props.volunteerObject!==undefined && !this.props.volunteerObject.filter(object=>(object.volunteer===this.props.userId))) ) && <button className="info_button" onClick={this.confirmJoin}>Join</button>}
+                                                                <button className="info_button" onClick={this.openMap}>View Map</button>
+                                                            </div>
+                                                            
+                                                            :
+                                                            
+                                                            <div></div>}
+
+                                                        </div>}
+
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
                                     </div>
-                                    : <div>
-                                        {this.props.userId === null && <button onClick={this.openJoin}>Join</button>}
-                                        {this.props.userId !== null && <button onClick={this.join}>Join</button>}
 
-                                    </div>}
-                                {this.state.editing && <SiteEditForm site={this.props.site} siteId={this.props.siteId} />}
-                                {this.state.joining && <VolunteerForm siteId={this.props.siteId} />}
+                                    <Modal show={this.state.joining} onHide={this.openJoin}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Volunteer</Modal.Title>
+                                            <Modal.Body><VolunteerForm list={this.props.volunteerEmail} openJoin={this.openJoin} siteId={this.props.siteId} /></Modal.Body>
+                                            {/* <Modal.Footer>
+                                                <button className="info_button" onClick={this.openJoin}>Close</button>
+                                            </Modal.Footer> */}
+                                        </Modal.Header>
+                                    </Modal>
 
-                                {/*Output Repor*/}
+                                    <Modal size="lg" show={this.state.showMap} onHide={this.openMap}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Direction</Modal.Title>
+                                            <Modal.Body><CleanUpMap currentLocation={this.state.currentLocation} /></Modal.Body>
+                                            {/* <Modal.Footer>
+                                                <button className="info_button" onClick={this.openJoin}>Close</button>
+                                            </Modal.Footer> */}
+                                        </Modal.Header>
+                                    </Modal>
+
+                                    <Modal size="lg" show={this.state.showVolunteers} onHide={this.openVolunteersList}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Volunteers</Modal.Title>
+                                            <Modal.Body>
+                                                {/*volunteers with no account*/}
+                                                {this.props.volunteerEmail !== undefined && <ul> {this.props.volunteerEmail.map((volunteer, index) => {
+                                                    console.log(volunteer)
+                                                    return (<li key={index}>
+                                                        {volunteer}
+                                                    </li>)
+                                                })}</ul>}
+
+                                                {/*volunteers with accounts*/}
+                                                {this.props.volunteerObject !== undefined && <ul> {this.props.volunteerObject.map(volunteer => {
+                                                    console.log(volunteer)
+                                                    return (<li key={volunteer.id}>
+                                                        {volunteer.data.firstname}
+                                                        {volunteer.data.lastname}
+                                                        {volunteer.data.email}
+                                                    </li>)
+                                                })}</ul>}
+                                            </Modal.Body>
+
+                                        </Modal.Header>
+                                    </Modal>
+
+                                    <Modal size="lg" show={this.state.showDelete} onHide={this.confirmDelete}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Confirmation</Modal.Title>
+                                            <Modal.Body>
+                                                Are you sure you want to delete this site?
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                <button className="next fill" onClick={this.delete}>Yes</button>
+                                                <button className="next" onClick={this.confirmDelete}>No</button>
+                                            </Modal.Footer>
+                                        </Modal.Header>
+                                    </Modal>
+
+                                    <Modal size="lg" show={this.state.showJoin} onHide={this.confirmJoin}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Confirmation</Modal.Title>
+                                            <Modal.Body>
+                                                Are you sure you want to join this site?
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                <button className="next fill" onClick={this.join}>Yes</button>
+                                                <button className="next" onClick={this.confirmJoin}>No</button>
+                                            </Modal.Footer>
+                                        </Modal.Header>
+                                    </Modal>
+
+
+                                </div> :
+                                    <SiteEditForm closeEdit = {this.openEdit} site={this.props.site} siteId={this.props.siteId} />
+                                }
+
+
+
+                                {/*Output Report*/}
                             </div>
                             :
                             <div>Site does not exist.</div>

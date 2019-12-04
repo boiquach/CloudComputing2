@@ -62,7 +62,8 @@ class ProfileEditForm extends Component {
                     <span>Phone: </span>
                     <input className="form-control" type="text" name="phone" onChange={this.handleChange} value={this.state.phone} />
                 </div>
-                <button onClick={this.submit}>Update</button>
+                <button className="next fill" onClick={this.submit}>Update</button>
+                <button className="next" onClick={this.props.closeEdit}>Close</button>
 
             </div>
         )

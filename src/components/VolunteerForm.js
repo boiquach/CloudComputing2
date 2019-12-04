@@ -6,7 +6,9 @@ class VolunteerForm extends Component{
     constructor(props){
         super(props)
         this.state={
-            email:''
+            email:'',
+            errorShown:false,
+            
         }
         this.handleChange.bind(this)
         this.add.bind(this)
@@ -23,7 +25,25 @@ class VolunteerForm extends Component{
             site:this.props.siteId,
             volunteer:this.state.email
         }
-        this.props.addVolunteerEmail(data)
+        if(this.props.list!==undefined){
+            if(this.props.list.filter(object=>(object.volunteer===this.state.email))){
+                console.log('existed')
+                this.setState({
+                    errorShown:!this.props.errorShown
+                })
+            }
+            else{
+                console.log('new')
+                this.props.addVolunteerEmail(data)
+                this.props.openJoin()
+            }
+        }
+        else{
+            console.log('new')
+            this.props.addVolunteerEmail(data)
+            this.props.openJoin()
+        }
+        
     }
 
     render(){
@@ -32,9 +52,10 @@ class VolunteerForm extends Component{
             <div>
                 <div className="form-group">
                     <span>Email</span>
-                    <input name="email" type="text" value={this.state.email} onChange={this.handleChange} required/>
+                    <input name="email" className="form-control" type="text" value={this.state.email} onChange={this.handleChange} required/>
+                    {this.state.errorShown && <span>This email has already joined this site.</span>}
                 </div>
-                <button onClick={this.add}>Register</button>
+                <button className="info_button" onClick={this.add}>Register</button>
             </div>
         )
     }

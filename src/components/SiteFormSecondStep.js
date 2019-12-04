@@ -3,19 +3,20 @@ import {Field,reduxForm} from 'redux-form';
 import validate from './validate';
 import DatePickerInput from './render/renderDatePicker'
 import PlaceSearch from './render/renderPlaceSearch'
-import ImageUpload from './render/renderImageUpload'
 
 const SiteFormSecondStep = props=>{
     const {handleSubmit, previousPage} = props
     return(
         <form onSubmit = {handleSubmit}>
-           
+            <label>Location: </label>
             <Field name="location" label="Location" component={PlaceSearch} />
-            <Field name="datetime" label="Date and Time" component={DatePickerInput} />
-            <Field name="image" label = "Image" component={ImageUpload} />
-            <div>
+            <label>Date and Time: </label>
+            <Field name="datetime" label="Date and Time" component={DatePickerInput} required />
+            
+            <div className="align">
                 <button type="button" className="previous" onClick={previousPage}>Previous</button>
-                <button type="submit" className="next">Next</button>
+                <div className="align">
+                <button type="submit" className="next">Next</button></div>
             </div>
         </form>
 

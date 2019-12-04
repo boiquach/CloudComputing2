@@ -84,10 +84,10 @@ class ReportEditForm extends Component {
             })
         }
         else if (e.target.name==="otherTypes"){
-            var current = this.state.otherTypes
-            current[e.target.tabIndex] = e.target.value
+            var currentTypes = this.state.otherTypes
+            currentTypes[e.target.tabIndex] = e.target.value
             this.setState({
-                [e.target.name]: current
+                [e.target.name]: currentTypes
             })
         }
         else if (e.target.name === "type") {
@@ -119,17 +119,17 @@ class ReportEditForm extends Component {
         // const typesOf= ["abc","def","ghhi"]
         return (
 
-            <div>
+            <div className="site_form edit">
                 <div className="form-group">
-                    <span>Total amount</span>
-                    <input className="form-control" name="total" type="number" value={this.state.total} onChange={this.handleChange} />kg
+                    <span><b>Total amount (kg):</b></span><br/>
+                    <input className="form-control" style={{width:`50%`}} name="total" type="number" value={this.state.total} onChange={this.handleChange} />
                 </div>
-                <span>Types</span>
+                <span><b>Types</b></span>
                 {this.state.defaultTypes.map((type, index) => {
                     return (
-                        <div className="form-group" key={index}>
-                            <label>{type}</label>
-                            <input onChange={this.handleChange} className="form-control" type="checkbox" name="type" value={type} checked={this.state.types.includes(type)} />
+                        <div className="form-group form-check" key={index}>
+                            <label className="form-check-label">
+                            <input onChange={this.handleChange} className="form-check-input" type="checkbox" name="type" value={type} checked={this.state.types.includes(type)} />{` ${type}`}</label>
                         </div>
                     )
                 })}
@@ -137,26 +137,27 @@ class ReportEditForm extends Component {
                 {this.state.types.includes("Others") && this.state.otherTypes.map((type, index) => {
                     return (
                         <div className="form-group" key={index}>
-                            <input tabIndex={index} className="form-control" type="text" name="otherTypes" value={type} onChange={this.handleChange} />
-                            {index === this.state.otherTypes.length - 1 && <button onClick={this.addFieldType}>Add</button>}
+                            <input tabIndex={index} style={{width:`50%`,display:`inline`}} className="form-control" type="text" name="otherTypes" value={type} onChange={this.handleChange} />
+                            {index === this.state.otherTypes.length - 1 && <button className="add_button" onClick={this.addFieldType}></button>}
                         </div>
                     )
                 })}
 
-                <span>Brands</span>
+                <span><b>Brands</b></span>
                 {this.state.brands.map((brand, index) => {
                     return (
                         <div className="form-group" key={index}>
-                            <input tabIndex={index} className="form-control" type="text" name="brands" value={brand} onChange={this.handleChange} />
-                            {index === this.state.brands.length - 1 && <button onClick={this.addFieldBrand}>Add</button>}
+                            <input tabIndex={index} style={{width:`50%`,display:`inline`}} className="form-control" type="text" name="brands" value={brand} onChange={this.handleChange} />
+                            {index === this.state.brands.length - 1 && <button className="add_button" onClick={this.addFieldBrand}></button>}
                         </div>
                     )
                 })}
 
 
-
-                <button onClick={this.submit}>Submit</button>
-
+                <div className="align">
+                <button className="info_button" onClick={this.submit}>Submit</button>
+                {this.props.report !==undefined && <button className="info_button" onClick={this.props.closeEdit}>Close</button>}
+                </div>
             </div>
         )
     }

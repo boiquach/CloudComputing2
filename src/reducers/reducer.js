@@ -125,7 +125,8 @@ export default (state=initialState,action)=>{
         case FETCH_REPORTS:{
             return{
                 ...state,
-                reports:action.payload
+                reports:action.payload,
+                fetchingReport:false
             }
         }
         case FETCH_REPORT:{

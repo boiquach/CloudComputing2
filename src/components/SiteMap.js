@@ -104,7 +104,7 @@ class SiteMap extends Component{
         const CleanUpMap = compose(
             withProps({
                 loadingElement: <div style = {{height:`100%`}} />,
-                containerElement: <div style={{height:`400px`,width:`400px`}} />,
+                containerElement: <div style={{height:`500px`,width:`700px`,margin:`20px`}} />,
                 mapElement: <div style={{height:`100%`}} />
             }),
             withHandlers({
@@ -138,7 +138,7 @@ class SiteMap extends Component{
             withGoogleMap
         )(props=>
             <GoogleMap
-                defaultZoom ={5}
+                defaultZoom ={7}
                 defaultCenter={{lat:this.state.currentLocation.lat,lng:this.state.currentLocation.lng}}
             >
                 <MarkerClusterer
@@ -181,8 +181,17 @@ class SiteMap extends Component{
         );
         return(
             
-            <div className="map">
-                <CleanUpMap currentLocation={this.state.currentLocation}  />
+            <div >
+                <div className="align map">
+                <div> 
+                    <CleanUpMap currentLocation={this.state.currentLocation}  />
+                    </div>
+                <div className="invite">
+                    <h3 className="invite_text">Click on a site to view information and join!</h3>
+                </div>
+                
+                </div>
+                
             </div>
         );
     }

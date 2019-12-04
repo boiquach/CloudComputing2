@@ -23,11 +23,13 @@ class DatePickerInput extends Component {
           dateFormat="yyyy-MM-dd@HH:mm:ss"
           timeInvervals={30}
           minDate={new Date()}
+          minTime={new Date().setHours(9)}
+          maxTime={new Date().setHours(21)}
           onChange={this.handleChange}
           required={required}
           placeholderText="Choose date and time for the clean up"
           selected={input.value ? new Date(input.value) : null} />
-        {touched && error && <span className='error-block'>{error}</span>}
+        {touched && error && <span className="error_text">{error}</span>}
       </div>
     )
   }

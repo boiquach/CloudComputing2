@@ -23,37 +23,51 @@ class UserProfile extends Component {
     render() {
         return (
             <Route>
-                {this.props.isLogin ?
-                    <div>
+                <div >
+                    {this.props.isLogin ?
+                        <div>
 
-                        <span>Email: </span> {this.props.user.email} <br />
-                        <button onClick={this.openEdit}>Edit</button>
 
-                        {!this.state.editing ?
-                            <div>
 
-                                <span>First Name: </span> {this.props.user.firstname} <br />
-                                <span>Last Name: </span> {this.props.user.lastname} <br />
-                                <span>Phone: </span> {this.props.user.phone}
+
+                            <div className="align">
+                                <div className="align map profile">
+                                    {!this.state.editing ? <div className="invite">
+                                        <div className="invite_text">
+                                        <span><b>Email:</b> </span> {this.props.user.email} <br />
+                                        
+                                        <span><b>First Name:</b> </span> {this.props.user.firstname} <br />
+                                        <span><b>Last Name:</b> </span> {this.props.user.lastname} <br />
+                                        <span><b>Phone:</b> </span> {this.props.user.phone} <br/>
+                                        <button className="info_button" onClick={this.openEdit}>Edit</button>
+                                        </div>
+
+                                        
+                                    </div> :
+                                        <div>
+                                            <ProfileEditForm closeEdit={this.openEdit} user={this.props.user} userId={this.props.userId} />
+                                        </div>
+
+                                    }
+                                    <div>
+
+                                        <img style={{ width: `300px` }} src="https://cdn1.iconfinder.com/data/icons/gardening-81/512/Bud-512.png" />
+                                    </div></div>
                             </div>
 
-                            :
-
-                            <div>
-                                <ProfileEditForm user={this.props.user} userId={this.props.userId} />
-                            </div>
-
-                        }
 
 
 
-                    </div>
 
-                    :
 
-                    <Redirect to={{ pathname: "/login" }} />
 
-                }
+                        </div>
+
+                        :
+
+                        <Redirect to={{ pathname: "/login" }} />
+
+                    }</div>
             </Route>
         )
     }

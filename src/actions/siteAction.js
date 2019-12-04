@@ -28,7 +28,6 @@ export const FETCH_VOLUNTEERS_ID = "FETCH_VOLUNTEERS_ID"
 export const FETCH_USER = "FETCH_USER"
 export const FETCH_REPORTS = "FETCH_REPORTS"
 
-
 //POST
 export const addSite = (site) => {
     return (dispatch) => {
@@ -86,21 +85,22 @@ export const fetchSites = () => {
     return (dispatch) => {
         // const firestore = getFirestore()
 
-        fb.firestore().collection('sites').get()
-            .then((collection) => {
-                collection.docs.forEach(doc => {
-                    list.push({
-                        id: doc.id,
-                        info: doc.data()
-
-                    });
+        fb.firestore().collection('sites')
+        .onSnapshot({includeMetadataChanges:true},querySnapshot =>{
+                querySnapshot.forEach(doc => {
+                list.push({
+                    id: doc.id,
+                    info: doc.data() 
                 })
-                //console.log(list);
-                dispatch({ type: FETCH_SITES, payload: list })
+
+            })
+            console.log(querySnapshot.metadata.fromCache)
+            
+            //console.log(list);
+            dispatch({ type: FETCH_SITES, payload: list })
 
 
-            }
-            )
+        })
     }
 }
 
@@ -108,21 +108,19 @@ export const fetchSites = () => {
 export const fetchSite = (siteId) => {
     return (dispatch) => {
         //const firestore = getFirestore()
-        fb.firestore().collection('sites').doc(siteId).get()
-            .then((doc) => {
-                console.log(doc.data())
-                if (doc.data() == undefined) {
-                    dispatch({ type: FETCHING_FAIL, payload: null })
-                }
-                else {
+        fb.firestore().collection('sites').doc(siteId).onSnapshot(doc=>{
+            //console.log(doc.data())
+            if (doc.data() === undefined) {
+                dispatch({ type: FETCHING_FAIL, payload: null })
+            }
+            else {
 
-                    const info = doc.data()
-                    dispatch({ type: FETCH_SITE, payload: info })
-                }
-            })
-            .catch(error => {
-                console.log(error.code)
-            })
+                const info = doc.data()
+                dispatch({ type: FETCH_SITE, payload: info })
+            }
+
+        })
+
     }
 }
 
@@ -143,7 +141,7 @@ export const addVolunteerId = (data) => {
     return (dispatch) => {
         fb.firestore().collection('volunteerId').add({ ...data })
             .then((docRef) => {
-                console.log(docRef)
+                dispatch(fetchVolunteerId(data.site))
             })
             .catch((error) => {
                 console.log('errored')
@@ -155,14 +153,13 @@ export const addVolunteerId = (data) => {
 export const fetchVolunteerEmail = (id) => {
     const list = []
     return (dispatch) => {
-        fb.firestore().collection('volunteerEmail').where('site', '==', id).get()
-            .then((query) => {
-                query.forEach(docRef => {
-                    list.push(docRef.data().volunteer)
-                })
-                console.log(list)
-                dispatch({ type: FETCH_VOLUNTEERS_EMAIL, payload: list })
+        fb.firestore().collection('volunteerEmail').where('site', '==', id).onSnapshot(query=>{
+            query.forEach(docRef => {
+                list.push(docRef.data().volunteer)
             })
+            console.log(list)
+            dispatch({ type: FETCH_VOLUNTEERS_EMAIL, payload: list })
+        })
     }
 }
 
@@ -171,8 +168,7 @@ export const fetchVolunteerId = (id) => {
     const list = []
     const volunteers = []
     return (dispatch) => {
-        fb.firestore().collection('volunteerId').where('site', '==', id).get()
-            .then((query) => {
+        fb.firestore().collection('volunteerId').where('site', '==', id).onSnapshot((query) => {
                 query.forEach(docRef => {
                     list.push(docRef.data().volunteer)
                 })
@@ -296,7 +292,7 @@ export const fetchUser = (id) => {
                 dispatch({ type: FETCH_USER, payload: user.data() })
             })
             .catch(error => {
-                console.log('errored')
+                console.log(error.code)
             })
     }
 }
@@ -308,7 +304,7 @@ export const editUser = (id, user) => {
                 dispatch(fetchUser(id))
             })
             .catch(error => {
-                console.log('errored')
+                console.log(error.code)
             })
     }
 
@@ -317,8 +313,7 @@ export const editUser = (id, user) => {
 export const fetchSitesByUser = (id) => {
     const list = []
     return dispatch => {
-        fb.firestore().collection('sites').where("owner", "==", id).get()
-            .then(query => {
+        fb.firestore().collection('sites').where("owner", "==", id).get().then(query => {
                 query.docs.forEach(doc => {
                     list.push({
                         id: doc.id,
@@ -329,9 +324,9 @@ export const fetchSitesByUser = (id) => {
 
                 dispatch({ type: FETCH_SITES, payload: list })
             })
-            .catch(error => {
-                console.log('errored')
-            })
+            // .catch(error => {
+            //     console.log(error.code)
+            // })
     }
 }
 
@@ -341,32 +336,37 @@ export const fetchReports = () => {
         fb.firestore().collection('reports').get()
             .then(query => {
                 query.docs.forEach(doc => {
-                    list.push(doc.data())
-                    dispatch({ type: FETCH_REPORTS, payload: list })
+                    const obj = {
+                        id: doc.id,
+                        info:doc.data()
+                    }
+                    list.push(obj)
+                    
                 })
+                dispatch({ type: FETCH_REPORTS, payload: list })
             })
             .catch(error => {
                 console.log(error.code === "permission-denied")
-                // console.log(new Error(error).)
-                //console.log(err.message === "FirebaseError: [code=permission-denied]: Missing or insufficient permissions.")
+                if(error.code==="permission-denied"){
+                    dispatch({type:REPORT_FAIL,payload:null})
+                }
             })
     }
 }
 
 export const fetchReport = (id) =>{
     return dispatch =>{
-        fb.firestore().collection('reports').doc(id).get()
-        .then(doc=>{
-            if(doc.data()==undefined){
+        fb.firestore().collection('reports').doc(id).onSnapshot(doc=>{
+            if(doc.data()===undefined){
                 dispatch({type:REPORT_FAIL,payload:null})
             }
             else{
                 dispatch({type:FETCH_REPORT,payload:doc.data()})
             }
         })
-        .catch(error=>{
-            console.log(error.code)
-        })
+        // .catch(error=>{
+        //     console.log(error.code)
+        // })
     }
 }
 

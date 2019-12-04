@@ -9,6 +9,7 @@ import UserProfile from './components/UserProfile'
 import List from './components/List'
 import ReportsList from "./components/ReportsList"
 import Report from "./components/Report"
+import About from "./components/About"
 import {fetchSites,logout} from './actions/siteAction'
 import {connect} from 'react-redux';
 import {BrowserRouter, Route} from 'react-router-dom';
@@ -41,10 +42,12 @@ class App extends Component{
     return(
       <BrowserRouter>
       
-      <div>
+      <div className="parent">
+      
         <div>
           <nav className="navbar navbar-expand-lg bg-light navbar-light">
-            <a className="navbar-brand" href="/">Viet Nam Sach va Xanh</a>
+            {/* <a className="navbar-brand" href="/">Viet Nam Sach va Xanh</a> */}
+            <a className="navbar-brand" href="/"><img style={{width:`60%`,height:`auto`}} src="http://build-projects.org/wp-content/uploads/2018/10/svx-logo-300x89.png"></img></a>
 
             
             <ul className="navbar-nav text-right ml-auto">
@@ -79,15 +82,17 @@ class App extends Component{
           </nav>
         </div>
         <Route exact path ={'/'} render={(props)=> <Home {...props} />} />
+        {id!=='' && <Route exact path={`/site/${id}`} render={(props)=><SiteInfo siteId = {id} {...props}/>} />}
         <div className="container">
           <Route exact path={'/login'} render={(props)=><Login {...props} />} />
           <Route exact path ={'/join_site'} render={(props)=> <SiteMap sites = {this.props.sites} {...props} />} />
           <Route exact path={'/create_site'} render={(props)=><CreateSite {...props} />} />
           <Route exact path={'/signup'} render={(props)=><SignUp {...props} />} />
           <Route exact path={'/profile'} render={(props)=><UserProfile {...props} />} />
-          <Route exact path={'/report'} render={(props)=><ReportsList {...props} />} />
+          <Route exact path={'/reports'} render={(props)=><ReportsList {...props} />} />
           <Route exact path={'/list'} render={(props)=><List {...props} />} />
-          {id!=='' && <Route exact path={`/site/${id}`} render={(props)=><SiteInfo siteId = {id} {...props}/>} />}
+          <Route exact path={'/about'} render={(props)=><About {...props} />} />
+          
           {id!=='' && <Route exact path={`/report/${id}`} render={(props)=><Report siteId = {id} {...props}/>} />}
         </div>
       </div>

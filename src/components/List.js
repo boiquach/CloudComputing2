@@ -15,16 +15,39 @@ class List extends Component {
                 {this.props.isLogin ?
 
                     <div>
-                        {(this.props.sites !== null && this.props.sites !== undefined) ?
-                            <ul>
-                                {this.props.sites.map(site => {
-                                    return (
-                                        <li key={site.id}>
-                                            <a href={`site/${site.id}`}>{site.info.name}</a>
-                                        </li>
-                                    )
-                                })}
-                            </ul> : <div>Loading...</div>
+
+
+
+                        {this.props.sites !== null && this.props.sites !== undefined ?
+                            <div className="site_card_center">
+                                {this.props.sites.length > 0 ? 
+                                <div>
+
+                                    <h4 style={{ textAlign: `center`, marginTop: `20px` }}>Sites You Have Created</h4>
+                                    {this.props.sites.map(site => {
+                                        return (
+                                            <div className="site_card" key={site.id}>
+                                                <a href={`site/${site.id}`}><h5>{site.info.name}</h5></a>
+                                                <ul>
+                                                    <li><b>Location: </b>{site.info.location}</li>
+                                                    <li><b>Date: </b>{`${new Date(site.info.datetime.seconds * 1000)}`}</li>
+                                                </ul>
+                                                <br />
+                                                <div className="align">
+                                                    <a href={`/report/${site.id}`}>Outcome Report</a></div>
+                                            </div>
+                                        )
+                                    })}
+
+                                </div> : 
+                                <div>You haven't created any clean up site.</div>}
+
+
+                            </div>
+
+                            :
+
+                            <div>Loading...</div>
 
                         }
 

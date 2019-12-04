@@ -13,7 +13,13 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore();
+firebase.firestore().enablePersistence().then(
+  ()=>{
+    firebase.firestore();
+  }
+)
+
+
 //firebase.firestore().settings({timestampsInSnapshots:true});
 export const auth = firebase.auth()
 export const storage = firebase.storage()
