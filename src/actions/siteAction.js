@@ -5,7 +5,7 @@ import { storageRef, fb } from "../config/index"
 export const FETCH_REPORT = "FETCH_REPORT";
 export const FETCH_SITES = "FETCH_SITES";
 export const REPORT_FAIL = "REPORT_FAIL"
-export const REPORT_LOADING="REPORT_LOADING"
+export const REPORT_LOADING = "REPORT_LOADING"
 export const FETCHING = "FETCHING";
 export const FETCHING_FAIL = "FETCHING_FAIL"
 export const FETCH_SITE = "FETCH_SITE";
@@ -86,21 +86,21 @@ export const fetchSites = () => {
         // const firestore = getFirestore()
 
         fb.firestore().collection('sites')
-        .onSnapshot({includeMetadataChanges:true},querySnapshot =>{
+            .onSnapshot({ includeMetadataChanges: true }, querySnapshot => {
                 querySnapshot.forEach(doc => {
-                list.push({
-                    id: doc.id,
-                    info: doc.data() 
+                    list.push({
+                        id: doc.id,
+                        info: doc.data()
+                    })
+
                 })
+                console.log(querySnapshot.metadata.fromCache)
+
+                //console.log(list);
+                dispatch({ type: FETCH_SITES, payload: list })
+
 
             })
-            console.log(querySnapshot.metadata.fromCache)
-            
-            //console.log(list);
-            dispatch({ type: FETCH_SITES, payload: list })
-
-
-        })
     }
 }
 
@@ -108,7 +108,7 @@ export const fetchSites = () => {
 export const fetchSite = (siteId) => {
     return (dispatch) => {
         //const firestore = getFirestore()
-        fb.firestore().collection('sites').doc(siteId).onSnapshot(doc=>{
+        fb.firestore().collection('sites').doc(siteId).onSnapshot(doc => {
             //console.log(doc.data())
             if (doc.data() === undefined) {
                 dispatch({ type: FETCHING_FAIL, payload: null })
@@ -153,7 +153,7 @@ export const addVolunteerId = (data) => {
 export const fetchVolunteerEmail = (id) => {
     const list = []
     return (dispatch) => {
-        fb.firestore().collection('volunteerEmail').where('site', '==', id).onSnapshot(query=>{
+        fb.firestore().collection('volunteerEmail').where('site', '==', id).onSnapshot(query => {
             query.forEach(docRef => {
                 list.push(docRef.data().volunteer)
             })
@@ -169,23 +169,23 @@ export const fetchVolunteerId = (id) => {
     const volunteers = []
     return (dispatch) => {
         fb.firestore().collection('volunteerId').where('site', '==', id).onSnapshot((query) => {
-                query.forEach(docRef => {
-                    list.push(docRef.data().volunteer)
-                })
-                fb.firestore().collection('users').get()
-                    .then((query) => {
-                        query.forEach(docRef => {
-                            if (list.includes(docRef.id)) {
-                                volunteers.push({
-                                    id: docRef.id,
-                                    data: docRef.data()
-                                })
-                            }
-                        })
-                        console.log(volunteers)
-                        dispatch({ type: FETCH_VOLUNTEERS_ID, payload: volunteers })
-                    })
+            query.forEach(docRef => {
+                list.push(docRef.data().volunteer)
             })
+            fb.firestore().collection('users').get()
+                .then((query) => {
+                    query.forEach(docRef => {
+                        if (list.includes(docRef.id)) {
+                            volunteers.push({
+                                id: docRef.id,
+                                data: docRef.data()
+                            })
+                        }
+                    })
+                    console.log(volunteers)
+                    dispatch({ type: FETCH_VOLUNTEERS_ID, payload: volunteers })
+                })
+        })
     }
 }
 
@@ -314,19 +314,19 @@ export const fetchSitesByUser = (id) => {
     const list = []
     return dispatch => {
         fb.firestore().collection('sites').where("owner", "==", id).get().then(query => {
-                query.docs.forEach(doc => {
-                    list.push({
-                        id: doc.id,
-                        info: doc.data()
+            query.docs.forEach(doc => {
+                list.push({
+                    id: doc.id,
+                    info: doc.data()
 
-                    });
-                })
-
-                dispatch({ type: FETCH_SITES, payload: list })
+                });
             })
-            // .catch(error => {
-            //     console.log(error.code)
-            // })
+
+            dispatch({ type: FETCH_SITES, payload: list })
+        })
+        // .catch(error => {
+        //     console.log(error.code)
+        // })
     }
 }
 
@@ -338,30 +338,30 @@ export const fetchReports = () => {
                 query.docs.forEach(doc => {
                     const obj = {
                         id: doc.id,
-                        info:doc.data()
+                        info: doc.data()
                     }
                     list.push(obj)
-                    
+
                 })
                 dispatch({ type: FETCH_REPORTS, payload: list })
             })
             .catch(error => {
                 console.log(error.code === "permission-denied")
-                if(error.code==="permission-denied"){
-                    dispatch({type:REPORT_FAIL,payload:null})
+                if (error.code === "permission-denied") {
+                    dispatch({ type: REPORT_FAIL, payload: null })
                 }
             })
     }
 }
 
-export const fetchReport = (id) =>{
-    return dispatch =>{
-        fb.firestore().collection('reports').doc(id).onSnapshot(doc=>{
-            if(doc.data()===undefined){
-                dispatch({type:REPORT_FAIL,payload:null})
+export const fetchReport = (id) => {
+    return dispatch => {
+        fb.firestore().collection('reports').doc(id).onSnapshot(doc => {
+            if (doc.data() === undefined) {
+                dispatch({ type: REPORT_FAIL, payload: null })
             }
-            else{
-                dispatch({type:FETCH_REPORT,payload:doc.data()})
+            else {
+                dispatch({ type: FETCH_REPORT, payload: doc.data() })
             }
         })
         // .catch(error=>{
@@ -370,15 +370,103 @@ export const fetchReport = (id) =>{
     }
 }
 
-export const updateReport = (obj) =>{
-    return dispatch=>{
-        dispatch({type:REPORT_LOADING,payload:null})
+export const updateReport = (obj) => {
+    return dispatch => {
+        dispatch({ type: REPORT_LOADING, payload: null })
         fb.firestore().collection('reports').doc(obj.siteId).set(obj.report)
-        .then(()=>{
-            dispatch(fetchReport(obj.siteId))
-        })
-        .catch(error=>{
-            console.log(error.code)
-        })
+            .then(() => {
+                dispatch(fetchReport(obj.siteId))
+            })
+            .catch(error => {
+                console.log(error.code)
+            })
+    }
+}
+
+export const loginFacebook = () => {
+    return dispatch => {
+        fb.auth().setPersistence(fb.auth.Auth.Persistence.SESSION)
+            .then(() => {
+                const facebook = new fb.auth.FacebookAuthProvider()
+                //facebook.addScope('public_profile, email')
+                fb.auth().signInWithPopup(facebook).then((result) => {
+                    console.log(result)
+                    console.log(result.credential.accessToken)
+                    console.log(result.user)
+
+                    fb.firestore().collection('users').doc(result.user.uid).get()
+                    .then(doc=>{
+                        if(doc.data()===undefined){
+                            fb.firestore().collection('users').doc(result.user.uid)
+                            .set(
+                                {
+                                    firstname:result.user.displayName,
+                                    lastname:'',
+                                    email:result.user.email,
+                                    phone: ''
+                                }
+                            )
+                        }
+                    })
+
+                    dispatch({ type: LOGIN_SUCCESS, payload: result.user })
+                    sessionStorage.setItem('user', result.user.uid)
+                    sessionStorage.setItem('isLogin', true)
+
+
+
+                })
+               .catch(error => {
+                    console.log(error.message)
+                })
+
+                }
+
+            )
+
+    }
+}
+
+export const loginGoogle = () => {
+    return dispatch => {
+        fb.auth().setPersistence(fb.auth.Auth.Persistence.SESSION)
+            .then(() => {
+                const google = new fb.auth.GoogleAuthProvider()
+                // google.addScope('public_profile, email')
+                fb.auth().signInWithPopup(google).then((result) => {
+                    console.log(result)
+                    console.log(result.credential.accessToken)
+                    console.log(result.user)
+
+                    fb.firestore().collection('users').doc(result.user.uid).get()
+                    .then(doc=>{
+                        if(doc.data()===undefined){
+                            fb.firestore().collection('users').doc(result.user.uid)
+                            .set(
+                                {
+                                    firstname:result.user.displayName,
+                                    lastname:'',
+                                    email:result.user.email,
+                                    phone: ''
+                                }
+                            )
+                        }
+                    })
+
+                    dispatch({ type: LOGIN_SUCCESS, payload: result.user })
+                    sessionStorage.setItem('user', result.user.uid)
+                    sessionStorage.setItem('isLogin', true)
+
+
+
+                })
+               .catch(error => {
+                    console.log(error.message)
+                })
+
+                }
+
+            )
+
     }
 }

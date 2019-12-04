@@ -26,7 +26,7 @@ class VolunteerForm extends Component{
             volunteer:this.state.email
         }
         if(this.props.list!==undefined){
-            if(this.props.list.filter(object=>(object.volunteer===this.state.email))){
+            if(this.props.list.includes(this.state.email)){
                 console.log('existed')
                 this.setState({
                     errorShown:!this.props.errorShown

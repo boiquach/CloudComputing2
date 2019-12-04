@@ -14,6 +14,7 @@ import {fetchSites,logout} from './actions/siteAction'
 import {connect} from 'react-redux';
 import {BrowserRouter, Route} from 'react-router-dom';
 import './style.css'
+import logo from "./logo.png"
 
 class App extends Component{
   componentWillMount=()=>{
@@ -47,7 +48,7 @@ class App extends Component{
         <div>
           <nav className="navbar navbar-expand-lg bg-light navbar-light">
             {/* <a className="navbar-brand" href="/">Viet Nam Sach va Xanh</a> */}
-            <a className="navbar-brand" href="/"><img style={{width:`60%`,height:`auto`}} src="http://build-projects.org/wp-content/uploads/2018/10/svx-logo-300x89.png"></img></a>
+            <a className="navbar-brand" href="/"><img style={{width:`60%`,height:`auto`}} src={logo}></img></a>
 
             
             <ul className="navbar-nav text-right ml-auto">

@@ -18,10 +18,10 @@ class SiteInfo extends Component {
         this.getInitialLocation();
         if (this.props.site !== undefined) {
             this.getLatLng()
-            if (this.props.site.owner === this.props.userId) {
+            
                 this.props.fetchVolunteerId(this.props.siteId)
                 this.props.fetchVolunteerEmail(this.props.siteId)
-            }
+            
         }
 
     }
@@ -30,10 +30,10 @@ class SiteInfo extends Component {
             if (this.props.site !== undefined) {
                 this.getLatLng()
 
-                if (this.props.site.owner === this.props.userId) {
-                    this.props.fetchVolunteerId(this.props.siteId)
-                    this.props.fetchVolunteerEmail(this.props.siteId)
-                }
+                
+                this.props.fetchVolunteerId(this.props.siteId)
+                this.props.fetchVolunteerEmail(this.props.siteId)
+                
             }
 
         }
@@ -96,7 +96,7 @@ class SiteInfo extends Component {
         }
 
         this.props.addVolunteerId(data)
-        this.openJoin()
+        this.confirmJoin()
     }
 
     openJoin = () => {
@@ -210,6 +210,10 @@ class SiteInfo extends Component {
             </GoogleMap>
 
         );
+        console.log(this.props.userId)
+        console.log(this.props.volunteerObject)
+        // console.log(this.props.volunteerEmail)
+        console.log(this.props.volunteerObject.filter(object=>(object.id===this.props.userId)))
         return (
 
             <div>
@@ -250,7 +254,9 @@ class SiteInfo extends Component {
                                                             {this.props.userId !== null ? 
                                                             <div>
                                                                 
-                                                                {(this.props.volunteerObject === undefined || (this.props.volunteerObject!==undefined && !this.props.volunteerObject.filter(object=>(object.volunteer===this.props.userId))) ) && <button className="info_button" onClick={this.confirmJoin}>Join</button>}
+                                                                {this.props.volunteerObject.filter(object=>(object.id===this.props.userId)).length===0
+                                                                    
+                                                                    && <button className="info_button" onClick={this.confirmJoin}>Join</button>}
                                                                 <button className="info_button" onClick={this.openMap}>View Map</button>
                                                             </div>
                                                             
@@ -295,7 +301,7 @@ class SiteInfo extends Component {
                                             <Modal.Body>
                                                 {/*volunteers with no account*/}
                                                 {this.props.volunteerEmail !== undefined && <ul> {this.props.volunteerEmail.map((volunteer, index) => {
-                                                    console.log(volunteer)
+                                                    // console.log(volunteer)
                                                     return (<li key={index}>
                                                         {volunteer}
                                                     </li>)
@@ -303,7 +309,7 @@ class SiteInfo extends Component {
 
                                                 {/*volunteers with accounts*/}
                                                 {this.props.volunteerObject !== undefined && <ul> {this.props.volunteerObject.map(volunteer => {
-                                                    console.log(volunteer)
+                                                    // console.log(volunteer)
                                                     return (<li key={volunteer.id}>
                                                         {volunteer.data.firstname}
                                                         {volunteer.data.lastname}

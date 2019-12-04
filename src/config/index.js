@@ -21,6 +21,7 @@ firebase.firestore().enablePersistence().then(
 
 
 //firebase.firestore().settings({timestampsInSnapshots:true});
+export const facebook = firebase.auth.FacebookAuthProvider()
 export const auth = firebase.auth()
 export const storage = firebase.storage()
 export const storageRef = storage.ref()

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { login } from '../actions/siteAction'
+import { login,loginFacebook,loginGoogle } from '../actions/siteAction'
 import {Route,Redirect} from "react-router-dom"
 
 class Login extends Component {
@@ -15,6 +15,8 @@ class Login extends Component {
         }
         this.handleChange.bind(this)
         this.submit.bind(this)
+        this.fb.bind(this)
+        this.google.bind(this)
     }
 
     handleChange = e => {
@@ -25,6 +27,14 @@ class Login extends Component {
 
     submit = () => {
         this.props.login(this.state.email, this.state.password)
+    }
+
+    fb = ()=>{
+        this.props.loginFacebook()
+    }
+
+    google = ()=>{
+        this.props.loginGoogle()
     }
 
     render() {
@@ -46,6 +56,8 @@ class Login extends Component {
                             <input type="password" name="password" className="form-control" value={this.state.password} onChange={this.handleChange} />
                         </div>
                         <button onClick={this.submit}>Login</button>
+                        <button onClick={this.fb}>Login with Facebook</button>
+                        <button onClick={this.google}>Login with Google</button>
 
                         <a href="/signup">Register an account</a>
                     </div>
@@ -67,7 +79,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        login: (email, password) => dispatch(login(email, password))
+        login: (email, password) => dispatch(login(email, password)),
+        loginFacebook: ()=> dispatch(loginFacebook()),
+        loginGoogle: ()=>dispatch(loginGoogle())
     }
 }
 
