@@ -30,6 +30,8 @@ export const FETCH_REPORTS = "FETCH_REPORTS"
 export const FETCH_SITES_USER = "FETCH_SITES_USER"
 export const SITES_USER_LOADING = "SITES_USER_LOADING"
 export const SITES_USER_FAIL="SITES_USER_FAIL"
+export const DOWNLOAD_REQUEST = "DOWNLOAD_REQUEST"
+export const DOWNLOAD_DONE="DOWNLOAD_DONE"
 
 //POST
 export const addSite = (site) => {
@@ -149,6 +151,16 @@ export const addVolunteerId = (data) => {
             .catch((error) => {
                 console.log('errored')
             })
+    }
+}
+
+export const downloadData = (request)=>{
+    return (dispatch)=>{
+        dispatch({type:DOWNLOAD_REQUEST})
+        fb.firestore().collection('downloads').add(request)
+        .then(doc=>{
+            dispatch({type:DOWNLOAD_DONE})
+        })
     }
 }
 

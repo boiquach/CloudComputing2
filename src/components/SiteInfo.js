@@ -1,6 +1,6 @@
 /*global google*/
 import React, { Component } from 'react';
-import { fetchSite, deleteSite, addVolunteerId, fetchVolunteerId, fetchVolunteerEmail } from '../actions/siteAction'
+import { fetchSite,downloadData, deleteSite, addVolunteerId, fetchVolunteerId, fetchVolunteerEmail } from '../actions/siteAction'
 import { connect } from 'react-redux';
 import { compose, withProps, withStateHandlers } from 'recompose'
 import { withGoogleMap, GoogleMap } from 'react-google-maps'
@@ -53,7 +53,9 @@ class SiteInfo extends Component {
             showMap: false,
             showVolunteers: false,
             showDelete: false,
-            showJoin:false
+            showJoin:false,
+            showDownload:false,
+            requesting:false
         }
         this.openEdit.bind(this)
         this.openJoin.bind(this)
@@ -63,6 +65,27 @@ class SiteInfo extends Component {
         this.openVolunteersList.bind(this)
         this.confirmDelete.bind(this)
         this.confirmJoin.bind(this)
+        this.confirmDownload.bind(this)
+        this.download.bind(this)
+    }
+
+    confirmDownload = ()=>{
+        this.setState({
+            showDownload:!this.state.showDownload
+        })
+    }
+
+    download = ()=>{
+        const obj = {
+            siteId: this.props.siteId,
+            userId: this.props.userId
+        }
+
+        this.setState({
+            requesting:!this.state.requesting
+        })
+
+        this.props.downloadData(obj)
     }
 
     confirmJoin = ()=>{
@@ -248,6 +271,7 @@ class SiteInfo extends Component {
                                                             <button className="edit_button" onClick={this.openEdit}></button>
                                                             <button className="delete_button" onClick={this.confirmDelete}></button>
                                                             <button className="volunteer_button" onClick={this.openVolunteersList}></button>
+                                                            <button className="download_button" onClick={this.confirmDownload}></button>
                                                             {/* <button className="info_button" onClick={this.openMap}>View Map</button> */}
                                                         </div>
                                                         : <div>
@@ -345,6 +369,37 @@ class SiteInfo extends Component {
                                         </Modal.Header>
                                     </Modal>
 
+                                    <Modal size="lg" show={this.state.showDownload} onHide={this.confirmDownload}>
+                                        <Modal.Header closeButton>
+
+
+                                            <Modal.Title>Confirmation</Modal.Title>
+                                            <Modal.Body>
+                                                {!this.state.requesting ? <div>Do you want to request for files containing the volunteers of this site?</div>
+                                                
+                                                :<div>
+                                                    {this.props.downloadRequest && <div>Sending request for the files...</div>}
+                                                {this.props.downloadDone && <div>Successfully requested for the files. Please check your email for the attachments.</div>}
+                                                    </div>}
+                                                
+                                                
+                                                
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                {this.props.downloadDone ? <div>
+
+                                                    <button className="next" onClick={this.confirmDownload}>Close</button>
+                                                </div>:<div>
+                                                    <button className="next fill" onClick={this.download}>Yes</button>
+                                                <button className="next" onClick={this.confirmDownload}>No</button>
+                                                    </div>}
+                                                
+                                            </Modal.Footer>
+                                        </Modal.Header>
+                                    </Modal>
+
+
+
 
                                 </div> :
                                     <SiteEditForm closeEdit = {this.openEdit} site={this.props.site} siteId={this.props.siteId} />
@@ -375,7 +430,9 @@ const mapStateToProps = (state) => {
         volunteerObject: state.volunteerObject.volunteerObject,
         volunteerEmail: state.volunteerEmail.volunteerEmail,
         fetching: state.fetching.fetching,
-        fetchingFail: state.fetchingFail.fetchingFail
+        fetchingFail: state.fetchingFail.fetchingFail,
+        downloadDone:state.downloadDone.downloadDone,
+        downloadRequest:state.downloadRequest.downloadRequest
 
     }
 };
@@ -386,7 +443,8 @@ const mapDispatchToProps = (dispatch) => {
         deleteSite: (siteId) => dispatch(deleteSite(siteId)),
         addVolunteerId: (data) => dispatch(addVolunteerId(data)),
         fetchVolunteerEmail: (siteId) => dispatch(fetchVolunteerEmail(siteId)),
-        fetchVolunteerId: (siteId) => dispatch(fetchVolunteerId(siteId))
+        fetchVolunteerId: (siteId) => dispatch(fetchVolunteerId(siteId)),
+        downloadData: (request) => dispatch(downloadData(request))
 
     }
 }

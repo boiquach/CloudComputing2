@@ -453,6 +453,19 @@
     margin:20px;
 }
 
+.download_button{
+    min-width: 60px;
+    min-height:60px;
+    background-image: url("download.svg");
+    background-size:cover;
+    background-position: center;
+    background-color: transparent;
+    float:center;
+    border-color: transparent;
+    background-repeat: no-repeat;
+    margin:20px;
+}
+
 .add_button{
     min-width: 30px;
     min-height:30px;
