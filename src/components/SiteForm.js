@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import SiteFormFirstStep from "./SiteFormFirstStep";
 import SiteFormSecondStep from "./SiteFormSecondStep";
 import SiteFormThirdStep from "./SiteFormThirdStep";
+import tree from "./tree.png";
 
 class SiteForm extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class SiteForm extends Component {
               <h4>Register a Clean Up Site</h4>{" "}
             </div>
             <div className="align">
-              <img style={{ width: `60px`, height: `60px` }} src="tree.png" />
+              <img style={{ width: `60px`, height: `60px` }} src={tree} />
             </div>
           </div>
 

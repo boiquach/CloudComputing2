@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import tree from "./tree.png";
 // import {Link} from 'react-router-dom'
 
 import { fetchSites, createSite, editSite } from "../Redux/actions/siteAction";
@@ -106,10 +107,7 @@ class Home extends Component {
                 </div>
               </div>
               <div>
-                <img
-                  style={{ width: `300px`, height: `300px` }}
-                  src="tree.png"
-                />
+                <img style={{ width: `300px`, height: `300px` }} src={tree} />
                 {/* <img style={{width:`60px`,height:`60px`}} src="home.png" /> */}
               </div>
               {/* 
