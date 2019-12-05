@@ -14,7 +14,7 @@ import MapDirection from "./MapDirection";
 import SiteEditForm from "./SiteEditForm";
 import VolunteerForm from "./VolunteerForm";
 import Modal from "react-bootstrap/Modal";
-import * as userActions from "../Redux/actions/userAction";
+
 import { fetchSites, createSite, editSite } from "../Redux/actions/siteAction";
 import * as supscriptionListeners from "../Redux/actions/supscriptionListeners";
 
