@@ -11,9 +11,9 @@ class Home extends Component {
                         <br />
 
 
-                        <a className="button home" href="/join_site" >Join</a>
+                        <a className="button home" href="/join_site" >Join a Clean Up</a>
 
-                        <a className="button home" href="/create_site">Create</a>
+                        <a className="button home" href="/create_site">Organize a Clean Up</a>
                     </div>
 
                 </div>
