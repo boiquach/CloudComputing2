@@ -7,7 +7,9 @@ export const initialState = {
   ownedSites: [],
   jointedSites: [],
   avartar: DEFAULT_AVATAR, //todo: pass the default url here
-  avartarImage: null
+  avartarImage: null,
+  userId: sessionStorage.getItem("user"),
+  isLogin: sessionStorage.getItem("isLogin")
 };
 
 export const reducer = (state = initialState, action) => {
@@ -104,6 +106,20 @@ export const reducer = (state = initialState, action) => {
         ...state,
         newPost: action.payload
       };
+    case userActionTypes.FETCH_VOLUNTEERS_EMAIL: {
+      console.log("emails: " + action.payload);
+      return {
+        ...state,
+        volunteerEmail: action.payload
+      };
+    }
+    case userActionTypes.FETCH_VOLUNTEERS_ID: {
+      console.log("objects: " + action.payload);
+      return {
+        ...state,
+        volunteerObject: action.payload
+      };
+    }
     default:
       return state;
   }

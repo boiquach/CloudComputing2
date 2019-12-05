@@ -20,34 +20,4 @@ export const rootReducer = combineReducers({
   form: formReducer,
   siteReducer: siteReducer,
   userReducer: userReducer
-
-  // sites: siteInitState.sites,
-  // site: siteInitState.site,
-  // image_error: siteInitState.image_error,
-  // image_percent: siteInitState.image_percent,
-  // image_showProgress: siteInitState.image_showProgress,
-  // image: siteInitState.image,
-  // //user state
-  // user: userInitState.user,
-  // avatar: userInitState.avatar,
-  // avartarImage: userInitState.avartarImage,
-  // loggedIn: userInitState.loggedIn,
-  // ownedSites: userInitState.ownedSites,
-  // jointedSites: userInitState.jointedSites
 });
-// console.log("initial state: ", initialState);
-// export const initialState = {
-//   sites: siteInitState.sites,
-//   site: siteInitState.site,
-//   image_error: siteInitState.image_error,
-//   image_percent: siteInitState.image_percent,
-//   image_showProgress: siteInitState.image_showProgress,
-//   image: siteInitState.image,
-//   //user state
-//   user: userInitState.user,
-//   avatar: userInitState.avatar,
-//   avartarImage: userInitState.avartarImage,
-//   loggedIn: userInitState.loggedIn,
-//   ownedSites: userInitState.ownedSites,
-//   jointedSites: userInitState.jointedSites
-// };

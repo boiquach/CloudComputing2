@@ -3,6 +3,7 @@ import { Auth } from "aws-amplify";
 import * as graphqlMutations from "../../graphql/mutations";
 import * as graphqlQueries from "../../graphql/queries";
 import API, { graphqlOperation } from "@aws-amplify/api";
+import { storageRef, fb } from "../../config/index";
 export const login = () => {
   console.log("begin login....");
   Auth.federatedSignIn()
@@ -42,6 +43,22 @@ export const logout = () => {
       .catch(err => console.log(err));
   };
 };
+export const signup = (newUser, password) => {
+  // return (dispatch) => {
+  //     fb.auth().createUserWithEmailAndPassword(newUser.email, password)
+  //         .then((user) => {
+  //             console.log(user)
+  //             fb.firestore().collection('users').doc(user.user.uid)
+  //                 .set(newUser)
+  //                 .then(() => {
+  //                     dispatch(login(newUser.email, password))
+  //                 })
+  //         })
+  //         .catch((error) => {
+  //             console.log('errored')
+  //         })
+  // }
+};
 export const checkUser = () => {
   //check user then create member
   return dispatch => {
@@ -51,13 +68,17 @@ export const checkUser = () => {
         //get or create user account
         getMember(user.attributes.email).then(member => {
           console.log("result get member: ", member);
+          sessionStorage.setItem("member", JSON.stringify(member));
           dispatch({
             type: userActionTypes.CHECK_USER,
             payload: member
           });
         });
       })
-      .catch(err => console.log("check user error: ", err));
+      .catch(err => {
+        console.log("check user error: ", err);
+        Auth.federatedSignIn();
+      });
   };
 };
 export const jointSite = (userId, siteID) => {
@@ -206,42 +227,271 @@ async function createMember(newMember) {
       return null;
     });
 }
-// function updateMember() {}
+export const addVolunteerEmail = data => {
+  // return dispatch => {
+  //   // fb.firestore()
+  //   //   .collection("volunteerEmail")
+  //   //   .add({ ...data })
+  //   //   .then(docRef => {
+  //   //     console.log(docRef);
+  //   //   })
+  //   //   .catch(error => {
+  //   //     console.log("errored");
+  //   //   });
+  // };
+};
 
-// export const uploadImage = imageFile => {
-//   return (dispatch, getState, { getFirestore }) => {
-//     try {
-//       const metadata = { contentType: "image/jpeg" };
-//       const uploadTask = storageRef
-//         .child("images/sites/" + imageFile.name)
-//         .put(imageFile, metadata);
-//       dispatch({ type: siteActionTypes.UPLOADING_START });
+export const addVolunteerId = data => {
+  // return dispatch => {
+  //   fb.firestore()
+  //     .collection("volunteerId")
+  //     .add({ ...data })
+  //     .then(docRef => {
+  //       dispatch(fetchVolunteerId(data.site));
+  //     })
+  //     .catch(error => {
+  //       console.log("errored");
+  //     });
+  // };
+};
+export const fetchVolunteerEmail = id => {
+  // const list = [];
+  // return dispatch => {
+  //   fb.firestore()
+  //     .collection("volunteerEmail")
+  //     .where("site", "==", id)
+  //     .onSnapshot(query => {
+  //       query.forEach(docRef => {
+  //         list.push(docRef.data().volunteer);
+  //       });
+  //       console.log(list);
+  //       dispatch({ type: FETCH_VOLUNTEERS_EMAIL, payload: list });
+  //     });
+  // };
+};
 
-//       uploadTask.on(
-//         "state_changed",
-//         function(snapshot) {
-//           //completion percent
-//           let progress = (snapshot.bytesTransferred / snapshot.totalByes) * 100;
-//           //floor: round down decimal number
-//           dispatch({
-//             type: siteActionTypes.UPLOADING,
-//             payload: Math.floor(progress)
-//           });
-//         },
-//         function(error) {
-//           dispatch({ type: siteActionTypes.UPLOADING_FAIL, payload: error });
-//         },
-//         function() {
-//           uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-//             dispatch({
-//               type: siteActionTypes.UPLOADING_SUCCESS,
-//               payload: downloadURL
-//             });
-//           });
-//         }
-//       );
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-// };
+//GET by Site ID
+export const fetchVolunteerId = id => {
+  // const list = [];
+  // const volunteers = [];
+  // return dispatch => {
+  //   fb.firestore()
+  //     .collection("volunteerId")
+  //     .where("site", "==", id)
+  //     .onSnapshot(query => {
+  //       query.forEach(docRef => {
+  //         list.push(docRef.data().volunteer);
+  //       });
+  //       fb.firestore()
+  //         .collection("users")
+  //         .get()
+  //         .then(query => {
+  //           query.forEach(docRef => {
+  //             if (list.includes(docRef.id)) {
+  //               volunteers.push({
+  //                 id: docRef.id,
+  //                 data: docRef.data()
+  //               });
+  //             }
+  //           });
+  //           console.log(volunteers);
+  //           dispatch({ type: FETCH_VOLUNTEERS_ID, payload: volunteers });
+  //         });
+  //     });
+  // };
+};
+
+export const uploadImage = imageFile => {
+  return dispatch => {
+    try {
+      const metadata = { contentType: "image/jpeg" };
+      const uploadTask = storageRef
+        .child("images/sites/" + imageFile.name)
+        .put(imageFile, metadata);
+      // dispatch({ type: UPLOADING_START });
+
+      uploadTask.on(
+        "state_changed",
+        function(snapshot) {
+          //completion percent
+          let progress = (snapshot.bytesTransferred / snapshot.totalByes) * 100;
+          //floor: round down decimal number
+          // dispatch({ type: UPLOADING, payload: Math.floor(progress) });
+        },
+        function(error) {
+          // dispatch({ type: UPLOADING_FAIL, payload: error });
+        },
+        function() {
+          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            // dispatch({ type: UPLOADING_SUCCESS, payload: downloadURL });
+          });
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+export const fetchUser = id => {
+  // return (dispatch) => {
+  //     fb.firestore().collection('users').doc(id).get()
+  //         .then(user => {
+  //             //console.log(user)
+  //             dispatch({ type: FETCH_USER, payload: user.data() })
+  //         })
+  //         .catch(error => {
+  //             console.log(error.code)
+  //         })
+  // }
+};
+
+export const editUser = (id, user) => {
+  // return dispatch => {
+  //     fb.firestore().collection('users').doc(id).set(user)
+  //         .then(() => {
+  //             dispatch(fetchUser(id))
+  //         })
+  //         .catch(error => {
+  //             console.log(error.code)
+  //         })
+  // }
+};
+export const fetchReports = () => {
+  // const list = [];
+  // return dispatch => {
+  //   fb.firestore()
+  //     .collection("reports")
+  //     .get()
+  //     .then(query => {
+  //       query.docs.forEach(doc => {
+  //         const obj = {
+  //           id: doc.id,
+  //           info: doc.data()
+  //         };
+  //         list.push(obj);
+  //       });
+  //       // dispatch({ type: FETCH_REPORTS, payload: list });
+  //     })
+  //     .catch(error => {
+  //       console.log(error.code === "permission-denied");
+  //       if (error.code === "permission-denied") {
+  //         // dispatch({ type: REPORT_FAIL, payload: null });
+  //       }
+  //     });
+  // };
+};
+
+export const fetchReport = id => {
+  // return dispatch => {
+  //   fb.firestore()
+  //     .collection("reports")
+  //     .doc(id)
+  //     .onSnapshot(doc => {
+  //       if (doc.data() === undefined) {
+  //         // dispatch({ type: REPORT_FAIL, payload: null });
+  //       } else {
+  //         // dispatch({ type: FETCH_REPORT, payload: doc.data() });
+  //       }
+  //     });
+  //   // .catch(error=>{
+  //   //     console.log(error.code)
+  //   // })
+  // };
+};
+
+export const updateReport = obj => {
+  // return dispatch => {
+  //   // dispatch({ type: REPORT_LOADING, payload: null });
+  //   fb.firestore()
+  //     .collection("reports")
+  //     .doc(obj.siteId)
+  //     .set(obj.report)
+  //     .then(() => {
+  //       dispatch(fetchReport(obj.siteId));
+  //     })
+  //     .catch(error => {
+  //       console.log(error.code);
+  //     });
+  // };
+};
+export const loginFacebook = () => {
+  // return dispatch => {
+  //   fb.auth()
+  //     .setPersistence(fb.auth.Auth.Persistence.SESSION)
+  //     .then(() => {
+  //       const facebook = new fb.auth.FacebookAuthProvider();
+  //       //facebook.addScope('public_profile, email')
+  //       fb.auth()
+  //         .signInWithPopup(facebook)
+  //         .then(result => {
+  //           console.log(result);
+  //           console.log(result.credential.accessToken);
+  //           console.log(result.user);
+  //           fb.firestore()
+  //             .collection("users")
+  //             .doc(result.user.uid)
+  //             .get()
+  //             .then(doc => {
+  //               if (doc.data() === undefined) {
+  //                 fb.firestore()
+  //                   .collection("users")
+  //                   .doc(result.user.uid)
+  //                   .set({
+  //                     firstname: result.user.displayName,
+  //                     lastname: "",
+  //                     email: result.user.email,
+  //                     phone: ""
+  //                   });
+  //               }
+  //             });
+  //           // dispatch({ type: LOGIN_SUCCESS, payload: result.user });
+  //           sessionStorage.setItem("user", result.user.uid);
+  //           sessionStorage.setItem("isLogin", true);
+  //         })
+  //         .catch(error => {
+  //           console.log(error.message);
+  //         });
+  //     });
+  // };
+};
+
+export const loginGoogle = () => {
+  // return dispatch => {
+  //   fb.auth()
+  //     .setPersistence(fb.auth.Auth.Persistence.SESSION)
+  //     .then(() => {
+  //       const google = new fb.auth.GoogleAuthProvider();
+  //       // google.addScope('public_profile, email')
+  //       fb.auth()
+  //         .signInWithPopup(google)
+  //         .then(result => {
+  //           console.log(result);
+  //           console.log(result.credential.accessToken);
+  //           console.log(result.user);
+  //           fb.firestore()
+  //             .collection("users")
+  //             .doc(result.user.uid)
+  //             .get()
+  //             .then(doc => {
+  //               if (doc.data() === undefined) {
+  //                 fb.firestore()
+  //                   .collection("users")
+  //                   .doc(result.user.uid)
+  //                   .set({
+  //                     firstname: result.user.displayName,
+  //                     lastname: "",
+  //                     email: result.user.email,
+  //                     phone: ""
+  //                   });
+  //               }
+  //             });
+  //           // dispatch({ type: LOGIN_SUCCESS, payload: result.user });
+  //           sessionStorage.setItem("user", result.user.uid);
+  //           sessionStorage.setItem("isLogin", true);
+  //         })
+  //         .catch(error => {
+  //           console.log(error.message);
+  //         });
+  //     });
+  // };
+};

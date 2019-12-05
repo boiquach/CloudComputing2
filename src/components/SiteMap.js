@@ -9,6 +9,9 @@ import {
 import { MarkerClusterer } from "react-google-maps/lib/components/addons/MarkerClusterer";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import * as actionTypes from "../Redux/actions/actionTypes";
+import { fetchSite } from "../Redux/actions/siteAction";
 
 let geocoder;
 
@@ -33,37 +36,39 @@ class SiteMap extends Component {
   }
 
   getAddress = geocoder => {
-    console.log("abc");
+    console.log("get address...");
     let locationData = [];
     for (let i = 0; i < this.props.sites.length; i++) {
       //console.log(this.props.sites[i].info.location)
       locationData.push(
-        this.findLatLang(this.props.sites[i].info.location, geocoder)
+        this.findLatLong(this.props.sites[i].location, geocoder)
       );
     }
+    console.log("getaddress location data: ", locationData);
     return locationData;
   };
 
-  findLatLang = (address, geocoder) => {
-    console.log("def");
+  findLatLong = (address, geocoder) => {
+    console.log("find latlong: ", address, geocoder);
     // console.log(address)
     return new Promise(function(resolve, reject) {
       geocoder.geocode({ address: address }, function(results, status) {
+        console.log(results);
         if (status === "OK") {
-          //console.log(results)
+          console.log("ok: ", results);
           resolve([
             results[0].geometry.location.lat(),
             results[0].geometry.location.lng()
           ]);
         } else {
-          reject(new Error("Cant find location " + address));
+          reject(console.log(`failed to fetch ${address}`));
         }
       });
     });
   };
 
   getLatLng = () => {
-    console.log("ghi");
+    console.log("get latlong");
     let locations = this.getAddress(geocoder);
     let places = [];
 
@@ -73,6 +78,7 @@ class SiteMap extends Component {
         places.push(place);
       });
       this.setState(() => {
+        console.log("get latlong: ", places);
         return {
           latlng: places
         };
@@ -83,11 +89,13 @@ class SiteMap extends Component {
   };
 
   getInitialLocation = () => {
+    console.log("getinitlocation...");
     if (this.props.centerAroundCurrentLocation) {
       if (navigator && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
           //console.log(position)
           const coords = position.coords;
+          console.log("getinitlocation init position:  ", coords);
           this.setState({
             currentLocation: {
               lat: coords.latitude,
@@ -102,17 +110,18 @@ class SiteMap extends Component {
   render() {
     geocoder = new google.maps.Geocoder();
     //console.log(this.state.latlng)
-    console.log(this.state.latlng);
+    console.log("SiteMap latlong state: ", this.state.latlng);
     const CleanUpMap = compose(
       withProps({
         loadingElement: <div style={{ height: `100%` }} />,
-        containerElement: <div style={{ height: `400px`, width: `400px` }} />,
+        containerElement: (
+          <div style={{ height: `500px`, width: `700px`, margin: `20px` }} />
+        ),
         mapElement: <div style={{ height: `100%` }} />
       }),
       withHandlers({
         onMarkerClustererClick: () => markerClusterer => {
           const clickedMarkers = markerClusterer.getMarkers();
-          console.log(clickedMarkers);
         }
       }),
       withStateHandlers(
@@ -142,7 +151,7 @@ class SiteMap extends Component {
       withGoogleMap
     )(props => (
       <GoogleMap
-        defaultZoom={5}
+        defaultZoom={7}
         defaultCenter={{
           lat: this.state.currentLocation.lat,
           lng: this.state.currentLocation.lng
@@ -166,12 +175,15 @@ class SiteMap extends Component {
                   <Marker
                     key={site.id}
                     position={coord}
-                    onClick={() => props.showInfo(index, coord)}
+                    onClick={() => {
+                      props.showInfo(index, coord);
+                      // this.props.fetchSite(site);
+                    }}
                   >
                     {props.isOpen && props.infoIndex === index && (
                       <InfoWindow onCloseClick={props.hideInfo}>
                         <div>
-                          {site.info.name}
+                          {site.name}
                           <a href={`site/${site.id}`}>View</a>
                         </div>
                       </InfoWindow>
@@ -185,9 +197,21 @@ class SiteMap extends Component {
         </MarkerClusterer>
       </GoogleMap>
     ));
+
+    console.log("SiteMap before return state: ", this.state);
+    console.log("SiteMap before return props: ", this.props);
     return (
-      <div className="map">
-        <CleanUpMap currentLocation={this.state.currentLocation} />
+      <div>
+        <div className="align map">
+          <div>
+            <CleanUpMap currentLocation={this.state.currentLocation} />
+          </div>
+          <div className="invite">
+            <h3 className="invite_text">
+              Click on a site to view information and join!
+            </h3>
+          </div>
+        </div>
       </div>
     );
   }
@@ -200,5 +224,17 @@ SiteMap.propTypes = {
 SiteMap.defaultProps = {
   centerAroundCurrentLocation: true
 };
+const mapStateToProps = state => {
+  return {
+    sites: state.siteReducer.sites
+  };
+};
 
-export default SiteMap;
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchSite: site => dispatch(fetchSite(site))
+  };
+};
+
+// export default SiteMap;
+export default connect(mapStateToProps, mapDispatchToProps)(SiteMap);

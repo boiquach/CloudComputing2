@@ -106,7 +106,12 @@ class ImageUpload extends Component {
   }
 
   render() {
-    const { image, input, className } = this.props;
+    const {
+      image,
+      input,
+      className,
+      meta: { touched, error }
+    } = this.props;
     return (
       <div className={classnames("form-group")}>
         {image === "" ? (
@@ -114,14 +119,14 @@ class ImageUpload extends Component {
             <img
               src="https://react.semantic-ui.com/images/wireframe/image.png"
               alt="none"
-              style={{ width: 250, height: 250 }}
+              style={{ width: 320, height: 180 }}
             />
           </div>
         ) : (
           <div>
             <img
               src={image}
-              style={{ width: 250, height: 250 }}
+              style={{ width: 320, height: 180 }}
               alt="site"
               className={classnames(className)}
             />
@@ -136,10 +141,14 @@ class ImageUpload extends Component {
           );
         })}
         <div>
-          <button type="button" onClick={() => this.inputRef.current.click()}>
+          <button
+            type="button"
+            className="next"
+            onClick={() => this.inputRef.current.click()}
+          >
             Pick image
           </button>
-          <button type="button" onClick={this.onFormSubmit}>
+          <button type="button" className="next" onClick={this.onFormSubmit}>
             Upload
           </button>
           <input
@@ -149,6 +158,7 @@ class ImageUpload extends Component {
             hidden
           />
         </div>
+        {touched && error && <span className="error_text">{error}</span>}
       </div>
     );
   }
@@ -156,10 +166,10 @@ class ImageUpload extends Component {
 
 const mapStateToProps = state => {
   return {
-    error: state.image_error.image_error,
-    percent: state.image_percent.image_percent,
-    showProgress: state.image_showProgress.image_showProgress,
-    image: state.image.image
+    error: state.siteReducer.image_error,
+    percent: state.siteReducer.image_percent,
+    showProgress: state.siteReducer.image_showProgress,
+    image: state.siteReducer.image
   };
 };
 

@@ -17,18 +17,19 @@ export const createMember = `mutation CreateMember(
       region
       key
     }
+    status
     ownedsites {
       items {
         id
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -88,18 +89,19 @@ export const updateMember = `mutation UpdateMember(
       region
       key
     }
+    status
     ownedsites {
       items {
         id
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -159,18 +161,19 @@ export const deleteMember = `mutation DeleteMember(
       region
       key
     }
+    status
     ownedsites {
       items {
         id
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -223,7 +226,7 @@ export const createSite = `mutation CreateSite(
     name
     long
     lat
-    date
+    datetime
     createdAt
     location
     description
@@ -233,7 +236,7 @@ export const createSite = `mutation CreateSite(
       region
       key
     }
-    plans
+    image
     kit
     container
     siteOwner {
@@ -248,6 +251,7 @@ export const createSite = `mutation CreateSite(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -303,7 +307,7 @@ export const updateSite = `mutation UpdateSite(
     name
     long
     lat
-    date
+    datetime
     createdAt
     location
     description
@@ -313,7 +317,7 @@ export const updateSite = `mutation UpdateSite(
       region
       key
     }
-    plans
+    image
     kit
     container
     siteOwner {
@@ -328,6 +332,7 @@ export const updateSite = `mutation UpdateSite(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -383,7 +388,7 @@ export const deleteSite = `mutation DeleteSite(
     name
     long
     lat
-    date
+    datetime
     createdAt
     location
     description
@@ -393,7 +398,7 @@ export const deleteSite = `mutation DeleteSite(
       region
       key
     }
-    plans
+    image
     kit
     container
     siteOwner {
@@ -408,6 +413,7 @@ export const deleteSite = `mutation DeleteSite(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -465,7 +471,7 @@ export const createMembersSites = `mutation CreateMembersSites(
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -475,7 +481,7 @@ export const createMembersSites = `mutation CreateMembersSites(
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -485,6 +491,7 @@ export const createMembersSites = `mutation CreateMembersSites(
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -508,6 +515,7 @@ export const createMembersSites = `mutation CreateMembersSites(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -539,7 +547,7 @@ export const updateMembersSites = `mutation UpdateMembersSites(
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -549,7 +557,7 @@ export const updateMembersSites = `mutation UpdateMembersSites(
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -559,6 +567,7 @@ export const updateMembersSites = `mutation UpdateMembersSites(
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -582,6 +591,7 @@ export const updateMembersSites = `mutation UpdateMembersSites(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -613,7 +623,7 @@ export const deleteMembersSites = `mutation DeleteMembersSites(
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -623,7 +633,7 @@ export const deleteMembersSites = `mutation DeleteMembersSites(
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -633,6 +643,7 @@ export const deleteMembersSites = `mutation DeleteMembersSites(
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -656,6 +667,7 @@ export const deleteMembersSites = `mutation DeleteMembersSites(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -690,7 +702,7 @@ export const createPost = `mutation CreatePost(
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -700,7 +712,7 @@ export const createPost = `mutation CreatePost(
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -710,6 +722,7 @@ export const createPost = `mutation CreatePost(
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -741,6 +754,7 @@ export const createPost = `mutation CreatePost(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -774,7 +788,7 @@ export const updatePost = `mutation UpdatePost(
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -784,7 +798,7 @@ export const updatePost = `mutation UpdatePost(
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -794,6 +808,7 @@ export const updatePost = `mutation UpdatePost(
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -825,6 +840,7 @@ export const updatePost = `mutation UpdatePost(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -858,7 +874,7 @@ export const deletePost = `mutation DeletePost(
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -868,7 +884,7 @@ export const deletePost = `mutation DeletePost(
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -878,6 +894,7 @@ export const deletePost = `mutation DeletePost(
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -909,6 +926,7 @@ export const deletePost = `mutation DeletePost(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -946,12 +964,12 @@ export const createComment = `mutation CreateComment(
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -965,6 +983,7 @@ export const createComment = `mutation CreateComment(
         lastName
         phone
         iconURL
+        status
       }
     }
     member {
@@ -979,6 +998,7 @@ export const createComment = `mutation CreateComment(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -1016,12 +1036,12 @@ export const updateComment = `mutation UpdateComment(
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -1035,6 +1055,7 @@ export const updateComment = `mutation UpdateComment(
         lastName
         phone
         iconURL
+        status
       }
     }
     member {
@@ -1049,6 +1070,7 @@ export const updateComment = `mutation UpdateComment(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -1086,12 +1108,12 @@ export const deleteComment = `mutation DeleteComment(
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -1105,6 +1127,7 @@ export const deleteComment = `mutation DeleteComment(
         lastName
         phone
         iconURL
+        status
       }
     }
     member {
@@ -1119,6 +1142,7 @@ export const deleteComment = `mutation DeleteComment(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -1159,7 +1183,7 @@ export const createReport = `mutation CreateReport(
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -1169,7 +1193,7 @@ export const createReport = `mutation CreateReport(
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -1179,6 +1203,7 @@ export const createReport = `mutation CreateReport(
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -1202,6 +1227,7 @@ export const createReport = `mutation CreateReport(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -1242,7 +1268,7 @@ export const updateReport = `mutation UpdateReport(
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -1252,7 +1278,7 @@ export const updateReport = `mutation UpdateReport(
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -1262,6 +1288,7 @@ export const updateReport = `mutation UpdateReport(
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -1285,6 +1312,7 @@ export const updateReport = `mutation UpdateReport(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -1325,7 +1353,7 @@ export const deleteReport = `mutation DeleteReport(
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -1335,7 +1363,7 @@ export const deleteReport = `mutation DeleteReport(
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -1345,6 +1373,7 @@ export const deleteReport = `mutation DeleteReport(
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -1368,6 +1397,7 @@ export const deleteReport = `mutation DeleteReport(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }

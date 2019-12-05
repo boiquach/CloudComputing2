@@ -1,12 +1,20 @@
-import { storageRef } from "../../config/index";
+// import { storageRef } from "../../config/index";
 import * as siteActionTypes from "./actionTypes";
 import * as graphqlActions from "./graphqlActions";
+import { storageRef, fb } from "../../config/index";
 //GET
 export const fetchSites = graphqlActions.fetchSites;
 //note: when we create site, we don't dispatch using reducer, we us subscription insteads
 export const createSite = graphqlActions.createSite;
 export const editSite = graphqlActions.editSite;
-
+export const fetchSite = site => {
+  return dispatch => {
+    dispatch({
+      type: siteActionTypes.FETCH_SITE,
+      payload: site
+    });
+  };
+};
 // export const addSite = site => {
 //   return (dispatch, getState, { getFirestore }) => {
 //     const firestore = getFirestore();
@@ -54,7 +62,30 @@ export const deleteSie = () => {};
 //     }
 // }
 
-export const fetchSite = siteId => {};
+// export const fetchSite = siteId => {};
+
+export const fetchSitesByUser = id => {
+  const list = [];
+  return dispatch => {
+    fb.firestore()
+      .collection("sites")
+      .where("owner", "==", id)
+      .get()
+      .then(query => {
+        query.docs.forEach(doc => {
+          list.push({
+            id: doc.id,
+            info: doc.data()
+          });
+        });
+
+        // dispatch({ type: FETCH_SITES, payload: list });
+      });
+    // .catch(error => {
+    //     console.log(error.code)
+    // })
+  };
+};
 
 export const uploadImage = imageFile => {
   return (dispatch, getState, { getFirestore }) => {

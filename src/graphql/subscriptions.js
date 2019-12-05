@@ -14,18 +14,19 @@ export const onCreateMember = `subscription OnCreateMember {
       region
       key
     }
+    status
     ownedsites {
       items {
         id
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -82,18 +83,19 @@ export const onUpdateMember = `subscription OnUpdateMember {
       region
       key
     }
+    status
     ownedsites {
       items {
         id
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -150,18 +152,19 @@ export const onDeleteMember = `subscription OnDeleteMember {
       region
       key
     }
+    status
     ownedsites {
       items {
         id
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -211,7 +214,7 @@ export const onCreateSite = `subscription OnCreateSite {
     name
     long
     lat
-    date
+    datetime
     createdAt
     location
     description
@@ -221,7 +224,7 @@ export const onCreateSite = `subscription OnCreateSite {
       region
       key
     }
-    plans
+    image
     kit
     container
     siteOwner {
@@ -236,6 +239,7 @@ export const onCreateSite = `subscription OnCreateSite {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -288,7 +292,7 @@ export const onUpdateSite = `subscription OnUpdateSite {
     name
     long
     lat
-    date
+    datetime
     createdAt
     location
     description
@@ -298,7 +302,7 @@ export const onUpdateSite = `subscription OnUpdateSite {
       region
       key
     }
-    plans
+    image
     kit
     container
     siteOwner {
@@ -313,6 +317,7 @@ export const onUpdateSite = `subscription OnUpdateSite {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -365,7 +370,7 @@ export const onDeleteSite = `subscription OnDeleteSite {
     name
     long
     lat
-    date
+    datetime
     createdAt
     location
     description
@@ -375,7 +380,7 @@ export const onDeleteSite = `subscription OnDeleteSite {
       region
       key
     }
-    plans
+    image
     kit
     container
     siteOwner {
@@ -390,6 +395,7 @@ export const onDeleteSite = `subscription OnDeleteSite {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -444,7 +450,7 @@ export const onCreateMembersSites = `subscription OnCreateMembersSites {
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -454,7 +460,7 @@ export const onCreateMembersSites = `subscription OnCreateMembersSites {
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -464,6 +470,7 @@ export const onCreateMembersSites = `subscription OnCreateMembersSites {
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -487,6 +494,7 @@ export const onCreateMembersSites = `subscription OnCreateMembersSites {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -515,7 +523,7 @@ export const onUpdateMembersSites = `subscription OnUpdateMembersSites {
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -525,7 +533,7 @@ export const onUpdateMembersSites = `subscription OnUpdateMembersSites {
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -535,6 +543,7 @@ export const onUpdateMembersSites = `subscription OnUpdateMembersSites {
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -558,6 +567,7 @@ export const onUpdateMembersSites = `subscription OnUpdateMembersSites {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -586,7 +596,7 @@ export const onDeleteMembersSites = `subscription OnDeleteMembersSites {
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -596,7 +606,7 @@ export const onDeleteMembersSites = `subscription OnDeleteMembersSites {
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -606,6 +616,7 @@ export const onDeleteMembersSites = `subscription OnDeleteMembersSites {
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -629,6 +640,7 @@ export const onDeleteMembersSites = `subscription OnDeleteMembersSites {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -660,7 +672,7 @@ export const onCreatePost = `subscription OnCreatePost {
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -670,7 +682,7 @@ export const onCreatePost = `subscription OnCreatePost {
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -680,6 +692,7 @@ export const onCreatePost = `subscription OnCreatePost {
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -711,6 +724,7 @@ export const onCreatePost = `subscription OnCreatePost {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -741,7 +755,7 @@ export const onUpdatePost = `subscription OnUpdatePost {
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -751,7 +765,7 @@ export const onUpdatePost = `subscription OnUpdatePost {
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -761,6 +775,7 @@ export const onUpdatePost = `subscription OnUpdatePost {
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -792,6 +807,7 @@ export const onUpdatePost = `subscription OnUpdatePost {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -822,7 +838,7 @@ export const onDeletePost = `subscription OnDeletePost {
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -832,7 +848,7 @@ export const onDeletePost = `subscription OnDeletePost {
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -842,6 +858,7 @@ export const onDeletePost = `subscription OnDeletePost {
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -873,6 +890,7 @@ export const onDeletePost = `subscription OnDeletePost {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -907,12 +925,12 @@ export const onCreateComment = `subscription OnCreateComment {
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -926,6 +944,7 @@ export const onCreateComment = `subscription OnCreateComment {
         lastName
         phone
         iconURL
+        status
       }
     }
     member {
@@ -940,6 +959,7 @@ export const onCreateComment = `subscription OnCreateComment {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -974,12 +994,12 @@ export const onUpdateComment = `subscription OnUpdateComment {
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -993,6 +1013,7 @@ export const onUpdateComment = `subscription OnUpdateComment {
         lastName
         phone
         iconURL
+        status
       }
     }
     member {
@@ -1007,6 +1028,7 @@ export const onUpdateComment = `subscription OnUpdateComment {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -1041,12 +1063,12 @@ export const onDeleteComment = `subscription OnDeleteComment {
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -1060,6 +1082,7 @@ export const onDeleteComment = `subscription OnDeleteComment {
         lastName
         phone
         iconURL
+        status
       }
     }
     member {
@@ -1074,6 +1097,7 @@ export const onDeleteComment = `subscription OnDeleteComment {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -1111,7 +1135,7 @@ export const onCreateReport = `subscription OnCreateReport {
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -1121,7 +1145,7 @@ export const onCreateReport = `subscription OnCreateReport {
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -1131,6 +1155,7 @@ export const onCreateReport = `subscription OnCreateReport {
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -1154,6 +1179,7 @@ export const onCreateReport = `subscription OnCreateReport {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -1191,7 +1217,7 @@ export const onUpdateReport = `subscription OnUpdateReport {
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -1201,7 +1227,7 @@ export const onUpdateReport = `subscription OnUpdateReport {
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -1211,6 +1237,7 @@ export const onUpdateReport = `subscription OnUpdateReport {
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -1234,6 +1261,7 @@ export const onUpdateReport = `subscription OnUpdateReport {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -1271,7 +1299,7 @@ export const onDeleteReport = `subscription OnDeleteReport {
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -1281,7 +1309,7 @@ export const onDeleteReport = `subscription OnDeleteReport {
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -1291,6 +1319,7 @@ export const onDeleteReport = `subscription OnDeleteReport {
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -1314,6 +1343,7 @@ export const onDeleteReport = `subscription OnDeleteReport {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }

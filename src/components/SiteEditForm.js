@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
-import { uploadImage, editSite } from "../Redux/actions/siteAction";
+// import { uploadImage, editSite } from "../actions/siteAction";
 import "react-datepicker/dist/react-datepicker.css";
 
 const minDate = new Date();
@@ -46,15 +46,14 @@ class SiteEditForm extends Component {
       location: this.state.location,
       image: this.state.image,
       kit: this.state.kit,
-      container: this.state.container
+      container: this.state.container,
+      owner: sessionStorage.getItem("member")
     };
-    console.log(site);
-    console.log(this.props.siteId);
+
     this.props.editSite(this.props.siteId, site);
   };
 
   handleChange = e => {
-    console.log(e);
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -74,49 +73,30 @@ class SiteEditForm extends Component {
     );
 
     this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+
+    Object.keys(this.props.site).forEach((key, index) => {
+      if (this.props.site[key] !== undefined) {
+        if (key === "datetime") {
+          this.setState({
+            [key]: new Date(this.props.site[key].seconds * 1000)
+          });
+        } else {
+          this.setState({
+            [key]: this.props.site[key]
+          });
+        }
+      }
+    });
   }
 
   handlePlaceChanged = () => {
     const place = this.autocomplete.getPlace();
-    console.log(place);
     if (place !== undefined) {
       this.setState({
         location: place.formatted_address
       });
-      //this.props.input.onChange(place.formatted_address)
     }
   };
-
-  // componentWillReceiveProps(props) {
-  //     Object.keys(props.site).forEach((key, index) => {
-
-  //         if (props.site[key] !== undefined) {
-  //             console.log(key)
-  //             if (key === 'datetime') {
-  //                 this.setState({
-  //                     [key]: props.site[key].seconds
-  //                 })
-  //             }
-  //             else {
-
-  //                 this.setState({
-  //                     [key]: props.site[key]
-  //                 })
-  //             }
-  //         }
-  //     })
-  // if (props.site.datetime !== undefined) {
-  //     this.setState({
-  //         name: props.site.name,
-  //         description: props.site.description,
-  //         datetime: props.site.datetime.seconds,
-  //         location: props.site.location,
-  //         image: props.site.image,
-  //         kit:props.site.kit,
-  //         container:props.site.container
-  //     })
-  // }
-  // }
 
   onFormSubmit = e => {
     e.preventDefault();
@@ -126,7 +106,6 @@ class SiteEditForm extends Component {
       for (let i = 0; i < errors.length; i++) {
         if (errors[i].name === "no file") {
           errors[i].state = !this.state.errors[i].state;
-          console.log(errors[i]);
           this.setState({
             errors: errors
           });
@@ -163,7 +142,7 @@ class SiteEditForm extends Component {
       for (let i = 0; i < errors.length; i++) {
         if (errors[i].name === "wrong type") {
           errors[i].state = !this.state.errors[i].state;
-          console.log(errors[i]);
+
           this.setState({
             errors: errors
           });
@@ -201,12 +180,9 @@ class SiteEditForm extends Component {
     if (prevProps.site !== this.props.site) {
       Object.keys(this.props.site).forEach((key, index) => {
         if (this.props.site[key] !== undefined) {
-          // console.log(key)
           if (key === "datetime") {
-            console.log(this.props.site[key].seconds);
-            console.log(new Date(this.props.site[key].seconds * 1000));
             this.setState({
-              [key]: this.props.site[key].seconds * 1000
+              [key]: new Date(this.props.site[key].seconds * 1000)
             });
           } else {
             this.setState({
@@ -219,164 +195,188 @@ class SiteEditForm extends Component {
   }
 
   render() {
-    // if (this.props.site.datetime !== undefined) {
-    //     console.log(this.props.site.datetime.seconds)
-    // }
-
     const { image } = this.state;
 
     const bags = ["0", "10", "20"];
     const container = ["Yes", "No"];
 
     return (
-      <div>
-        <h4>Edit Site's information</h4>
-
-        <form>
-          <div className="form-group">
-            <label>Site's Name</label>
-            <input
-              className="form-control"
-              type="text"
-              name="name"
-              value={this.state.name}
-              onChange={this.handleChange.bind(this)}
-            />
+      <div className="align">
+        <div className="form_block">
+          <div className="align">
+            <h4>Edit Site's information</h4>
           </div>
-
-          <div className="form-group">
-            <label>Description</label>
-            <input
-              className="form-control"
-              name="description"
-              type="text"
-              value={this.state.description}
-              onChange={this.handleChange.bind(this)}
-            />
-          </div>
-        </form>
-
-        <div className="form-group">
-          <input
-            className="form-control"
-            ref={this.autocompleteInput}
-            id="autocomplete"
-            name="location"
-            placeholder="Enter your address"
-            onChange={this.handleChange.bind(this)}
-            type="text"
-            value={this.state.location}
-          ></input>
-        </div>
-
-        <DatePicker
-          showTimeSelect
-          inline
-          name="datetime"
-          timeCaption="Time"
-          timeFormat="HH:mm"
-          dateFormat="yyyy-MM-dd@HH:mm:ss"
-          timeInvervals={30}
-          minDate={minDate}
-          onChange={this.handleChangeDate.bind(this)}
-          required
-          placeholderText="Choose date and time for the clean up"
-          selected={
-            this.state.datetime !== null
-              ? new Date(this.state.datetime)
-              : minDate
-          }
-        />
-
-        <div>
-          {image === "" ? (
+          <div className="site_form edit">
             <div>
-              <img
-                src="https://react.semantic-ui.com/images/wireframe/image.png"
-                alt="none"
-                style={{ width: 250, height: 250 }}
+              {image === "" ? (
+                <div>
+                  <img
+                    src="https://react.semantic-ui.com/images/wireframe/image.png"
+                    alt="none"
+                    style={{ width: 320, height: 180 }}
+                  />
+                </div>
+              ) : (
+                <div>
+                  <img
+                    src={image}
+                    style={{ width: 320, height: 180 }}
+                    alt="site"
+                  />
+                </div>
+              )}
+              <br />
+              {this.state.errors.map(error => {
+                return (
+                  <div key={error.name}>
+                    {error.state && <span>{error.warn}</span>}
+                  </div>
+                );
+              })}
+              <div>
+                <button
+                  className="next"
+                  type="button"
+                  onClick={() => this.inputRef.current.click()}
+                >
+                  Pick image
+                </button>
+                <button
+                  className="next"
+                  type="button"
+                  onClick={this.onFormSubmit}
+                >
+                  Upload
+                </button>
+                <input
+                  type="file"
+                  ref={this.inputRef}
+                  onChange={e => this.fileChange(e)}
+                  hidden
+                />
+              </div>
+            </div>
+            <form>
+              <div className="form-group">
+                <span>
+                  <b>Site's Name:</b>
+                </span>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="name"
+                  value={this.state.name}
+                  onChange={this.handleChange.bind(this)}
+                />
+              </div>
+
+              <div className="form-group">
+                <span>
+                  <b>Description:</b>
+                </span>
+                <input
+                  className="form-control"
+                  name="description"
+                  type="text"
+                  value={this.state.description}
+                  onChange={this.handleChange.bind(this)}
+                />
+              </div>
+            </form>
+
+            <div className="form-group">
+              <span>
+                <b>Location:</b>
+              </span>
+              <input
+                className="form-control"
+                ref={this.autocompleteInput}
+                id="autocomplete"
+                name="location"
+                placeholder="Enter your address"
+                onChange={this.handleChange.bind(this)}
+                type="text"
+                value={this.state.location}
+              ></input>
+            </div>
+
+            <div>
+              <span>
+                <b>Date and Time:</b>
+              </span>
+              <DatePicker
+                showTimeSelect
+                inline
+                name="datetime"
+                timeCaption="Time"
+                timeFormat="HH:mm"
+                dateFormat="yyyy-MM-dd@HH:mm:ss"
+                timeInvervals={30}
+                minDate={minDate}
+                onChange={this.handleChangeDate.bind(this)}
+                required
+                placeholderText="Choose date and time for the clean up"
+                selected={
+                  this.state.datetime !== null ? this.state.datetime : minDate
+                }
               />
             </div>
-          ) : (
+
             <div>
-              <img src={image} style={{ width: 250, height: 250 }} alt="site" />
+              <span>
+                <b>Clean Up Bags:</b>
+              </span>
+              {bags.map(amount => {
+                return (
+                  <div className="form-group form-check">
+                    <label className="form-check-label">
+                      <input
+                        className="form-check-input"
+                        onChange={this.handleChange.bind(this)}
+                        name="kit"
+                        type="radio"
+                        value={amount}
+                        checked={this.state.kit === amount}
+                      />
+                      {amount}
+                    </label>
+                  </div>
+                );
+              })}
             </div>
-          )}
-          <br />
-          {this.state.errors.map(error => {
-            return (
-              <div key={error.name}>
-                {error.state && <span>{error.warn}</span>}
-              </div>
-            );
-          })}
-          <div>
-            <button type="button" onClick={() => this.inputRef.current.click()}>
-              Pick image
-            </button>
-            <button type="button" onClick={this.onFormSubmit}>
-              Upload
-            </button>
-            <input
-              type="file"
-              ref={this.inputRef}
-              onChange={e => this.fileChange(e)}
-              hidden
-            />
+
+            <div>
+              <span>
+                <b>Sharp Containers:</b>
+              </span>
+              {container.map(choice => {
+                return (
+                  <div className="form-group form-check">
+                    <label className="form-check-label">
+                      <input
+                        className="form-check-input"
+                        onChange={this.handleChange.bind(this)}
+                        name="container"
+                        type="radio"
+                        value={choice}
+                        checked={this.state.container === choice}
+                      />
+                      {choice}
+                    </label>
+                  </div>
+                );
+              })}
+            </div>
+            <div>
+              <button className="next fill" onClick={this.submit.bind(this)}>
+                Update
+              </button>
+              <button className="next" onClick={this.props.closeEdit}>
+                Close
+              </button>
+            </div>
           </div>
         </div>
-        <div>
-          How many Clean Up bags <br />
-          {bags.map(amount => {
-            return (
-              <div className="form-group">
-                <label>{amount}</label>
-                <input
-                  className="form-control"
-                  onChange={this.handleChange.bind(this)}
-                  name="kit"
-                  type="radio"
-                  value={amount}
-                  checked={this.state.kit === amount}
-                />
-              </div>
-            );
-          })}
-          {/* <div>
-                        <label><input name="kit" type="radio" value="0" />{''}0</label>
-
-                        <label><input name="kit" type="radio" value="10" />{''}10</label>
-
-                        <label><input name="kit" type="radio" value="20" />{''}20</label>
-
-                    </div> */}
-        </div>
-
-        <div>
-          Sharp container? <br />
-          {container.map(choice => {
-            return (
-              <div className="form-group">
-                <label>{choice}</label>
-                <input
-                  className="form-control"
-                  onChange={this.handleChange.bind(this)}
-                  name="container"
-                  type="radio"
-                  value={choice}
-                  checked={this.state.container === choice}
-                />
-              </div>
-            );
-          })}
-          {/* <div>
-                        <label><input name="container" type="radio" value="Yes" />{''}Yes</label>
-
-                        <label><input name="container" type="radio" value="No" />{''}No</label>
-
-                    </div> */}
-        </div>
-        <button onClick={this.submit.bind(this)}>Update</button>
       </div>
     );
   }
@@ -392,8 +392,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    uploadImage: file => dispatch(uploadImage(file)),
-    editSite: (id, site) => dispatch(editSite(id, site))
+    // uploadImage: file => dispatch(uploadImage(file)),
+    // editSite: (id, site) => dispatch(editSite(id, site))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SiteEditForm);

@@ -6,16 +6,20 @@ export const initialState = {
   image_error: null,
   image_percent: null,
   image_showProgress: false,
-  image: ""
+  image: "",
+  volunteerEmail: [],
+  volunteerObject: [],
+  reports: [],
+  fetching: true,
+  fetchingFail: false,
+  report: {},
+  fetchingReport: true,
+  reportFail: false
 };
 
 export const reducer = (state = initialState, action) => {
   // console.log("siteReducer: ", action.type, " payload: ", action.payload);
   switch (action.type) {
-    // case QUERY:
-    //   return { ...state, sites: action.sites };
-    // case SUBSCRIPTION:
-    //   return { ...state, sites: [...state.sites, action.site] };
     case actionTypes.ADD_SITE:
       console.log(
         "siteReducer case: ",
@@ -27,6 +31,12 @@ export const reducer = (state = initialState, action) => {
         ...state,
         sites: [...state.sites, action.payload]
       };
+    case actionTypes.DELETE_SITE: {
+      return {
+        ...state,
+        site: {}
+      };
+    }
     case actionTypes.EDIT_SITE:
       console.log(
         "siteReducer case: ",
@@ -59,9 +69,16 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_SITE: {
       return {
         ...state,
-        site: action.payload
+        site: action.payload,
+        fetching: false
       };
     }
+    case actionTypes.FETCHING_FAIL:
+      return {
+        ...state,
+        fetchingFail: true,
+        fetching: false
+      };
     case actionTypes.UPLOADING: {
       return {
         ...state,
@@ -94,6 +111,36 @@ export const reducer = (state = initialState, action) => {
         image: action.payload
       };
     }
+
+    case actionTypes.FETCH_REPORTS: {
+      return {
+        ...state,
+        reports: action.payload,
+        fetchingReport: false
+      };
+    }
+    case actionTypes.FETCH_REPORT: {
+      return {
+        ...state,
+        report: action.payload,
+        fetchingReport: false
+      };
+    }
+    case actionTypes.REPORT_FAIL: {
+      return {
+        ...state,
+        reportFail: true,
+        fetchingReport: false
+      };
+    }
+    case actionTypes.REPORT_LOADING: {
+      return {
+        ...state,
+        fetchingReport: true,
+        reportFail: false
+      };
+    }
+
     default:
       return state;
   }

@@ -14,18 +14,19 @@ export const getMember = `query GetMember($id: ID!) {
       region
       key
     }
+    status
     ownedsites {
       items {
         id
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -87,6 +88,7 @@ export const listMembers = `query ListMembers(
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -113,7 +115,7 @@ export const getSite = `query GetSite($id: ID!) {
     name
     long
     lat
-    date
+    datetime
     createdAt
     location
     description
@@ -123,7 +125,7 @@ export const getSite = `query GetSite($id: ID!) {
       region
       key
     }
-    plans
+    image
     kit
     container
     siteOwner {
@@ -138,6 +140,7 @@ export const getSite = `query GetSite($id: ID!) {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -195,7 +198,7 @@ export const listSites = `query ListSites(
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -205,7 +208,7 @@ export const listSites = `query ListSites(
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -215,6 +218,7 @@ export const listSites = `query ListSites(
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -241,7 +245,7 @@ export const getPost = `query GetPost($id: ID!) {
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -251,7 +255,7 @@ export const getPost = `query GetPost($id: ID!) {
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -261,6 +265,7 @@ export const getPost = `query GetPost($id: ID!) {
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -292,6 +297,7 @@ export const getPost = `query GetPost($id: ID!) {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -327,12 +333,12 @@ export const listPosts = `query ListPosts(
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -346,6 +352,7 @@ export const listPosts = `query ListPosts(
         lastName
         phone
         iconURL
+        status
       }
     }
     nextToken
@@ -367,12 +374,12 @@ export const getComment = `query GetComment($id: ID!) {
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -386,6 +393,7 @@ export const getComment = `query GetComment($id: ID!) {
         lastName
         phone
         iconURL
+        status
       }
     }
     member {
@@ -400,6 +408,7 @@ export const getComment = `query GetComment($id: ID!) {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -442,6 +451,7 @@ export const listComments = `query ListComments(
         lastName
         phone
         iconURL
+        status
       }
     }
     nextToken
@@ -466,7 +476,7 @@ export const getReport = `query GetReport($id: ID!) {
       name
       long
       lat
-      date
+      datetime
       createdAt
       location
       description
@@ -476,7 +486,7 @@ export const getReport = `query GetReport($id: ID!) {
         region
         key
       }
-      plans
+      image
       kit
       container
       siteOwner {
@@ -486,6 +496,7 @@ export const getReport = `query GetReport($id: ID!) {
         lastName
         phone
         iconURL
+        status
       }
       members {
         nextToken
@@ -509,6 +520,7 @@ export const getReport = `query GetReport($id: ID!) {
         region
         key
       }
+      status
       ownedsites {
         nextToken
       }
@@ -551,12 +563,12 @@ export const listReports = `query ListReports(
         name
         long
         lat
-        date
+        datetime
         createdAt
         location
         description
         imageURLs
-        plans
+        image
         kit
         container
       }
@@ -567,6 +579,7 @@ export const listReports = `query ListReports(
         lastName
         phone
         iconURL
+        status
       }
     }
     nextToken

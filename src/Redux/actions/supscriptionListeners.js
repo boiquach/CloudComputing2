@@ -1,6 +1,8 @@
 import { Hub, graphqlOperation } from "aws-amplify";
 import API from "@aws-amplify/api";
 import * as subscriptions from "../../graphql/subscriptions";
+// React Notification
+import { NotificationManager } from "react-notifications";
 
 export const newMemberListenner = () => {
   API.graphql(graphqlOperation(subscriptions.onCreateMembersSites)).subscribe({
@@ -16,6 +18,14 @@ export const newMemberListenner = () => {
       console.log(
         " to site : ",
         newMemberJointed.value.data.onCreateMembersSites.site.name
+      );
+      NotificationManager.success(
+        "New member " +
+          newMemberJointed.value.data.onCreateMembersSites.member.firstName +
+          " has jointed to site: " +
+          newMemberJointed.value.data.onCreateMembersSites.site.name,
+        "Successful!",
+        8000
       );
       // this.props.newSiteCreated(newSite.value.data.onCreateSite);
     }
@@ -42,6 +52,14 @@ export const newPostListenner = () => {
         "    site owner: ",
         newPost.value.data.onCreatePost.siteOwner.firstName
       );
+      NotificationManager.success(
+        "New post " +
+          newPost.value.data.onCreatePost.title +
+          " has created to site: " +
+          newPost.value.data.onCreatePost.site.name,
+        "Successful!",
+        8000
+      );
     }
   });
 };
@@ -52,6 +70,11 @@ export const newSiteListenner = () => {
       console.log(
         "from subscribe: new site created : ",
         newSite.value.data.onCreateSite
+      );
+      NotificationManager.success(
+        "New site created: " + newSite.value.data.onCreateSite.name,
+        "Successful!",
+        8000
       );
       // this.props.newSiteCreated(newSite.value.data.onCreateSite);
     }

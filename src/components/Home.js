@@ -73,7 +73,56 @@ class Home extends Component {
 
     return (
       <div>
-        <div className="banner">
+        <div>
+          <div className="banner">
+            <div className="title_text">
+              <h1>Viet Nam Sach va Xanh</h1>
+              <br />
+
+              <a className="button home" href="/join_site">
+                Join
+              </a>
+
+              <a className="button home" href="/create_site">
+                Create
+              </a>
+            </div>
+          </div>
+          <div className="container">
+            <div className="align txt">
+              <div className="home_text">
+                <div className="home_text_align">
+                  <h4>Welcome to Keep Vietnam Clean and Green</h4>
+                  <p>
+                    Vietnam Clean and Green’s mission is to reduce littering in
+                    Vietnam and to bring about momentous societal change. We’ll
+                    raise public awareness about the negative impacts of
+                    littering and highlight the importance of individual
+                    responsibility. To accomplish this mission, we seek to
+                    cooperate with companies, educational institutions,
+                    government agencies, NGOs and anyone else who believes in a
+                    cleaner country and world.
+                  </p>
+                </div>
+              </div>
+              <div>
+                <img
+                  style={{ width: `300px`, height: `300px` }}
+                  src="tree.png"
+                />
+                {/* <img style={{width:`60px`,height:`60px`}} src="home.png" /> */}
+              </div>
+              {/* 
+              {this.props.notifications ? (
+                <div>show list of notifications</div>
+              ) : (
+                <h></h>
+              )} */}
+            </div>
+          </div>
+        </div>
+
+        {/* <div className="banner">
           <div className="title_text">
             <h1>Clean Up </h1>
             <br />
@@ -86,8 +135,8 @@ class Home extends Component {
               Create
             </a>
           </div>
-        </div>
-        {this.props.sites
+        </div> */}
+        {/* {this.props.sites
           ? this.props.sites.map((site, i) => (
               <div key={i}>
                 <p>id: {site.id}</p>
@@ -97,9 +146,9 @@ class Home extends Component {
                 and more info....read in props....
               </div>
             ))
-          : null}
+          : null} */}
         <div>
-          {this.props.user.email ? (
+          {/* {this.props.user.email ? (
             <p>
               <b>current user:</b>
               {this.props.user.id}
@@ -110,13 +159,13 @@ class Home extends Component {
               {this.props.user.phone}
               {this.props.user.image}
               {/* {this.props.user.jointedSites} */}
-              {/* {this.props.user.posts} */}
-              {/* {this.props.user.reports} */}
-              {/* {this.props.user.comments} */}
-            </p>
-          ) : null}
+          {/* {this.props.user.posts} */}
+          {/* {this.props.user.reports} */}
+          {/* {this.props.user.comments} */}
+          {/* </p> */}
+          {/* ) : null */}
         </div>
-        <button onClick={this.props.signIn}>Sign In</button>
+        {/* <button onClick={this.props.signIn}>Sign In</button>
         <button onClick={this.props.checkUser}>get User info</button>
         <button onClick={this.props.signOut}>Sign Out</button>
         <button onClick={updateUserProfile}>update user profile</button>
@@ -128,7 +177,7 @@ class Home extends Component {
         <button onClick={editASite}>update site </button>
         <button onClick={jointToSite}>joint site</button>
         <button onClick={createPost}>post news to site</button>
-        <button onClick={putComment}>comment to a post </button>
+        <button onClick={putComment}>comment to a post </button> */}
       </div>
     );
   }

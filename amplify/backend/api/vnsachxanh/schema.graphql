@@ -25,13 +25,14 @@ type Site @model(subscriptions: { level: public }) {
   name: String!
   long: String
   lat: String
-  date: String
+  datetime: String
   createdAt: String
   location: String
   description: String
   imageURLs: [String]
   images: [S3Object]
-  plans: [String]
+  image: String
+
   kit: String
   container: String
 
