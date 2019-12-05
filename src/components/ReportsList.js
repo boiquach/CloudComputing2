@@ -16,7 +16,7 @@ class Report extends Component {
                         {!this.props.fetchingReport ?
                             <div>
                                 {!this.props.reportFail ?
-                                    <div>
+                                    <div className="form_block">
                                         <div className="align"><h4>Reports</h4></div>
                                         <div className="site_card_center">
 
