@@ -27,6 +27,9 @@ export const FETCH_VOLUNTEERS_EMAIL = "FETCH_VOLUNTEERS_EMAIL"
 export const FETCH_VOLUNTEERS_ID = "FETCH_VOLUNTEERS_ID"
 export const FETCH_USER = "FETCH_USER"
 export const FETCH_REPORTS = "FETCH_REPORTS"
+export const FETCH_SITES_USER = "FETCH_SITES_USER"
+export const SITES_USER_LOADING = "SITES_USER_LOADING"
+export const SITES_USER_FAIL="SITES_USER_FAIL"
 
 //POST
 export const addSite = (site) => {
@@ -311,8 +314,10 @@ export const editUser = (id, user) => {
 }
 
 export const fetchSitesByUser = (id) => {
+    
     const list = []
     return dispatch => {
+        dispatch({type:SITES_USER_LOADING})
         fb.firestore().collection('sites').where("owner", "==", id).get().then(query => {
             query.docs.forEach(doc => {
                 list.push({
@@ -322,7 +327,7 @@ export const fetchSitesByUser = (id) => {
                 });
             })
 
-            dispatch({ type: FETCH_SITES, payload: list })
+            dispatch({ type: FETCH_SITES_USER, payload: list })
         })
         // .catch(error => {
         //     console.log(error.code)

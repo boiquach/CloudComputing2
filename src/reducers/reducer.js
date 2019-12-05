@@ -1,4 +1,4 @@
-import {REPORT_LOADING,REPORT_FAIL,FETCH_REPORT,FETCHING_FAIL,FETCH_REPORTS,FETCH_USER,FETCH_VOLUNTEERS_ID,FETCH_VOLUNTEERS_EMAIL,DELETE_SITE,LOGOUT_SUCCESS,FETCH_SITES, FETCH_SITE, UPLOADING, UPLOADING_FAIL,UPLOADING_START,UPLOADING_SUCCESS, FETCH_IMAGE, LOGIN_SUCCESS} from "../actions/siteAction";
+import {FETCH_SITES_USER,SITES_USER_FAIL,SITES_USER_LOADING,REPORT_LOADING,REPORT_FAIL,FETCH_REPORT,FETCHING_FAIL,FETCH_REPORTS,FETCH_USER,FETCH_VOLUNTEERS_ID,FETCH_VOLUNTEERS_EMAIL,DELETE_SITE,LOGOUT_SUCCESS,FETCH_SITES, FETCH_SITE, UPLOADING, UPLOADING_FAIL,UPLOADING_START,UPLOADING_SUCCESS, FETCH_IMAGE, LOGIN_SUCCESS} from "../actions/siteAction";
 
 const initialState={
     sites: [],
@@ -17,7 +17,8 @@ const initialState={
     fetchingFail:false,
     report:{},
     fetchingReport:true,
-    reportFail:false
+    reportFail:false,
+    sitesUser:[]
 }
 
 export default (state=initialState,action)=>{
@@ -145,11 +146,26 @@ export default (state=initialState,action)=>{
                 fetchingReport:false
             }
         }
+        
         case REPORT_LOADING:{
             return{
                 ...state,
                 fetchingReport:true,
                 reportFail:false
+            }
+        }
+        case FETCH_SITES_USER:{
+            return{
+                ...state,
+                sitesUser:action.payload,
+                fetching:false
+            }
+        }
+
+        case SITES_USER_LOADING:{
+            return{
+                ...state,
+                fetching:true
             }
         }
 

@@ -16,9 +16,10 @@ class List extends Component {
 
                     <div>
 
+                        {!this.props.fetching ? 
+                        <div>
 
-
-                        {this.props.sites !== null && this.props.sites !== undefined ?
+                            {this.props.sites !== null && this.props.sites !== undefined ?
                             <div className="site_card_center">
                                 {this.props.sites.length > 0 ? 
                                 <div>
@@ -39,18 +40,15 @@ class List extends Component {
                                         )
                                     })}
 
+
                                 </div> : 
                                 <div>You haven't created any clean up site.</div>}
-
-
-                            </div>
-
-                            :
-
-                            <div>Loading...</div>
-
-                        }
-
+                        </div>:<div>
+                        You haven't created any clean up site.
+                            
+                            </div>}
+                        </div>
+                        :<div>Loading...</div>}
                     </div>
                     :
                     <Redirect to={{ pathname: "/login" }} />
@@ -66,9 +64,10 @@ class List extends Component {
 }
 
 const mapStateToProps = state => ({
-    sites: state.sites.sites,
+    sites: state.sitesUser.sitesUser,
     userId: state.userId.userId,
-    isLogin: state.isLogin.isLogin
+    isLogin: state.isLogin.isLogin,
+    fetching:state.fetching.fetching
 })
 
 const mapDispatchToProps = dispatch => ({
