@@ -10,7 +10,7 @@ class ReportEditForm extends Component {
             brands: [""],
             types: [],
             otherTypes:[""],
-            defaultTypes: ["abc", "def", "ghi","Others"]
+            defaultTypes: ["Bags", "Cigarettes", "Food wrappers","Straws","Bottles","Others"]
         }
         this.addFieldBrand.bind(this)
         this.addFieldType.bind(this)

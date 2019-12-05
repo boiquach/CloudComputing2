@@ -24,6 +24,8 @@ import fetchingFail from "./reducers/reducer"
 import fetchingReport from './reducers/reducer'
 import reportFail from './reducers/reducer'
 import sitesUser from './reducers/reducer'
+import loginFail from './reducers/reducer'
+import loginError from './reducers/reducer'
 import {verifyAuth} from "./actions/siteAction"
 import {fb} from "./config/index";
 import {getFirebase, firebaseReducer} from "react-redux-firebase"
@@ -52,7 +54,9 @@ const rootReducer = combineReducers({
     reportFail:reportFail,
     fetchingReport:fetchingReport,
     report:report,
-    sitesUser:sitesUser
+    sitesUser:sitesUser,
+    loginFail:loginFail,
+    loginError:loginError
 })
 
 const Store = createStore(rootReducer,compose(applyMiddleware(thunk.withExtraArgument({getFirestore, getFirebase})),reduxFirestore(fb)))

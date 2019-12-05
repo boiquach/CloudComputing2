@@ -59,6 +59,10 @@ class Login extends Component {
                                     <input type="password" name="password" className="form-control" value={this.state.password} onChange={this.handleChange} />
                                 </div>
                                 <div className="align">
+                                    {this.props.loginFail && <span className="error_text">{this.props.loginError}</span>}
+                                    
+                                </div>
+                                <div className="align">
                                     <a href="/signup">Register an account.</a>
                                 </div>
                                 <div className="align">
@@ -102,7 +106,9 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        isLogin: state.isLogin.isLogin
+        isLogin: state.isLogin.isLogin,
+        loginFail:state.loginFail.loginFail,
+        loginError:state.loginError.loginError
     }
 }
 

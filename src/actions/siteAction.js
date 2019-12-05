@@ -239,6 +239,12 @@ export const login = (email, password) => {
                     })
                     .catch((error) => {
                         console.log(error)
+                        if(error.code==="auth/wrong-password"){
+                            dispatch({type:LOGIN_FAILURE,payload:"Wrong password."})
+                        }
+                        else if(error.code==="auth/user-not-found"){
+                            dispatch({type:LOGIN_FAILURE,payload:"User not found."})
+                        }
                     })
             }
 

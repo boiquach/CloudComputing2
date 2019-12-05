@@ -20,11 +20,13 @@ class List extends Component {
                         <div>
 
                             {this.props.sites !== null && this.props.sites !== undefined ?
-                            <div className="site_card_center">
+                            <div >
                                 {this.props.sites.length > 0 ? 
-                                <div>
+                                <div className="form_block">
+                                    <h4 className="align">Sites You Have Created</h4>
+                                <div className="site_card_center">
 
-                                    <h4 style={{ textAlign: `center`, marginTop: `20px` }}>Sites You Have Created</h4>
+                                    
                                     {this.props.sites.map(site => {
                                         return (
                                             <div className="site_card" key={site.id}>
@@ -41,9 +43,11 @@ class List extends Component {
                                     })}
 
 
-                                </div> : 
+                                </div> </div>: 
                                 <div>You haven't created any clean up site.</div>}
-                        </div>:<div>
+                        </div>
+                        
+                        :<div>
                         You haven't created any clean up site.
                             
                             </div>}
