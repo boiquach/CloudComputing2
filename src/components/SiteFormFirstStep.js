@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field,reduxForm} from 'redux-form';
-import renderField from './renderField';
+import renderField from './render/renderField';
 import validate from './validate';
 
 const SiteFormFirstStep = props=>{
@@ -9,12 +9,12 @@ const SiteFormFirstStep = props=>{
         <form onSubmit = {handleSubmit}>
           
             <div className = "form-group">
-                <Field className="form-control" name="name" type="text" label="Site's name" component={renderField} />
+                <Field className="form-control" name="name" type="text" label="Site's Name*" component={renderField} />
             </div>
             <div className="form-group">
                 <Field className="form-control" name="description" type="text" label="Description" component={renderField} />
             </div>
-            <div>
+            <div className="align">
                 <button type="submit" className="next">Next</button>
             </div>
       

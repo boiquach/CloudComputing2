@@ -1,11 +1,13 @@
 /*global google*/
 import React, { Component } from 'react';
-import { fetchSite } from '../actions/siteAction'
+import { fetchSite,downloadData, deleteSite, addVolunteerId, fetchVolunteerId, fetchVolunteerEmail } from '../actions/siteAction'
 import { connect } from 'react-redux';
 import { compose, withProps, withStateHandlers } from 'recompose'
 import { withGoogleMap, GoogleMap } from 'react-google-maps'
 import MapDirection from './MapDirection'
 import SiteEditForm from './SiteEditForm'
+import VolunteerForm from './VolunteerForm'
+import Modal from 'react-bootstrap/Modal'
 
 let geocoder;
 
@@ -14,18 +16,31 @@ class SiteInfo extends Component {
     componentDidMount() {
         this.props.fetchSite(this.props.siteId);
         this.getInitialLocation();
-        this.getLatLng()
+        if (this.props.site !== undefined) {
+            this.getLatLng()
+            
+                this.props.fetchVolunteerId(this.props.siteId)
+                this.props.fetchVolunteerEmail(this.props.siteId)
+            
+        }
+
     }
     componentDidUpdate(prevProps) {
         if (prevProps.site !== this.props.site) {
-            
-            this.getLatLng()
-            
+            if (this.props.site !== undefined) {
+                this.getLatLng()
+
+                
+                this.props.fetchVolunteerId(this.props.siteId)
+                this.props.fetchVolunteerEmail(this.props.siteId)
+                
+            }
+
         }
     }
-    
-    shouldComponentUpdate(nextProps,nextState){
-        return JSON.stringify(this.props)!==JSON.stringify(nextProps) || JSON.stringify(this.state) !== JSON.stringify(nextState)
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return JSON.stringify(this.props) !== JSON.stringify(nextProps) || JSON.stringify(this.state) !== JSON.stringify(nextState)
     }
 
     constructor(props) {
@@ -33,14 +48,100 @@ class SiteInfo extends Component {
         this.state = {
             currentLocation: {},
             latlng: [],
+            editing: false,
+            joining: false,
+            showMap: false,
+            showVolunteers: false,
+            showDelete: false,
+            showJoin:false,
+            showDownload:false,
+            requesting:false
         }
+        this.openEdit.bind(this)
+        this.openJoin.bind(this)
+        this.delete.bind(this)
+        this.join.bind(this)
+        this.openMap.bind(this)
+        this.openVolunteersList.bind(this)
+        this.confirmDelete.bind(this)
+        this.confirmJoin.bind(this)
+        this.confirmDownload.bind(this)
+        this.download.bind(this)
     }
 
+    confirmDownload = ()=>{
+        this.setState({
+            showDownload:!this.state.showDownload
+        })
+    }
+
+    download = ()=>{
+        const obj = {
+            siteId: this.props.siteId,
+            userId: this.props.userId
+        }
+
+        this.setState({
+            requesting:!this.state.requesting
+        })
+
+        this.props.downloadData(obj)
+    }
+
+    confirmJoin = ()=>{
+        this.setState({
+            showJoin:!this.state.showJoin
+        })
+    }
+
+    confirmDelete = () => {
+        this.setState({
+            showDelete: !this.state.showDelete
+        })
+    }
+
+    openMap = () => {
+        this.setState({
+            showMap: !this.state.showMap
+        })
+    }
+
+    openVolunteersList = () => {
+        this.setState({
+            showVolunteers: !this.state.showVolunteers
+        })
+    }
+
+    join = () => {
+        const data = {
+            site: this.props.siteId,
+            volunteer: this.props.userId
+        }
+
+        this.props.addVolunteerId(data)
+        this.confirmJoin()
+    }
+
+    openJoin = () => {
+        this.setState({
+            joining: !this.state.joining
+        })
+    }
+
+    delete = () => {
+        this.props.deleteSite(this.props.siteId)
+    }
+
+    openEdit = () => {
+        this.setState({
+            editing: !this.state.editing
+        })
+    }
 
     getAddress = (geocoder) => {
         console.log('abc')
         let locationData = []
-        if(this.props.site.location!==undefined){
+        if (this.props.site.location !== undefined) {
             locationData.push(this.findLatLang(this.props.site.location, geocoder))
         }
 
@@ -106,19 +207,19 @@ class SiteInfo extends Component {
         const CleanUpMap = compose(
             withProps({
                 loadingElement: <div style={{ height: `100%` }} />,
-                containerElement: <div style={{ height: `400px`, width: `400px` }} />,
+                containerElement: <div style={{ width: '600px', height: '400px', display: `inline-block` }} />,
                 mapElement: <div style={{ height: `100%` }} />
             })
             ,
             withStateHandlers(() =>
                 ({
                     isOpen: false
-                    
+
                 }),
                 {
-                    onToggleOpen: ({ isOpen}) => () => ({
+                    onToggleOpen: ({ isOpen }) => () => ({
                         isOpen: !isOpen,
-                        
+
                     })
                 }),
             withGoogleMap
@@ -127,18 +228,195 @@ class SiteInfo extends Component {
                 defaultZoom={5}
                 defaultCenter={{ lat: this.state.currentLocation.lat, lng: this.state.currentLocation.lng }}
             >
-                
-                    {this.state.latlng[0] !== undefined && this.state.currentLocation!=={} && <MapDirection origin={this.state.currentLocation} destination={this.state.latlng[0]} />}
+
+                {this.state.latlng[0] !== undefined && this.state.currentLocation !== {} && <MapDirection origin={this.state.currentLocation} destination={this.state.latlng[0]} />}
             </GoogleMap>
 
         );
+        console.log(this.props.userId)
+        console.log(this.props.volunteerObject)
+        // console.log(this.props.volunteerEmail)
+        console.log(this.props.volunteerObject.filter(object=>(object.id===this.props.userId)))
         return (
 
             <div>
+                {!this.props.fetching ?
+                    <div>
+                        {!this.props.fetchingFail ?
+                            <div>
 
-                <CleanUpMap currentLocation={this.state.currentLocation}  />
-                <SiteEditForm site={this.props.site} siteId={this.props.siteId} />
-                
+                                {!this.state.editing ?
+                                <div className="bg">
+
+
+
+                                    <div className="surround">
+                                        <div >
+                                            <h5 className="align info_title">{this.props.site.name}</h5></div>
+                                        <div className="info_background">
+                                            <div className="float_center">
+
+                                                {this.props.site.image === '' ? <div>no image</div> :
+
+                                                    <img src={this.props.site.image} className="site_image" alt="site" />}
+                                                <div className="invite info_text">
+                                                    <div className="invite">
+                                                        <div className="invite text">
+                                                    
+                                                    <h5>Location:</h5> {`${this.props.site.location}`}
+                                                    <h5>Date: </h5> {`${new Date(this.props.site.datetime.seconds * 1000)}`}
+
+                                                    {this.props.site.owner === this.props.userId ?
+                                                        <div>
+                                                            <button className="edit_button" onClick={this.openEdit}></button>
+                                                            <button className="delete_button" onClick={this.confirmDelete}></button>
+                                                            <button className="volunteer_button" onClick={this.openVolunteersList}></button>
+                                                            <button className="download_button" onClick={this.confirmDownload}></button>
+                                                            {/* <button className="info_button" onClick={this.openMap}>View Map</button> */}
+                                                        </div>
+                                                        : <div>
+                                                            {this.props.userId === null && <div> <button className="info_button" onClick={this.openJoin}>Join</button>
+                                                                <button className="info_button" onClick={this.openMap}>View Map</button>
+                                                            </div>}
+                                                            {this.props.userId !== null ? 
+                                                            <div>
+                                                                
+                                                                {this.props.volunteerObject.filter(object=>(object.id===this.props.userId)).length===0
+                                                                    
+                                                                    && <button className="info_button" onClick={this.confirmJoin}>Join</button>}
+                                                                <button className="info_button" onClick={this.openMap}>View Map</button>
+                                                            </div>
+                                                            
+                                                            :
+                                                            
+                                                            <div></div>}
+
+                                                        </div>}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+
+                                    <Modal show={this.state.joining} onHide={this.openJoin}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Volunteer</Modal.Title>
+                                            <Modal.Body><VolunteerForm list={this.props.volunteerEmail} openJoin={this.openJoin} siteId={this.props.siteId} /></Modal.Body>
+                                        </Modal.Header>
+                                    </Modal>
+
+                                    <Modal size="lg" show={this.state.showMap} onHide={this.openMap}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Direction</Modal.Title>
+                                            <Modal.Body><CleanUpMap currentLocation={this.state.currentLocation} /></Modal.Body>
+                                        </Modal.Header>
+                                    </Modal>
+
+                                    <Modal size="lg" show={this.state.showVolunteers} onHide={this.openVolunteersList}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Volunteers</Modal.Title>
+                                            <Modal.Body>
+                                                {/*volunteers with no account*/}
+                                                {this.props.volunteerEmail !== undefined && <ul> {this.props.volunteerEmail.map((volunteer, index) => {
+                                                    
+                                                    return (<li key={index}>
+                                                        {volunteer}
+                                                    </li>)
+                                                })}</ul>}
+
+                                                {/*volunteers with accounts*/}
+                                                {this.props.volunteerObject !== undefined && <ul> {this.props.volunteerObject.map(volunteer => {
+                                                    
+                                                    return (<li key={volunteer.id}>
+                                                        {`${volunteer.data.firstname} ${volunteer.data.lastname} ${volunteer.data.email}`}
+                                                        
+                                                        
+                                                    </li>)
+                                                })}</ul>}
+                                            </Modal.Body>
+
+                                        </Modal.Header>
+                                    </Modal>
+
+                                    <Modal size="lg" show={this.state.showDelete} onHide={this.confirmDelete}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Confirmation</Modal.Title>
+                                            <Modal.Body>
+                                                Are you sure you want to delete this site?
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                <button className="next fill" onClick={this.delete}>Yes</button>
+                                                <button className="next" onClick={this.confirmDelete}>No</button>
+                                            </Modal.Footer>
+                                        </Modal.Header>
+                                    </Modal>
+
+                                    <Modal size="lg" show={this.state.showJoin} onHide={this.confirmJoin}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Confirmation</Modal.Title>
+                                            <Modal.Body>
+                                                Are you sure you want to join this site?
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                <button className="next fill" onClick={this.join}>Yes</button>
+                                                <button className="next" onClick={this.confirmJoin}>No</button>
+                                            </Modal.Footer>
+                                        </Modal.Header>
+                                    </Modal>
+
+                                    <Modal size="lg" show={this.state.showDownload} onHide={this.confirmDownload}>
+                                        <Modal.Header closeButton>
+
+
+                                            <Modal.Title>Confirmation</Modal.Title>
+                                            <Modal.Body>
+                                                {!this.state.requesting ? <div>Do you want to request for files containing the volunteers of this site?</div>
+                                                
+                                                :<div>
+                                                    {this.props.downloadRequest && <div>Sending request for the files...</div>}
+                                                {this.props.downloadDone && <div>Successfully requested for the files. Please check your email for the attachments.</div>}
+                                                    </div>}
+                                                
+                                                
+                                                
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                {this.props.downloadDone ? <div>
+
+                                                    <button className="next" onClick={this.confirmDownload}>Close</button>
+                                                </div>:<div>
+                                                    <button className="next fill" onClick={this.download}>Yes</button>
+                                                <button className="next" onClick={this.confirmDownload}>No</button>
+                                                    </div>}
+                                                
+                                            </Modal.Footer>
+                                        </Modal.Header>
+                                    </Modal>
+
+
+
+
+                                </div> :
+                                    <SiteEditForm closeEdit = {this.openEdit} site={this.props.site} siteId={this.props.siteId} />
+                                }
+
+
+
+                                {/*Output Report*/}
+                            </div>
+                            :
+                            <div>Site does not exist.</div>
+                        }
+                    </div>
+                    : <div>
+                        Loading...
+                    </div>}
+
             </div>
 
         )
@@ -147,19 +425,32 @@ class SiteInfo extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        site: state.site.site
+        site: state.site.site,
+        userId: state.userId.userId,
+        volunteerObject: state.volunteerObject.volunteerObject,
+        volunteerEmail: state.volunteerEmail.volunteerEmail,
+        fetching: state.fetching.fetching,
+        fetchingFail: state.fetchingFail.fetchingFail,
+        downloadDone:state.downloadDone.downloadDone,
+        downloadRequest:state.downloadRequest.downloadRequest
 
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchSite: (siteId) => dispatch(fetchSite(siteId))
+        fetchSite: (siteId) => dispatch(fetchSite(siteId)),
+        deleteSite: (siteId) => dispatch(deleteSite(siteId)),
+        addVolunteerId: (data) => dispatch(addVolunteerId(data)),
+        fetchVolunteerEmail: (siteId) => dispatch(fetchVolunteerEmail(siteId)),
+        fetchVolunteerId: (siteId) => dispatch(fetchVolunteerId(siteId)),
+        downloadData: (request) => dispatch(downloadData(request))
+
     }
 }
-SiteInfo.defaultProps={
+SiteInfo.defaultProps = {
 
-    centerAroundCurrentLocation:true
+    centerAroundCurrentLocation: true
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteInfo);

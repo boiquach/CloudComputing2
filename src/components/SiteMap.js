@@ -45,11 +45,12 @@ class SiteMap extends Component{
         // console.log(address)
         return new Promise(function(resolve,reject){
             geocoder.geocode({'address':address}, function(results, status){
+                console.log(results)
                 if(status === 'OK'){
-                   //console.log(results)
+                    console.log(results)
                     resolve([results[0].geometry.location.lat(),results[0].geometry.location.lng()])
                 }else{
-                    reject(new Error('Cant find location ' + address));
+                    reject(console.log(`failed to fetch ${address}`))
                 }
             })
         })
@@ -103,7 +104,7 @@ class SiteMap extends Component{
         const CleanUpMap = compose(
             withProps({
                 loadingElement: <div style = {{height:`100%`}} />,
-                containerElement: <div style={{height:`400px`,width:`400px`}} />,
+                containerElement: <div style={{height:`500px`,width:`700px`,margin:`20px`}} />,
                 mapElement: <div style={{height:`100%`}} />
             }),
             withHandlers({
@@ -137,7 +138,7 @@ class SiteMap extends Component{
             withGoogleMap
         )(props=>
             <GoogleMap
-                defaultZoom ={5}
+                defaultZoom ={7}
                 defaultCenter={{lat:this.state.currentLocation.lat,lng:this.state.currentLocation.lng}}
             >
                 <MarkerClusterer
@@ -157,10 +158,11 @@ class SiteMap extends Component{
                         
                         <Marker key={site.id} position = {coord} onClick={()=>props.showInfo(index,coord)}>
                             {props.isOpen && props.infoIndex ===index && <InfoWindow onCloseClick={props.hideInfo}>
+                                <div className="align">
+                                <div><h5>{site.info.name}</h5>
+                                <p><a style={{fontSize:`18px`}} href={`site/${site.id}`}>View</a></p>
                                 
-                                <div>{site.info.name}
-                                <a href={`site/${site.id}`}>View</a>
-                                </div>
+                                </div></div>
                                 </InfoWindow>}
 
 
@@ -180,8 +182,17 @@ class SiteMap extends Component{
         );
         return(
             
-            <div className="map">
-                <CleanUpMap currentLocation={this.state.currentLocation}  />
+            <div >
+                <div className="align map">
+                <div> 
+                    <CleanUpMap currentLocation={this.state.currentLocation}  />
+                    </div>
+                <div className="invite">
+                    <h3 className="invite_text">Click on a site to view information and join!</h3>
+                </div>
+                
+                </div>
+                
             </div>
         );
     }

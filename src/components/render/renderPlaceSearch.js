@@ -26,16 +26,20 @@ class PlaceSearch extends Component {
         const place = this.autocomplete.getPlace();
         console.log(place)
         if(place)
-        {this.props.input.onChange(place.formatted_address)}
+        {
+            this.props.input.onChange(place.formatted_address)
+
+        }
     }
   
 
     render() {
-        const { input, className } = this.props
+        const { input, className,  meta: { touched, error } } = this.props
         return (
             <div className={classnames('form-group')}>
                 <input ref={this.autocompleteInput} id="autocomplete" name="location" placeholder="Enter your address"
                    {...input} onChange={this.handlePlaceChanged} type="text" className={classnames(className)}></input>
+                {touched && error && <span className="error_text">{error}</span>}
             </div>)
 
     }
